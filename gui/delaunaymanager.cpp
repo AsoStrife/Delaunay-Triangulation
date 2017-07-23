@@ -13,6 +13,11 @@
 #include <common/arrays.h>
 #include <common/timer.h>
 
+#include <viewer/objects/objects.h>
+#include <viewer/interfaces/drawable_object.h>
+
+// Classi Andrea Corriga
+#include <Andrea/Headers/pointtest.h>
 
 //limits for the bounding box
 const double BOUNDINGBOX = 1e+6;
@@ -40,6 +45,7 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
     mainWindow((MainWindow&)*parent),
     boundingBox(Point2Dd(-BOUNDINGBOX, -BOUNDINGBOX),
                 Point2Dd(BOUNDINGBOX, BOUNDINGBOX))
+
 {
     //UI setup
     ui->setupUi(this);
@@ -124,11 +130,17 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
 
 /**
  * @brief Show bounding triangle checkbox event handler
+ * Disegno il bounding triangle
  */
 void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
     //if arg1 is true, you must draw the bounding triangle of your triangulation
+    if(arg1 = 1){
 
-    //
+    }
+    else{
+    }
+    //QColor a = QColor(0, 0 ,0);
+
     mainWindow.updateGlCanvas();
 }
 
@@ -171,10 +183,14 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
     }
     else {
         //comment the next line
-        QMessageBox::information(this, "Point Clicked", "Point [" + QString::number(p.x()) + "," + QString::number(p.y()) + "].");
+        //QMessageBox::information(this, "Point Clicked", "Point [" + QString::number(p.x()) + "," + QString::number(p.y()) + "].");
         //manage here the insertion of the point inside the triangulation
-        /******/
 
+        /******/
+        pointtest c(p.x(), p.y());
+        //pointtest c(p);
+        c.draw();
+        mainWindow.pushObj(&c, "Punto");
         /******/
 
     }
