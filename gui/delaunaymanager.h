@@ -7,6 +7,11 @@
 
 #include <viewer/drawable_objects/drawableboundingbox2d.h>
 
+/**
+  * @author Andrea Corriga
+  * @date 24-07-2017
+  * */
+#include <Andrea/Headers/drawableboundingtriangle.h>
 
 namespace Ui {
     class DelaunayManager;
@@ -38,6 +43,12 @@ private:
     *****************/
 
     const DrawableBoundingBox2D boundingBox; //it is const because, once defined and initialized, it will never change!
+
+    /**
+      * @author Andrea Corriga
+      * @date 24-07-2017
+      * */
+    DrawableBoundingTriangle bt;
 
     /*****************
     * Private methods *

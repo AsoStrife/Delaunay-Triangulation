@@ -4,8 +4,11 @@
 #include <viewer/objects/objects.h>
 
 class DrawableBoundingTriangle : public DrawableObject{
+
 public:
-    DrawableBoundingTriangle(Point2Dd p1, Point2Dd p2, Point2Dd p3);
+    DrawableBoundingTriangle();
+
+    void definePoints(Point2Dd p1, Point2Dd p2, Point2Dd p3);
 
     Point2Dd p1;
     Point2Dd p2;

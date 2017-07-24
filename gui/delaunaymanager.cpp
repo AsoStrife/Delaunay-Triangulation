@@ -17,7 +17,7 @@
 #include <viewer/interfaces/drawable_object.h>
 
 // Classi Andrea Corriga
-#include <Andrea/Headers/pointtest.h>
+#include <Andrea/Headers/drawablepoint.h>
 #include <Andrea/Headers/drawableboundingtriangle.h>
 
 //limits for the bounding box
@@ -37,9 +37,7 @@ const Point2Dd BT_P3(-1e+10, -1e+10);
 * Constructors/Destructors *
 ***************************/
 
-// Costruisco l'oggetto per disegnare il bounding triangle
-DrawableBoundingTriangle bt(BT_P1, BT_P2,BT_P3);
-pointtest c;
+DrawablePoint c;
 
 /**
  * @brief Constructor
@@ -141,9 +139,12 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
  */
 void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
 
+    // Definisco i punto all'interno dell'oggetto bt per creare poi il bouding triangle
+    bt.definePoints(BT_P1, BT_P2,BT_P3);
+
     //if arg1 is true, you must draw the bounding triangle of your triangulation
     if(arg1){
-        mainWindow.pushObj(&bt, "Bounding Triangle", 0);
+        mainWindow.pushObj(&bt, "Bounding Triangle");
     }
     else{
         mainWindow.deleteObj(&bt);
@@ -196,8 +197,7 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        c.setx(p.x());
-        c.sety(p.y());
+        c.setPoints(p.x(), p.y());
 
         mainWindow.pushObj(&c, "Punto");
 
