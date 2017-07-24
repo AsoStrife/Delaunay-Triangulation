@@ -7,6 +7,8 @@
     p = point;
 }*/
 
+pointtest::pointtest(){}
+
 pointtest::pointtest(double x, double y){
     this->x = x;
     this->y = y;
@@ -30,4 +32,12 @@ Pointd pointtest::sceneCenter() const {
 
 double pointtest::sceneRadius() const {
 
+}
+
+void pointtest::setx(double x){
+    this->x = x;
+}
+
+void pointtest::sety(double y){
+    this->y = y;
 }

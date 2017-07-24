@@ -18,7 +18,8 @@ public:
     double x;
     double y;
 
-
+    void setx(double x);
+    void sety(double y);
 
 protected:
 

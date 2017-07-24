@@ -36,7 +36,10 @@ const Point2Dd BT_P3(-1e+10, -1e+10);
 /***************************
 * Constructors/Destructors *
 ***************************/
+
+// Costruisco l'oggetto per disegnare il bounding triangle
 DrawableBoundingTriangle bt(BT_P1, BT_P2,BT_P3);
+pointtest c;
 
 /**
  * @brief Constructor
@@ -193,12 +196,13 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        pointtest c(p.x(), p.y());
+        c.setx(p.x());
+        c.sety(p.y());
 
-        //mainWindow.pushObj(&c, "Punto");
+        mainWindow.pushObj(&c, "Punto");
 
         //pointtest c(p);
-        c.draw();
+
 
         /******/
 
