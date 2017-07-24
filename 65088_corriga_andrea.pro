@@ -33,6 +33,7 @@ HEADERS += \
     utils/fileutils.h \
     utils/delaunay_checker.h \
     Andrea/Headers/pointtest.h \
+    Andrea/Headers/drawableboundingtriangle.h \
 
 
 SOURCES += \
@@ -40,7 +41,8 @@ SOURCES += \
     gui/delaunaymanager.cpp \
     utils/fileutils.cpp \
     utils/delaunay_checker.cpp \
-    Andrea/Class/pointtest.cpp
+    Andrea/Class/pointtest.cpp \
+    Andrea/Class/drawableboundingtriangle.cpp
 
 FORMS += \
     gui/delaunaymanager.ui   

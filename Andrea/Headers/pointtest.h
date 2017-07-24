@@ -1,7 +1,6 @@
 #ifndef POINTTEST_H
 #define POINTTEST_H
 #include <viewer/interfaces/drawable_object.h>
-#include <viewer/objects/objects.h>
 
 class pointtest : public DrawableObject{
 
@@ -18,12 +17,8 @@ public:
 
     double x;
     double y;
-    //const Point2Dd& p;
-    double getx();
-    double gety();
 
-    void setx(double value);
-    void sety(double value);
+
 
 protected:
 

@@ -18,6 +18,7 @@
 
 // Classi Andrea Corriga
 #include <Andrea/Headers/pointtest.h>
+#include <Andrea/Headers/drawableboundingtriangle.h>
 
 //limits for the bounding box
 const double BOUNDINGBOX = 1e+6;
@@ -35,6 +36,7 @@ const Point2Dd BT_P3(-1e+10, -1e+10);
 /***************************
 * Constructors/Destructors *
 ***************************/
+DrawableBoundingTriangle bt(BT_P1, BT_P2,BT_P3);
 
 /**
  * @brief Constructor
@@ -47,6 +49,8 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
                 Point2Dd(BOUNDINGBOX, BOUNDINGBOX))
 
 {
+
+
     //UI setup
     ui->setupUi(this);
     connect(&mainWindow, SIGNAL(point2DClicked(Point2Dd)), this, SLOT(point2DClicked(Point2Dd)));
@@ -133,11 +137,13 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
  * Disegno il bounding triangle
  */
 void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
-    //if arg1 is true, you must draw the bounding triangle of your triangulation
-    if(arg1 = 1){
 
+    //if arg1 is true, you must draw the bounding triangle of your triangulation
+    if(arg1){
+        mainWindow.pushObj(&bt, "Bounding Triangle", 0);
     }
     else{
+        mainWindow.deleteObj(&bt);
     }
     //QColor a = QColor(0, 0 ,0);
 
@@ -188,9 +194,12 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
 
         /******/
         pointtest c(p.x(), p.y());
+
+        //mainWindow.pushObj(&c, "Punto");
+
         //pointtest c(p);
         c.draw();
-        mainWindow.pushObj(&c, "Punto");
+
         /******/
 
     }

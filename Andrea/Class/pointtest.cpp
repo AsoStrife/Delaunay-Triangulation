@@ -31,24 +31,3 @@ Pointd pointtest::sceneCenter() const {
 double pointtest::sceneRadius() const {
 
 }
-
-
-
-void pointtest::setx(double value){
-    this->x = value;
-}
-
-void pointtest::sety(double value){
-    this->y = value;
-}
-
-double pointtest::getx(){
-    return this->x;
-}
-
-double pointtest::gety(){
-    return this->y;
-}
-
-
-
