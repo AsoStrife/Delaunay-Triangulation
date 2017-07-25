@@ -1,9 +1,8 @@
-#include "Andrea/Headers/drawabledelaunaytriangulation.h"
+#include <Andrea/Headers/drawabledelaunaytriangulation.h>
+#include <viewer/objects/objects.h>
 #include <Andrea/Headers/drawablepoint.h>
 
-DrawableDelaunayTriangulation::DrawableDelaunayTriangulation(){
-    std::cout << "Inizializzo oggetto drawabledelaunay triangulation" << std::endl;
-}
+DrawableDelaunayTriangulation::DrawableDelaunayTriangulation(){}
 
 void DrawableDelaunayTriangulation::addDrawablePoint(Point2Dd p){
     points.push_back( DrawablePoint(p) );
@@ -12,13 +11,12 @@ void DrawableDelaunayTriangulation::addDrawablePoint(Point2Dd p){
 // DrawableObject interface
 void DrawableDelaunayTriangulation::draw() const{
 
-    //<DrawablePoint> points
+   //<DrawablePoint> points
    int size = points.size();
-   std::cout << size << std::endl;
 
    if(size > 0){
         for (int i = 0; i < size; i++){
-            //std::cout << points.size() << '\n';
+
             points[i].draw();
         }
     }
@@ -28,3 +26,9 @@ void DrawableDelaunayTriangulation::draw() const{
 Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
 
 double DrawableDelaunayTriangulation::sceneRadius() const {}
+
+bool DrawableDelaunayTriangulation::checkIfPointAlreadyExist(Point2Dd p){
+    if (std::find(points.begin(), points.end(), DrawablePoint(p)) != points.end())
+        return true;
+    else return false;
+}

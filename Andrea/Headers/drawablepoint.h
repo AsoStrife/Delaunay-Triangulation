@@ -18,9 +18,12 @@ public:
 
     void setx(double x);
     void sety(double y);
+    double getx() const;
+    double gety() const;
 
     void setPoints(double x, double y);
 
+    bool operator == (const DrawablePoint &p1);
 
 private:
     void updatePoint();

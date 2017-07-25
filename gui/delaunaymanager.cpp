@@ -198,8 +198,13 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        dt.addDrawablePoint(p);
-        std::cout << "Aggiungo un punto" << std::endl;
+        if(dt.checkIfPointAlreadyExist(p)){
+            std::cout << "Il punto esiste già" << std::endl;
+        }
+        else{
+            std::cout << "Il punto non esiste " << std::endl;
+            dt.addDrawablePoint(p);
+        }
         /******/
 
     }

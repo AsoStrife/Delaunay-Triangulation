@@ -21,7 +21,6 @@ DrawablePoint::DrawablePoint(Point2Dd p){
 
 // DrawableObject interface
 void DrawablePoint::draw() const{
-    std::cout << "draw() Drawablepoint" << std::endl;
     Viewer::drawPoint2D(this->point, QColor(0, 0 ,0), 3);
 }
 
@@ -53,4 +52,27 @@ void DrawablePoint::setPoints(double x, double y){
 
 void DrawablePoint::updatePoint(){
     this->point = Point2Dd(this->x, this->y);
+}
+
+double DrawablePoint::getx() const{
+    return this->x;
+}
+
+double DrawablePoint::gety() const{
+    return this->y;
+}
+
+/**
+ * @brief operator ==
+ * @param p1 DrawablePoint
+ * @param p2 DrawablePoint
+ * @return bool
+ * Definisco quando due DrawablePoint sono uguali
+ */
+bool DrawablePoint::operator == (const DrawablePoint &p1)
+{
+   if( this->getx() == p1.getx() && this->getx() == p1.getx())
+     return true;
+   else
+     return false;
 }

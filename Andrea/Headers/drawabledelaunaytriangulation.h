@@ -24,6 +24,8 @@ public:
     std::vector<DrawableLine> lines;
 
     void addDrawablePoint(Point2Dd p);
+    bool checkIfPointAlreadyExist(Point2Dd p);
+
 };
 
 #endif // DELAUNAYTRIANGULATION_H
