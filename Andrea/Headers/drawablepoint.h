@@ -9,6 +9,7 @@ class DrawablePoint : public DrawableObject{
 public:
     DrawablePoint();
     DrawablePoint(double x, double y);
+    DrawablePoint(Point2Dd p);
 
     // DrawableObject interface
     void draw() const;

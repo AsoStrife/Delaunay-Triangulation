@@ -12,6 +12,7 @@
   * @date 24-07-2017
   * */
 #include <Andrea/Headers/drawableboundingtriangle.h>
+#include <Andrea/Headers/drawabledelaunaytriangulation.h>
 
 namespace Ui {
     class DelaunayManager;
@@ -47,8 +48,10 @@ private:
     /**
       * @author Andrea Corriga
       * @date 24-07-2017
+      *
       * */
     DrawableBoundingTriangle bt;
+    DrawableDelaunayTriangulation dt;
 
     /*****************
     * Private methods *

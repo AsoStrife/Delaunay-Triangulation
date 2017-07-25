@@ -19,6 +19,7 @@
 // Classi Andrea Corriga
 #include <Andrea/Headers/drawablepoint.h>
 #include <Andrea/Headers/drawableboundingtriangle.h>
+#include <Andrea/Headers/drawabledelaunaytriangulation.h>
 
 //limits for the bounding box
 const double BOUNDINGBOX = 1e+6;
@@ -36,8 +37,6 @@ const Point2Dd BT_P3(-1e+10, -1e+10);
 /***************************
 * Constructors/Destructors *
 ***************************/
-
-DrawablePoint c;
 
 /**
  * @brief Constructor
@@ -64,6 +63,8 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
     // putting the drawable object to the mainWindow.
     // the mainWindow will take care of the rendering of the bounding box
     mainWindow.pushObj(&boundingBox, "Bounding box");
+
+    mainWindow.pushObj(&dt, "Delaunay triangulation");
 
     mainWindow.updateGlCanvas();
 
@@ -197,13 +198,8 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        c.setPoints(p.x(), p.y());
-
-        mainWindow.pushObj(&c, "Punto");
-
-        //pointtest c(p);
-
-
+        dt.addDrawablePoint(p);
+        std::cout << "Aggiungo un punto" << std::endl;
         /******/
 
     }

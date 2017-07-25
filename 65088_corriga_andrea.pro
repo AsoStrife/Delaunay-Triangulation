@@ -34,7 +34,7 @@ HEADERS += \
     utils/delaunay_checker.h \
     Andrea/Headers/drawableboundingtriangle.h \
     Andrea/Headers/drawablepoint.h \
-    Andrea/Headers/delaunaytriangulation.h \
+    Andrea/Headers/drawabledelaunaytriangulation.h \
     Andrea/Headers/drawableline.h
 
 
@@ -45,7 +45,7 @@ SOURCES += \
     utils/delaunay_checker.cpp \
     Andrea/Class/drawableboundingtriangle.cpp \
     Andrea/Class/drawablepoint.cpp \
-    Andrea/Class/delaunaytriangulation.cpp \
+    Andrea/Class/drawabledelaunaytriangulation.cpp \
     Andrea/Class/drawableline.cpp
 
 FORMS += \

@@ -15,7 +15,7 @@ void DrawableBoundingTriangle::definePoints(Point2Dd p1, Point2Dd p2, Point2Dd p
 
 // DrawableObject interface
 void DrawableBoundingTriangle::draw() const{
-
+    std::cout << "draw() DrawableBoundingTriangle" << std::endl;
     Viewer::drawLine2D(this->p1, this->p2, QColor(0, 0 ,0), 3);
     Viewer::drawLine2D(this->p1, this->p3, QColor(0, 0 ,0), 3);
     Viewer::drawLine2D(this->p2, this->p3, QColor(0, 0 ,0), 3);
