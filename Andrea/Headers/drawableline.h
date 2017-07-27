@@ -9,7 +9,7 @@ class DrawableLine : public DrawableObject{
 public:
     DrawableLine();
     DrawableLine(double x1, double y1, double x2, double y2);
-    DrawableLine(Point2Dd p1, Point2Dd p2);
+    DrawableLine(const Point2Dd& p1, const Point2Dd& p2);
 
     // DrawableObject interface
     void draw() const;

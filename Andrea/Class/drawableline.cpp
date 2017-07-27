@@ -11,7 +11,7 @@ DrawableLine::DrawableLine(double x1, double y1, double x2, double y2){
     this->p2 = Point2Dd(x2, y2);
 }
 
-DrawableLine::DrawableLine(Point2Dd p1, Point2Dd p2){
+DrawableLine::DrawableLine(const Point2Dd& p1, const Point2Dd& p2){
     this->p1 = p1;
     this->p2 = p2;
 }

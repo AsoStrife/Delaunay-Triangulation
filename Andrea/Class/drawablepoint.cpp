@@ -12,7 +12,7 @@ DrawablePoint::DrawablePoint(double x, double y){
     this->point = Point2Dd(x, y);
 }
 
-DrawablePoint::DrawablePoint(Point2Dd p){
+DrawablePoint::DrawablePoint(const Point2Dd& p){
     this->point = p;
 
     this->x = p.x();

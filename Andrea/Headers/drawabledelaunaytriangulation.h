@@ -23,8 +23,8 @@ public:
     std::vector<DrawablePoint> points;
     std::vector<DrawableLine> lines;
 
-    void addDrawablePoint(Point2Dd p);
-    bool checkIfPointAlreadyExist(Point2Dd p);
+    void addDrawablePoint(const Point2Dd& p);
+    bool checkIfPointAlreadyExist(const Point2Dd& p);
 
 };
 
