@@ -18,9 +18,12 @@ DrawableLine::DrawableLine(const Point2Dd& p1, const Point2Dd& p2){
 
 // DrawableObject interface
 void DrawableLine::draw() const{
+    /*
+
     std::cout << this->p1.x();
     std::cout << ", ";
     std::cout << this->p1.y()  << std::endl;
+    */
 
     Viewer::drawLine2D(this->p1, this->p2, QColor(0, 0 ,0), 1);
 }
