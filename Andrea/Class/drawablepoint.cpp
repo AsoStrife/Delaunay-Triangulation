@@ -62,6 +62,10 @@ double DrawablePoint::gety() const{
     return this->y;
 }
 
+Point2Dd DrawablePoint::getPoint2Dd(){
+    return this->point;
+}
+
 /**
  * @brief operator ==
  * @param p1 DrawablePoint

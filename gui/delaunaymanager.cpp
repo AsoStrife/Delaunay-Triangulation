@@ -141,7 +141,7 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
 void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
 
     // Definisco i punto all'interno dell'oggetto bt per creare poi il bouding triangle
-    bt.definePoints(BT_P1, BT_P2,BT_P3);
+    bt.definePoints(BT_P1, BT_P2, BT_P3);
 
     //if arg1 is true, you must draw the bounding triangle of your triangulation
     if(arg1){
@@ -150,7 +150,6 @@ void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
     else{
         mainWindow.deleteObj(&bt);
     }
-    //QColor a = QColor(0, 0 ,0);
 
     mainWindow.updateGlCanvas();
 }
@@ -201,6 +200,8 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         if(!dt.checkIfPointAlreadyExist(p)){
             dt.addDrawablePoint(p);
         }
+        else
+            QMessageBox::warning(this, "Point already exist", "The point in the coordinates [" + QString::number(p.x()) + "," + QString::number(p.y()) + "] already exist.");
         /******/
 
     }

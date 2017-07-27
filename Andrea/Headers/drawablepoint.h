@@ -21,6 +21,8 @@ public:
     double getx() const;
     double gety() const;
 
+    Point2Dd getPoint2Dd();
+
     void setPoints(double x, double y);
 
     bool operator == (const DrawablePoint &p1);

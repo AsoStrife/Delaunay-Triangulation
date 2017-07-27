@@ -26,6 +26,8 @@ public:
     void addDrawablePoint(const Point2Dd& p);
     bool checkIfPointAlreadyExist(const Point2Dd& p);
 
+    void addDrawableLine(Point2Dd p1, Point2Dd p2);
+
 };
 
 #endif // DELAUNAYTRIANGULATION_H

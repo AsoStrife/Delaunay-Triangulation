@@ -8,7 +8,7 @@ class DrawableBoundingTriangle : public DrawableObject{
 public:
     DrawableBoundingTriangle();
 
-    void definePoints(Point2Dd p1, Point2Dd p2, Point2Dd p3);
+    void definePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
 
     Point2Dd p1;
     Point2Dd p2;
