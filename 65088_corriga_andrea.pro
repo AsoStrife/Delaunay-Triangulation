@@ -35,7 +35,8 @@ HEADERS += \
     Andrea/Headers/drawableboundingtriangle.h \
     Andrea/Headers/drawablepoint.h \
     Andrea/Headers/drawabledelaunaytriangulation.h \
-    Andrea/Headers/drawableline.h
+    Andrea/Headers/drawableline.h \
+    Andrea/Headers/dag.h
 
 
 SOURCES += \
@@ -46,7 +47,8 @@ SOURCES += \
     Andrea/Class/drawableboundingtriangle.cpp \
     Andrea/Class/drawablepoint.cpp \
     Andrea/Class/drawabledelaunaytriangulation.cpp \
-    Andrea/Class/drawableline.cpp
+    Andrea/Class/drawableline.cpp \
+    Andrea/Class/dag.cpp
 
 FORMS += \
     gui/delaunaymanager.ui   

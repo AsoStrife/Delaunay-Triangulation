@@ -51,3 +51,8 @@ bool DrawableDelaunayTriangulation::checkIfPointAlreadyExist(const Point2Dd& p){
         return true;
     else return false;
 }
+
+void DrawableDelaunayTriangulation::cleanDelaunayTriangulation(){
+    points.clear();
+    lines.clear();
+}

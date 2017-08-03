@@ -17,9 +17,11 @@
 #include "gui/delaunaymanager.h"
 
 int main(int argc, char *argv[]) {
-
     ///Test viewer.pri:
     #ifdef VIEWER_DEFINED
+
+    // Aggiunto il ridimensionamento per gli schermi ad alta risoluzione
+    qputenv("QT_DEVICE_PIXEL_RATIO",QByteArray("2"));
     QApplication app(argc, argv);
 
     MainWindow gui;  // finestra principale, contiene la canvas di QGLViewer

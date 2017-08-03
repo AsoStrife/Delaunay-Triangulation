@@ -28,6 +28,7 @@ public:
 
     void addDrawableLine(Point2Dd p1, Point2Dd p2);
 
+    void cleanDelaunayTriangulation();
 };
 
 #endif // DELAUNAYTRIANGULATION_H
