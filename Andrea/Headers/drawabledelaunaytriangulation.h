@@ -29,6 +29,8 @@ public:
     void addDrawableLine(Point2Dd p1, Point2Dd p2);
 
     void cleanDelaunayTriangulation();
+
+    void loadPointFromVector(const std::vector<Point2Dd>& p);
 };
 
 #endif // DELAUNAYTRIANGULATION_H

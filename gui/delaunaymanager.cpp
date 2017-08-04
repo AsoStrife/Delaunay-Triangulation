@@ -169,8 +169,7 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
         Timer t("Delaunay Triangulation");
         /****/
         //launch your triangulation algorithm here
-
-
+        dt.loadPointFromVector(points); // Inserisco i punti all'interno del mio oggetto
         /****/
         t.stopAndPrint();
 

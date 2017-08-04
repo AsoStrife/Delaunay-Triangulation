@@ -3,6 +3,7 @@
 #include <viewer/objects/objects.h>
 
 #include <stdio.h>
+
 DrawablePoint::DrawablePoint(){}
 
 DrawablePoint::DrawablePoint(double x, double y){
@@ -75,7 +76,7 @@ Point2Dd DrawablePoint::getPoint2Dd(){
  */
 bool DrawablePoint::operator == (const DrawablePoint &p1)
 {
-   if( this->getx() == p1.getx() && this->getx() == p1.getx())
+   if( this->getx() == p1.getx() && this->gety() == p1.gety())
      return true;
    else
      return false;
