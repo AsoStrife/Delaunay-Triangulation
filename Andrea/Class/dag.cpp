@@ -9,7 +9,7 @@ Dag::Dag() {}
  * @param p1
  * @param p2
  * @param p3
- * @return
+ * @return float
  */
 float Dag::sign (Point2Dd p1, Point2Dd p2, Point2Dd p3){
     return (p1.x() - p3.x()) * (p2.y() - p3.y()) - (p2.x() - p3.x()) * (p1.y() - p3.y());

@@ -18,7 +18,6 @@
 
 // Classi Andrea Corriga
 #include <Andrea/Headers/drawablepoint.h>
-#include <Andrea/Headers/drawableboundingtriangle.h>
 #include <Andrea/Headers/drawabledelaunaytriangulation.h>
 
 //limits for the bounding box

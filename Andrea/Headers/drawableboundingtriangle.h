@@ -2,6 +2,7 @@
 #define DRAWABLEBOUNDINGTRIANGLE_H
 #include <viewer/interfaces/drawable_object.h>
 #include <viewer/objects/objects.h>
+#include <Andrea/Headers/drawableline.h>
 
 class DrawableBoundingTriangle : public DrawableObject{
 
@@ -13,6 +14,10 @@ public:
     Point2Dd p1;
     Point2Dd p2;
     Point2Dd p3;
+
+    DrawableLine l1;
+    DrawableLine l2;
+    DrawableLine l3;
 
     // DrawableObject interface
     void draw() const;

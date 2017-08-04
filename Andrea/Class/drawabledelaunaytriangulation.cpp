@@ -25,9 +25,7 @@ void DrawableDelaunayTriangulation::draw() const{
     }
 }
 
-
 Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
-
 double DrawableDelaunayTriangulation::sceneRadius() const {}
 
 void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
@@ -53,6 +51,8 @@ bool DrawableDelaunayTriangulation::checkIfPointAlreadyExist(const Point2Dd& p){
 }
 
 void DrawableDelaunayTriangulation::cleanDelaunayTriangulation(){
+    p.clear();
+    //t.clear();
     points.clear();
     lines.clear();
 }

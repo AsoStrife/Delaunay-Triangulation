@@ -17,9 +17,7 @@ public:
     Pointd sceneCenter() const;
     double sceneRadius() const;
 
-    void setPoint1(double x, double y);
-    void setPoint2(double x, double y);
-
+    void setPoints(const Point2Dd& p1, const Point2Dd& p2);
 
 private:
     Point2Dd p1;

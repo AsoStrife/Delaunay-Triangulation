@@ -18,13 +18,6 @@ DrawableLine::DrawableLine(const Point2Dd& p1, const Point2Dd& p2){
 
 // DrawableObject interface
 void DrawableLine::draw() const{
-    /*
-
-    std::cout << this->p1.x();
-    std::cout << ", ";
-    std::cout << this->p1.y()  << std::endl;
-    */
-
     Viewer::drawLine2D(this->p1, this->p2, QColor(0, 0 ,0), 1);
 }
 
@@ -32,10 +25,7 @@ Pointd DrawableLine::sceneCenter() const{}
 
 double DrawableLine::sceneRadius() const{}
 
-/*
-double x1;
-double y1;
-
-double x2;
-double y2;
-*/
+void DrawableLine::setPoints(const Point2Dd& p1, const Point2Dd& p2){
+    this->p1 = p1;
+    this->p2 = p2;
+}
