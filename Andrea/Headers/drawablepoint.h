@@ -25,7 +25,7 @@ public:
 
     void setPoints(double x, double y);
 
-    bool operator == (const DrawablePoint &p1);
+    bool operator == (const DrawablePoint& p1);
 
 private:
     void updatePoint();

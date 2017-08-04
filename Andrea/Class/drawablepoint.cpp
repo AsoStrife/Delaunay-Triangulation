@@ -26,13 +26,9 @@ void DrawablePoint::draw() const{
 }
 
 
-Pointd DrawablePoint::sceneCenter() const {
+Pointd DrawablePoint::sceneCenter() const {}
 
-}
-
-double DrawablePoint::sceneRadius() const {
-
-}
+double DrawablePoint::sceneRadius() const {}
 
 void DrawablePoint::setx(double x){
     this->x = x;
