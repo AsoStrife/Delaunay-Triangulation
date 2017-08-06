@@ -63,6 +63,8 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
     // the mainWindow will take care of the rendering of the bounding box
     mainWindow.pushObj(&boundingBox, "Bounding box");
 
+    // Credo l'oggetto Delaunay Triangulation
+    dt.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
     mainWindow.pushObj(&dt, "Delaunay triangulation");
 
     mainWindow.updateGlCanvas();
@@ -222,6 +224,8 @@ void DelaunayManager::on_checkTriangulationPushButton_clicked() {
     //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
     //and then fill the matrix using the assignment operator: triangles(i,j) = a;
 
+    points = dt.dag.getPoints();
+    triangles = dt.dag.getTriangles();
 
     if (DelaunayTriangulation::Checker::isDeulaunayTriangulation(points, triangles)) {
         QMessageBox::information(this, "Triangulation checking", "Success: it is a Delaunay triangulation!");

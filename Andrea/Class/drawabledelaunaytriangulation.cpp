@@ -9,35 +9,22 @@ void DrawableDelaunayTriangulation::draw() const{
 
     //std::vector<DrawablePoint> points;
     //std::vector<DrawableLine> lines;
-    int size = points.size();
 
-    if(size > 0){
-        for (int i = 0; i < size; i++){
+    for (int i = 0; i < points.size(); i++){
 
-            points[i].draw();
-        }
-
-        if(size == 3){
-            lines[0].draw();
-            lines[1].draw();
-            lines[2].draw();
-        }
+        points[i].draw();
     }
+
+
 }
 
 Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
 double DrawableDelaunayTriangulation::sceneRadius() const {}
 
 void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
-    int size = points.size();
-    if(size < 2)
-        points.push_back( DrawablePoint(p) );
-    else{
-        points.push_back( DrawablePoint(p) );
-        addDrawableLine(points[0].getPoint2Dd(), points[1].getPoint2Dd());
-        addDrawableLine(points[0].getPoint2Dd(), points[2].getPoint2Dd());
-        addDrawableLine(points[1].getPoint2Dd(), points[2].getPoint2Dd());
-    }
+    this->dag.addPoint2Dd(p);
+
+    this->points.push_back( DrawablePoint(p) );
 }
 
 void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){
@@ -47,11 +34,12 @@ void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){
 bool DrawableDelaunayTriangulation::checkIfPointAlreadyExist(const Point2Dd& p){
     if (std::find(points.begin(), points.end(), DrawablePoint(p)) != points.end())
         return true;
-    else return false;
+    else
+        return false;
 }
 
 void DrawableDelaunayTriangulation::cleanDelaunayTriangulation(){
-    p.clear();
+    //p.clear();
     //t.clear();
     points.clear();
     lines.clear();
@@ -68,4 +56,12 @@ void DrawableDelaunayTriangulation::loadPointFromVector(const std::vector<Point2
             }
         }
     }
+}
+
+void DrawableDelaunayTriangulation::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
+    this->BT_P1 = p1;
+    this->BT_P2 = p2;
+    this->BT_P3 = p3;
+
+    this->dag.addRoot(p1, p2, p3);
 }
