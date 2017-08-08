@@ -11,8 +11,8 @@
   * @author Andrea Corriga
   * @date 24-07-2017
   * */
-#include <Andrea/Headers/drawableboundingtriangle.h>
-#include <Andrea/Headers/drawabledelaunaytriangulation.h>
+#include <Andrea/Headers/Drawable/drawableboundingtriangle.h>
+#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
 
 namespace Ui {
     class DelaunayManager;

@@ -25,6 +25,7 @@ void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
     this->dag.addPoint2Dd(p);
 
     this->points.push_back( DrawablePoint(p) );
+    dag.updateDag(p);
 }
 
 void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){

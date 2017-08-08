@@ -2,10 +2,10 @@
 #define DELAUNAYTRIANGULATION_H
 
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/drawableline.h>
-#include <Andrea/Headers/drawablepoint.h>
+#include <Andrea/Headers/Drawable/drawableline.h>
+#include <Andrea/Headers/Drawable/drawablepoint.h>
+#include <Andrea/Headers/Drawable/drawableboundingtriangle.h>
 #include <Andrea/Headers/dag.h>
-#include <Andrea/Headers/drawableboundingtriangle.h>
 #include <common/arrays.h>
 
 class DrawableDelaunayTriangulation : public DrawableObject{

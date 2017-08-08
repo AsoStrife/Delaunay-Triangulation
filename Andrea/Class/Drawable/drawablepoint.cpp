@@ -22,7 +22,7 @@ DrawablePoint::DrawablePoint(const Point2Dd& p){
 
 // DrawableObject interface
 void DrawablePoint::draw() const{
-    Viewer::drawPoint2D(this->point, QColor(0, 0 ,0), 3);
+    Viewer::drawPoint2D(this->point, QColor(255, 0 ,0), 10);
 }
 
 

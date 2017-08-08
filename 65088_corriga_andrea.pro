@@ -32,11 +32,13 @@ HEADERS += \
     gui/delaunaymanager.h \
     utils/fileutils.h \
     utils/delaunay_checker.h \
-    Andrea/Headers/drawableboundingtriangle.h \
-    Andrea/Headers/drawablepoint.h \
-    Andrea/Headers/drawabledelaunaytriangulation.h \
-    Andrea/Headers/drawableline.h \
-    Andrea/Headers/dag.h
+    Andrea/Headers/Drawable/drawableboundingtriangle.h \
+    Andrea/Headers/Drawable/drawablepoint.h \
+    Andrea/Headers/Drawable/drawabledelaunaytriangulation.h \
+    Andrea/Headers/Drawable/drawableline.h \
+    Andrea/Headers/dag.h \
+    Andrea/Headers/branch.h \
+    Andrea/Headers/triangle.h
 
 
 SOURCES += \
@@ -44,11 +46,13 @@ SOURCES += \
     gui/delaunaymanager.cpp \
     utils/fileutils.cpp \
     utils/delaunay_checker.cpp \
-    Andrea/Class/drawableboundingtriangle.cpp \
-    Andrea/Class/drawablepoint.cpp \
-    Andrea/Class/drawabledelaunaytriangulation.cpp \
-    Andrea/Class/drawableline.cpp \
-    Andrea/Class/dag.cpp
+    Andrea/Class/Drawable/drawableboundingtriangle.cpp \
+    Andrea/Class/Drawable/drawablepoint.cpp \
+    Andrea/Class/Drawable/drawabledelaunaytriangulation.cpp \
+    Andrea/Class/Drawable/drawableline.cpp \
+    Andrea/Class/dag.cpp \
+    Andrea/Class/branch.cpp \
+    Andrea/Class/triangle.cpp
 
 FORMS += \
     gui/delaunaymanager.ui   

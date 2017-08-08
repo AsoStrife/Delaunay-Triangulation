@@ -11,7 +11,7 @@ QT += core gui opengl xml widgets
 unix:!macx{
     QMAKE_CXXFLAGS += -std=c++11
     LIBS += /usr/lib/x86_64-linux-gnu/libGLU.so
-    LIBS += -lQGLViewer
+    LIBS += -lQGLViewer-qt5
 }
 
 macx{

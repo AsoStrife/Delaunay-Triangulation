@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     #ifdef VIEWER_DEFINED
 
     // Aggiunto il ridimensionamento per gli schermi ad alta risoluzione
-    qputenv("QT_DEVICE_PIXEL_RATIO",QByteArray("2"));
+    qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
     QApplication app(argc, argv);
 
     MainWindow gui;  // finestra principale, contiene la canvas di QGLViewer

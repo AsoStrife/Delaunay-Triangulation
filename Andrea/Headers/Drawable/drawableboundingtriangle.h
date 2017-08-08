@@ -2,7 +2,7 @@
 #define DRAWABLEBOUNDINGTRIANGLE_H
 #include <viewer/interfaces/drawable_object.h>
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/drawableline.h>
+#include <Andrea/Headers/Drawable/drawableline.h>
 
 class DrawableBoundingTriangle : public DrawableObject{
 

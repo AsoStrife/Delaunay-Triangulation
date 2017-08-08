@@ -17,8 +17,7 @@
 #include <viewer/interfaces/drawable_object.h>
 
 // Classi Andrea Corriga
-#include <Andrea/Headers/drawablepoint.h>
-#include <Andrea/Headers/drawabledelaunaytriangulation.h>
+#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
 
 //limits for the bounding box
 const double BOUNDINGBOX = 1e+6;
@@ -224,8 +223,8 @@ void DelaunayManager::on_checkTriangulationPushButton_clicked() {
     //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
     //and then fill the matrix using the assignment operator: triangles(i,j) = a;
 
-    points = dt.dag.getPoints();
-    triangles = dt.dag.getTriangles();
+    //points = dt.dag.getPoints();
+    //triangles = dt.dag.getTriangles();
 
     if (DelaunayTriangulation::Checker::isDeulaunayTriangulation(points, triangles)) {
         QMessageBox::information(this, "Triangulation checking", "Success: it is a Delaunay triangulation!");
