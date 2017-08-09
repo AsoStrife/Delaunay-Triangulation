@@ -50,6 +50,12 @@ void Triangle::setChildC(Triangle* t){
     this->childC = t;
 }
 
+void Triangle::setChildren(Triangle* A, Triangle* B, Triangle* C){
+    this->childA = A;
+    this->childB = B;
+    this->childC = C;
+}
+
 Triangle* Triangle::getChildA(){
     if(this->childA != nullptr)
         return this->childA;

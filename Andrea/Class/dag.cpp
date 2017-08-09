@@ -73,9 +73,7 @@ void Dag::addTrianglesIntoDag(const Point2Dd& p){
             Triangle B = Triangle(p, triangle.getA(), triangle.getC());
             Triangle C = Triangle(p, triangle.getC(), triangle.getB());
 
-            triangle.setChildA(&A);
-            triangle.setChildB(&B);
-            triangle.setChildC(&C);
+            triangle.setChildren(&A, &B, &C);
 
             nodes.push_back(A);
             nodes.push_back(B);

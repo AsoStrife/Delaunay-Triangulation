@@ -25,6 +25,7 @@ public:
     void setChildA(Triangle* t);
     void setChildB(Triangle* t);
     void setChildC(Triangle* t);
+    void setChildren(Triangle* A, Triangle* B, Triangle* C);
 
     Triangle* getChildA();
     Triangle* getChildB();
