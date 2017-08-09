@@ -1,6 +1,6 @@
-#include <Andrea/Headers/drawabledelaunaytriangulation.h>
+#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
+#include <Andrea/Headers/Drawable/drawablepoint.h>
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/drawablepoint.h>
 
 DrawableDelaunayTriangulation::DrawableDelaunayTriangulation(){}
 
@@ -25,7 +25,7 @@ void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
     this->dag.addPoint2Dd(p);
 
     this->points.push_back( DrawablePoint(p) );
-    dag.updateDag(p);
+    dag.addTrianglesIntoDag(p);
 }
 
 void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){

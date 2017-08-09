@@ -1,5 +1,5 @@
-#include <Andrea/Headers/drawableboundingtriangle.h>
-#include <Andrea/Headers/drawableline.h>
+#include <Andrea/Headers/Drawable/drawableboundingtriangle.h>
+#include <Andrea/Headers/Drawable/drawableline.h>
 #include <viewer/interfaces/drawable_object.h>
 #include <viewer/objects/objects.h>
 #include <iostream>

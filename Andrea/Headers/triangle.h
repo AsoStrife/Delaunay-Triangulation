@@ -8,20 +8,36 @@ public:
     Triangle();
     Triangle(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
 
-    //Getter
-    Point2Dd getP1();
-    Point2Dd getP2();
-    Point2Dd getP3();
+    /*
+     * Getter & setter per i 3 punti del triangolo
+     */
+    Point2Dd getA() const;
+    Point2Dd getB() const;
+    Point2Dd getC() const;
 
-    //Setter
-    void setP1(const Point2Dd& p);
-    void setP2(const Point2Dd& p);
-    void setP3(const Point2Dd& p);
+    void setA(const Point2Dd& p);
+    void setB(const Point2Dd& p);
+    void setC(const Point2Dd& p);
+
+    /*
+     * Getter & setter per i 3 figli
+     */
+    void setChildA(Triangle* t);
+    void setChildB(Triangle* t);
+    void setChildC(Triangle* t);
+
+    Triangle* getChildA();
+    Triangle* getChildB();
+    Triangle* getChildC();
 
 private:
-    Point2Dd p1;
-    Point2Dd p2;
-    Point2Dd p3;
+    Point2Dd A;
+    Point2Dd B;
+    Point2Dd C;
+
+    Triangle* childA;
+    Triangle* childB;
+    Triangle* childC;
 
 };
 

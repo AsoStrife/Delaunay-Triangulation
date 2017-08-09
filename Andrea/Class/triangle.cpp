@@ -3,33 +3,70 @@
 Triangle::Triangle() {}
 
 Triangle::Triangle(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
-    this->p1 = p1;
-    this->p2 = p2;
-    this->p3 = p3;
+    this->A = p1;
+    this->B = p2;
+    this->C = p3;
 }
 
-//Getter
-Point2Dd Triangle::getP1(){
-    return this->p1;
+/*
+ * Getter & setter per i 3 punti del triangolo
+ */
+Point2Dd Triangle::getA() const{
+    return this->A;
 }
 
-Point2Dd Triangle::getP2(){
-    return this->p2;
+Point2Dd Triangle::getB() const{
+    return this->B;
 }
 
-Point2Dd Triangle::getP3(){
-    return this->p3;
+Point2Dd Triangle::getC() const{
+    return this->C;
 }
 
-//Setter
-void Triangle::setP1(const Point2Dd& p){
-    this->p1 = p;
+void Triangle::setA(const Point2Dd& p){
+    this->A = p;
 }
 
-void Triangle::setP2(const Point2Dd& p){
-    this->p2 = p;
+void Triangle::setB(const Point2Dd& p){
+    this->B = p;
 }
 
-void Triangle::setP3(const Point2Dd& p){
-    this->p3 = p;
+void Triangle::setC(const Point2Dd& p){
+    this->C = p;
+}
+
+/*
+ * Getter & setter per i 3 figli
+ */
+void Triangle::setChildA(Triangle* t){
+    this->childA = t;
+}
+
+void Triangle::setChildB(Triangle* t){
+    this->childB = t;
+}
+
+void Triangle::setChildC(Triangle* t){
+    this->childC = t;
+}
+
+Triangle* Triangle::getChildA(){
+    if(this->childA != nullptr)
+        return this->childA;
+    else
+        return nullptr;
+}
+
+Triangle* Triangle::getChildB(){
+    if(this->childB != nullptr)
+        return this->childB;
+    else
+        return nullptr;
+}
+
+Triangle* Triangle::getChildC(){
+    if(this->childC != nullptr)
+        return this->childC;
+    else
+        return nullptr;
 }

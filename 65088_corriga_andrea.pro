@@ -37,7 +37,6 @@ HEADERS += \
     Andrea/Headers/Drawable/drawabledelaunaytriangulation.h \
     Andrea/Headers/Drawable/drawableline.h \
     Andrea/Headers/dag.h \
-    Andrea/Headers/branch.h \
     Andrea/Headers/triangle.h
 
 
@@ -51,7 +50,6 @@ SOURCES += \
     Andrea/Class/Drawable/drawabledelaunaytriangulation.cpp \
     Andrea/Class/Drawable/drawableline.cpp \
     Andrea/Class/dag.cpp \
-    Andrea/Class/branch.cpp \
     Andrea/Class/triangle.cpp
 
 FORMS += \
