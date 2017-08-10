@@ -25,7 +25,10 @@ void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
     this->dag.addPoint2Dd(p);
 
     this->points.push_back( DrawablePoint(p) );
-    dag.addTrianglesIntoDag(p);
+    Triangle * triangle = dag.navigate(p);
+
+    std::cout << "Indirizzo triangolo inserito: ";
+    std::cout << triangle << std::endl;
 }
 
 void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){

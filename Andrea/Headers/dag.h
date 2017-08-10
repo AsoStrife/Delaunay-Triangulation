@@ -25,8 +25,9 @@ class Dag
         std::vector<Point2Dd> getPoints();
         Array2D<unsigned int> getTriangles();
 
-        void addTrianglesIntoDag(const Point2Dd& p);
+        Triangle* navigate(const Point2Dd& p);
 
+        void addNode(Triangle* node, Triangle* Father, int nChild);
 
 };
 

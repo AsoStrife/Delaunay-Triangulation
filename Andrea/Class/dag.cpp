@@ -19,6 +19,9 @@ float Dag::sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
 }
 
 bool Dag::PointInTriangle (const Point2Dd& pt, const Triangle& t){
+    if(&t == nullptr)
+        return false;
+
     bool b1, b2, b3;
 
     b1 = sign(pt, t.getA(), t.getB()) < 0.0f;
@@ -52,35 +55,49 @@ std::vector<Point2Dd> Dag::getPoints(){
     return this->points;
 }
 
-//Array2D<unsigned int> Dag::getTriangles(){}
 
-void Dag::addTrianglesIntoDag(const Point2Dd& p){
+/**
+ * @brief Dag::navigate
+ * @param Point2Dd p
+ * @return Triangle*
+ *
+ * Passo come parametro un punto, e restituisco il più piccolo triangolo che lo contiene. Nel caso in cui
+ * sia il primo punto inserito nella triangolazione, restituirà la radice della Dag, ovvero il Bounding Triangle
+ */
+Triangle* Dag::navigate(const Point2Dd& p){
 
     bool hasChild = true;
-    int posT = 0;
 
+    Triangle* triangle = &nodes.at(0); // Inizializzo prendendo la radice della dag
     while(hasChild){
-        Triangle &triangle = nodes[posT];
 
-        if(PointInTriangle(p, triangle)){
-            std::cout << "Il punto è dentro il triangolo " << std::endl;
+        if(triangle == nullptr){
+            return nullptr; // Check di controllo, non dovrebbe mai verificarsi di entrare nella navigate con un puntatore nullo
+        }
 
-            //if(DelaunayTriangulation::Checker::isPointLyingInCircle(triangle.getA(), triangle.getB(), triangle.getC(), p, true) == true)
-                //std::cout << "Il punto è cade dentro il cerchio " << std::endl;
+        // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
+        if(PointInTriangle(p, *triangle)){
 
-            // Aggiungo i tre triangoli appena creati congiungendoli alla root
-            Triangle A = Triangle(p, triangle.getA(), triangle.getB());
-            Triangle B = Triangle(p, triangle.getA(), triangle.getC());
-            Triangle C = Triangle(p, triangle.getC(), triangle.getB());
+            if(PointInTriangle(p, *triangle->getChildA()))
+                triangle = triangle->getChildA();
+            else if(PointInTriangle(p, *triangle->getChildB()))
+                triangle = triangle->getChildB();
 
-            triangle.setChildren(&A, &B, &C);
-
-            nodes.push_back(A);
-            nodes.push_back(B);
-            nodes.push_back(C);
-
+            else if(PointInTriangle(p, *triangle->getChildC()))
+                triangle = triangle->getChildC();
+            else
             hasChild = false;
         }
 
+    }
+    // Quando non ho più figli restituisco l'ultimo triangolo (il più piccolo) che contiene il mio punto
+    return triangle; // restituisco l'ultimo l'indirizzo del triangolo più piccolo che contiene il punto appena inserito
+}
+
+void Dag::addNode(Triangle* node, Triangle* Father, int nChild){
+    switch(nChild){
+        case(1): Father->setChildA(node); break;
+        case(2): Father->setChildB(node); break;
+        case(3): Father->setChildC(node); break;
     }
 }

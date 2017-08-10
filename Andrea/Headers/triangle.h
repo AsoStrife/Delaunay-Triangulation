@@ -36,9 +36,9 @@ private:
     Point2Dd B;
     Point2Dd C;
 
-    Triangle* childA;
-    Triangle* childB;
-    Triangle* childC;
+    Triangle* childA = nullptr;
+    Triangle* childB = nullptr;
+    Triangle* childC = nullptr;
 
 };
 
