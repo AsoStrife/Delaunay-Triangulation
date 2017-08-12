@@ -1,14 +1,9 @@
 #include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
-#include <Andrea/Headers/Drawable/drawablepoint.h>
-#include <viewer/objects/objects.h>
 
 DrawableDelaunayTriangulation::DrawableDelaunayTriangulation(){}
 
 // DrawableObject interface
 void DrawableDelaunayTriangulation::draw() const{
-
-    //std::vector<DrawablePoint> points;
-    //std::vector<DrawableLine> lines;
 
     for (int i = 0; i < points.size(); i++){
 
@@ -22,13 +17,12 @@ Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
 double DrawableDelaunayTriangulation::sceneRadius() const {}
 
 void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
-    this->dag.addPoint2Dd(p);
+   // this->dag.addPoint2Dd(p);
 
     this->points.push_back( DrawablePoint(p) );
-    Triangle * triangle = dag.navigate(p);
+    Node * node = dag.navigate(p);
 
-    std::cout << "Indirizzo triangolo inserito: ";
-    std::cout << triangle << std::endl;
+    //std::cout << "Indirizzo triangolo inserito: "; std::cout << triangle << std::endl;
 }
 
 void DrawableDelaunayTriangulation::addDrawableLine(Point2Dd p1, Point2Dd p2){
@@ -68,4 +62,30 @@ void DrawableDelaunayTriangulation::setBoundingTrianglePoints(const Point2Dd& p1
     this->BT_P3 = p3;
 
     this->dag.addRoot(p1, p2, p3);
+}
+
+/**
+ * @brief DrawableDelaunayTriangulation::pointLieInALine
+ * @param p
+ * @param a
+ * @param b
+ * @return bool
+ * @link https://stackoverflow.com/questions/11907947/how-to-check-if-a-point-lies-on-a-line-between-2-other-points
+ * Controllo che un punto non cada su un edge già esistente
+ */
+bool DrawableDelaunayTriangulation::pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b){
+    int cross;
+
+    float dxc = p.x() - a.x();
+    float dyc = p.y() - a.y();
+
+    float dxl = b.x() - a.x();
+    float dyl = b.y() - a.y();
+
+    cross = dxc * dyl - dyc * dxl;
+
+    if (cross != 0)
+        return false;
+    else
+        return true;
 }

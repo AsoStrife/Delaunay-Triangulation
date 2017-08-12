@@ -2,16 +2,19 @@
 #define DELAUNAYTRIANGULATION_H
 
 #include <viewer/objects/objects.h>
+#include <utils/delaunay_checker.h>
+#include <Andrea/Headers/dag.h>
+#include <Andrea/Headers/node.h>
+
 #include <Andrea/Headers/Drawable/drawableline.h>
 #include <Andrea/Headers/Drawable/drawablepoint.h>
 #include <Andrea/Headers/Drawable/drawableboundingtriangle.h>
-#include <Andrea/Headers/dag.h>
-#include <common/arrays.h>
 
 class DrawableDelaunayTriangulation : public DrawableObject{
 public:
     DrawableDelaunayTriangulation();
 
+    //Dag per poter navigare le varie triangolazioni per sapere dove cade il prossimo punto che inserirò
     Dag dag;
     /*
      * Imposto un vettore di DrawablePoint e DrawableLine per gestire
@@ -19,6 +22,7 @@ public:
      */
     std::vector<DrawablePoint> points;
     std::vector<DrawableLine> lines;
+    std::vector<DrawableLine> BTlines; // Linee che vanno al bounding triangle, quindi le visualizzo solo quando la checkbox è attiva
 
     // DrawableObject interface
     void draw() const;
@@ -35,6 +39,7 @@ public:
     // Funzione per poter disegnare una linea tra due punti
     void addDrawableLine(Point2Dd p1, Point2Dd p2);
 
+    // Pulisco tutta la mia triangolazione
     void cleanDelaunayTriangulation();
 
     // Gestisco i punti che vengono caricati dal file
@@ -42,6 +47,13 @@ public:
 
     // Setto i punto del Bounding Triangle
     void setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
+
+    // Controllo che un punto non cada su un edge già esistente
+    bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
+    // Legalizzazione degli edge
+    bool LegalizeEdge();
+    bool EdgeFlip();
+
 private:
     Point2Dd BT_P1;
     Point2Dd BT_P2;

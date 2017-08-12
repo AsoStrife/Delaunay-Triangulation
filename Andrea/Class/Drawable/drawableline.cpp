@@ -1,8 +1,4 @@
-#include "Andrea/Headers/Drawable/drawableline.h"
-#include <viewer/interfaces/drawable_object.h>
-#include <viewer/objects/objects.h>
-
-#include <stdio.h>
+#include <Andrea/Headers/Drawable/drawableline.h>
 
 DrawableLine::DrawableLine(){}
 
