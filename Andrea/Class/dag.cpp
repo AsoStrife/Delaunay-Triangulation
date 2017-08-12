@@ -42,9 +42,6 @@ void Dag::addPoint2Dd(const Point2Dd& p){
  * Aggiungo la radice della mia dag con i 3 punti del Bounding Triangle
  */
 void Dag::addRoot(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
-    //this->points.push_back(p1);
-    //this->points.push_back(p2);
-    //this->points.push_back(p3);
     this->nodes.push_back( Node(p1, p2, p3) ) ;
 }
 
@@ -67,6 +64,7 @@ Node* Dag::navigate(const Point2Dd& p){
     bool hasChild = true;
 
         Node* node = &nodes.at(0); // Inizializzo prendendo la radice della dag
+
         while(hasChild){
 
             if(node == nullptr){
@@ -74,18 +72,15 @@ Node* Dag::navigate(const Point2Dd& p){
             }
 
             // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
-            if(PointInTriangle(p, node)){
+            if(PointInTriangle(p, node->getChildA()))
+                node = node->getChildA();
+            else if(PointInTriangle(p, node->getChildB()))
+                node = node->getChildB();
+            else if(PointInTriangle(p, node->getChildC()))
+                node = node->getChildC();
+            else
+            hasChild = false;
 
-                if(PointInTriangle(p, node->getChildA()))
-                    node = node->getChildA();
-                else if(PointInTriangle(p, node->getChildB()))
-                    node = node->getChildB();
-
-                else if(PointInTriangle(p, node->getChildC()))
-                    node = node->getChildC();
-                else
-                hasChild = false;
-            }
 
         }
         // Quando non ho più figli restituisco l'ultimo triangolo (il più piccolo) che contiene il mio punto

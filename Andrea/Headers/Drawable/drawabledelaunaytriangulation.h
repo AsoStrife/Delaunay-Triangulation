@@ -22,7 +22,7 @@ public:
      */
     std::vector<DrawablePoint> points;
     std::vector<DrawableLine> lines;
-    std::vector<DrawableLine> BTlines; // Linee che vanno al bounding triangle, quindi le visualizzo solo quando la checkbox è attiva
+    std::vector<Triangle> triangles;
 
     // DrawableObject interface
     void draw() const;
