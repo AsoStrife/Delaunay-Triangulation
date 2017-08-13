@@ -94,5 +94,12 @@ void Dag::addNode(Node* node, Node* Father, int nChild){
         case(1): Father->setChildA(node); break;
         case(2): Father->setChildB(node); break;
         case(3): Father->setChildC(node); break;
+
     }
+}
+
+void Dag::addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father){
+    Father->setChildA(nodeA);
+    Father->setChildB(nodeB);
+    Father->setChildC(nodeC);
 }

@@ -37,6 +37,7 @@ class Dag
         Node* navigate(const Point2Dd& p);
 
         void addNode(Node* node, Node* Father, int nChild);
+        void addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father);
 
 };
 

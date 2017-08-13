@@ -22,12 +22,18 @@ void DrawableDelaunayTriangulation::addDrawablePoint(const Point2Dd& p){
     this->points.push_back( DrawablePoint(p) );
     Node* node = dag.navigate(p);
 
-    /*
+    Node* nA = new Node(p, node->getA(), node->getB() );
+    Node* nB = new Node(p, node->getB(), node->getC() );
+    Node* nC = new Node(p, node->getC(), node->getA() );
+
+    dag.addNodes( nA, nB, nC, node);
+
+
     std::cout << "P: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << std::endl;
     std::cout << "V1: "; std::cout << node->getA().x(); std::cout << " " ; std::cout << node->getA().y() << std::endl;
     std::cout << "V2: "; std::cout << node->getC().x(); std::cout << " " ; std::cout << node->getB().y() << std::endl;
     std::cout << "V2: "; std::cout << node->getB().x(); std::cout << " " ; std::cout << node->getC().y() << std::endl;
-    */
+
     //std::cout << "Indirizzo triangolo inserito: "; std::cout << node << std::endl;
 }
 
