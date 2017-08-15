@@ -16,9 +16,6 @@
 #include <viewer/objects/objects.h>
 #include <viewer/interfaces/drawable_object.h>
 
-// Classi Andrea Corriga
-#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
-
 //limits for the bounding box
 const double BOUNDINGBOX = 1e+6;
 const double SCENERADIUS = BOUNDINGBOX;
@@ -63,8 +60,8 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
     mainWindow.pushObj(&boundingBox, "Bounding box");
 
     // Credo l'oggetto Delaunay Triangulation
-    dt.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
-    mainWindow.pushObj(&dt, "Delaunay triangulation");
+    dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
+    //mainWindow.pushObj(&dt, "Delaunay triangulation");
 
     mainWindow.updateGlCanvas();
 
@@ -128,7 +125,7 @@ void DelaunayManager::on_resetScenePushButton_clicked() {
  */
 void DelaunayManager::on_clearPointsPushButton_clicked() {
     //clear here your triangulation
-    dt.cleanDelaunayTriangulation();
+    dtc.cleanDelaunayTriangulation();
     //
     mainWindow.updateGlCanvas();
 }
@@ -140,15 +137,12 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
  */
 void DelaunayManager::on_showBoundingTriangleCheckBox_stateChanged(int arg1) {
 
-    // Definisco i punto all'interno dell'oggetto bt per creare poi il bouding triangle
-    bt.definePoints(BT_P1, BT_P2, BT_P3);
-
     //if arg1 is true, you must draw the bounding triangle of your triangulation
     if(arg1){
-        mainWindow.pushObj(&bt, "Bounding Triangle");
+        ddt.setBoundingTriangleActive(true);
     }
     else{
-        mainWindow.deleteObj(&bt);
+        ddt.setBoundingTriangleActive(false);
     }
 
     mainWindow.updateGlCanvas();
@@ -169,7 +163,7 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
         Timer t("Delaunay Triangulation");
         /****/
         //launch your triangulation algorithm here
-        dt.loadPointFromVector(points); // Inserisco i punti all'interno del mio oggetto
+        dtc.loadPointFromVector(points); // Inserisco i punti all'interno del mio oggetto
         /****/
         t.stopAndPrint();
 
@@ -196,11 +190,13 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        if(!dt.checkIfPointAlreadyExist(p)){
-            dt.addDrawablePoint(p);
+        if(!dtc.checkIfPointAlreadyExist(p)){
+            dtc.addPoint(p);
         }
         else
             QMessageBox::warning(this, "Point already exist", "The point in the coordinates [" + QString::number(p.x()) + "," + QString::number(p.y()) + "] already exist.");
+
+            ddt.setTriangles( dtc.getTriangles() );
         /******/
 
     }

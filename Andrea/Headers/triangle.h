@@ -2,29 +2,28 @@
 #define TRIANGLE_H
 #include <viewer/objects/objects.h>
 
-class Triangle
-{
+class Triangle{
 public:
     Triangle();
-    Triangle(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
+    Triangle(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3);
 
     /*
      * Getter & setter per i 3 punti del triangolo
      */
-    Point2Dd getA() const;
-    Point2Dd getB() const;
-    Point2Dd getC() const;
+    Point2Dd* getA() const;
+    Point2Dd* getB() const;
+    Point2Dd* getC() const;
 
-    void setA(const Point2Dd& p);
-    void setB(const Point2Dd& p);
-    void setC(const Point2Dd& p);
+    void setA(Point2Dd* p);
+    void setB(Point2Dd* p);
+    void setC(Point2Dd* p);
 
 
 
 private:
-    Point2Dd vA;
-    Point2Dd vB;
-    Point2Dd vC;
+    Point2Dd* vA = nullptr;
+    Point2Dd* vB = nullptr;
+    Point2Dd* vC = nullptr;
 };
 
 #endif // TRIANGLE_H

@@ -9,33 +9,23 @@ class Dag
 {
     private:
 
-        /*
-         * Definisco un vettore di punti Point2Dd e un Array2D di interi per gestire la triangolazione
-         * Utilizzo la stessa struttura dati che viene richiesta poi in on_checkTriangulationPushButton_clicked() nel file delaunaymanager.cpp
-         */
-        //std::vector<Point2Dd> points; // Lista dei punti che inserisco
-        std::vector<Node> nodes; // Un triangolo è un nodo
-
+        // Un triangolo è un nodo
+        std::vector<Node> nodes;
 
     public:
         Dag();
 
         // Funzioni per controllare che un punto sia in un triangolo
-        float sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
-        bool PointInTriangle (const Point2Dd& pt, const Node* t);
-
-
-        // void addPoint2Dd(const Point2Dd& p);
+        float sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3) const;
+        bool PointInTriangle (const Point2Dd& pt, Node* t);
 
         // Creo la radice della mia dag
-        void addRoot(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
-
-        //std::vector<Point2Dd> getPoints();
-        Array2D<unsigned int> getTriangles();
+        void addRoot(Point2Dd* p1,Point2Dd* p2, Point2Dd* p3);
 
         // Cerco in quale triangolo cade il nuovo punto
         Node* navigate(const Point2Dd& p);
 
+        // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
         void addNode(Node* node, Node* Father, int nChild);
         void addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father);
 

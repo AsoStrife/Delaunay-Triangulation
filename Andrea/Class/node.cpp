@@ -2,7 +2,7 @@
 
 Node::Node(){}
 //Richiamo il costruttore con quello della superclasse
-Node::Node(const Point2Dd p1, const Point2Dd p2, const Point2Dd p3) : Triangle(p1, p2, p3){}
+Node::Node(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3) : Triangle(p1, p2, p3){}
 
 void Node::setChildA(Node* t){
     this->childA = t;

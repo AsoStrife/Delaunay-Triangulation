@@ -6,7 +6,8 @@ class Node : public Triangle
 {
 public:
     Node();
-    Node (const Point2Dd p1, const Point2Dd p2, const Point2Dd p3);
+    Node(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3);
+
     void setChildA(Node* t);
     void setChildB(Node* t);
     void setChildC(Node* t);
