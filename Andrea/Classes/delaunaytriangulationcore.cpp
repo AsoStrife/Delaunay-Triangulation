@@ -9,24 +9,26 @@ void DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
     points.push_back(new Point2Dd(p));
 
-    std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << std::endl;
-    std::cout << "Punto vettore: "; std::cout << points.at(0)->x(); std::cout << " " ; std::cout << points.at(0)->y() << std::endl;
+    //std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << std::endl;
+    //std::cout << "Punto vettore: "; std::cout << points.at(0)->x(); std::cout << " " ; std::cout << points.at(0)->y() << std::endl;
 
-   /* Node* node = dag.navigate(p);
+    Node* node = dag.navigate(p);
 
     Node* nA = new Node(this->points.back(), node->getA(), node->getB() );
     Node* nB = new Node(this->points.back(), node->getB(), node->getC() );
     Node* nC = new Node(this->points.back(), node->getC(), node->getA() );
 
-    dag.addNodes( nA, nB, nC, node);*/
-
+    dag.addNodes( nA, nB, nC, node);
+    triangles.push_back( Triangle( this->points.back(), node->getA(), node->getB() ) );
+    triangles.push_back( Triangle( this->points.back(), node->getB(), node->getC() ) );
+    triangles.push_back( Triangle( this->points.back(), node->getC(), node->getA() ) );
     //this->LegalizeEdge(p, node->get(), node->getB(), points);
 
-    //std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << "  - Indirizzo su funzione addpoint(): " << &p << std::endl;
+    std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << "  - Indirizzo su funzione addpoint(): " << &p << std::endl;
 
-    //std::cout << "V1: "; std::cout << node->getA().x(); std::cout << " " ; std::cout << node->getA().y() << std::endl;
-    //std::cout << "V2: "; std::cout << node->getB().x(); std::cout << " " ; std::cout << node->getB().y() << std::endl;
-    //std::cout << "V2: "; std::cout << node->getB().x(); std::cout << " " ; std::cout << node->getC().y() << std::endl;
+    //std::cout << "V1: "; std::cout << node->getA()->x(); std::cout << " " ; std::cout << node->getA()->y() << std::endl;
+    //std::cout << "V2: "; std::cout << node->getB()->x(); std::cout << " " ; std::cout << node->getB()->y() << std::endl;
+    //std::cout << "V2: "; std::cout << node->getB()->x(); std::cout << " " ; std::cout << node->getC()->y() << std::endl;
 
     //std::cout << "Indirizzo triangolo inserito: "; std::cout << node << std::endl;
 
@@ -45,9 +47,8 @@ bool DelaunayTriangulationCore::checkIfPointAlreadyExist(const Point2Dd& p){
 
 
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
-    //p.clear();
-    //t.clear();
     points.clear();
+    triangles.clear();
 }
 
 void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>& p){
@@ -64,11 +65,12 @@ void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>&
 }
 
 void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
-    /*pushPoint(p1);
-    pushPoint(p2);
-    pushPoint(p3);
+    this->points.push_back(new Point2Dd(p1));
+    this->points.push_back(new Point2Dd(p2));
+    this->points.push_back(new Point2Dd(p3));
 
-    this->dag.addRoot(p1, p2, p3);*/
+    this->dag.addRoot(new Point2Dd(p1), new Point2Dd(p2), new Point2Dd(p3));
+    this->triangles.push_back( Triangle(this->points.at(0), this->points.at(1), this->points.at(2)) );
 }
 
 /**

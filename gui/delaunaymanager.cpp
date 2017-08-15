@@ -61,7 +61,7 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
 
     // Credo l'oggetto Delaunay Triangulation
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
-    //mainWindow.pushObj(&dt, "Delaunay triangulation");
+    mainWindow.pushObj(&ddt, "Delaunay triangulation");
 
     mainWindow.updateGlCanvas();
 
@@ -126,7 +126,8 @@ void DelaunayManager::on_resetScenePushButton_clicked() {
 void DelaunayManager::on_clearPointsPushButton_clicked() {
     //clear here your triangulation
     dtc.cleanDelaunayTriangulation();
-    //
+    ddt.setTriangles( dtc.getTriangles() );
+
     mainWindow.updateGlCanvas();
 }
 
