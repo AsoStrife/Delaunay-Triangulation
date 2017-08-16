@@ -15,13 +15,13 @@ public:
     Pointd sceneCenter() const;
     double sceneRadius() const;
 
-    void setTriangles(std::vector<Triangle> t);
+    void setTriangles(std::vector<Node*> t);
     void setBoundingTriangleActive(bool b);
 
     bool needToPrintPoint(const Point2Dd& p) const;
     bool needToPrintLine(const Point2Dd& p1, const Point2Dd& p2) const;
 private:
-    std::vector<Triangle> triangles;
+    std::vector<Node> triangles;
     bool boundingTriangleActive = false;
 
     QColor pointColor = QColor(255, 0 ,0);

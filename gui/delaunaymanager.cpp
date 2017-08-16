@@ -125,7 +125,8 @@ void DelaunayManager::on_resetScenePushButton_clicked() {
  */
 void DelaunayManager::on_clearPointsPushButton_clicked() {
     //clear here your triangulation
-    dtc.cleanDelaunayTriangulation();
+    dtc.cleanDelaunayTriangulation(); // Elimino tutti i punti
+    dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3); // Setto nuovamente il Bounding Triangle come triangolo iniziale
     ddt.setTriangles( dtc.getTriangles() );
 
     mainWindow.updateGlCanvas();
@@ -165,6 +166,7 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
         /****/
         //launch your triangulation algorithm here
         dtc.loadPointFromVector(points); // Inserisco i punti all'interno del mio oggetto
+        ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
         /****/
         t.stopAndPrint();
 

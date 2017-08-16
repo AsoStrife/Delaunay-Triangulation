@@ -98,3 +98,7 @@ void Dag::addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father){
     Father->setChildB(nodeB);
     Father->setChildC(nodeC);
 }
+
+void Dag::clear(){
+    this->nodes.clear();
+}

@@ -29,6 +29,7 @@ class Dag
         void addNode(Node* node, Node* Father, int nChild);
         void addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father);
 
+        void clear();
 };
 
 #endif // DAG_H

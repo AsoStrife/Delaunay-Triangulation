@@ -2,6 +2,7 @@
 #define DELAUANYTRIANGULATIONCORE_H
 #include <Andrea/Headers/dag.h>
 #include <viewer/objects/objects.h>
+#include <utils/delaunay_checker.h>
 
 class DelaunayTriangulationCore
 {
@@ -17,7 +18,7 @@ public:
      */
     //std::forward_list<Point2Dd> points;
     std::vector<Point2Dd*> points;
-    std::vector<Triangle> triangles;
+    std::vector<Node*> triangles;
 
     /*
      * Aggiungo un punto alla triangolazione
@@ -30,7 +31,7 @@ public:
     void cleanDelaunayTriangulation();
 
     // Gestisco i punti che vengono caricati dal file
-    void loadPointFromVector(const std::vector<Point2Dd>& p);
+    void loadPointFromVector(std::vector<Point2Dd> p);
 
     // Setto i punto del Bounding Triangle
     void setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
@@ -38,12 +39,13 @@ public:
     // Controllo che un punto non cada su un edge già esistente
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
     // Legalizzazione degli edge
-    bool LegalizeEdge(const Point2Dd& p, const Point2Dd& pA, const Point2Dd& pB );
-    bool EdgeFlip();
+    Node* LegalizeEdge(const Point2Dd& p, const Point2Dd& pA, const Point2Dd& pB );
+
+    Node* EdgeFlip();
 
     bool operator == (const Point2Dd& p1);
 
-    std::vector<Triangle> getTriangles();
+    std::vector<Node*> getTriangles();
 };
 
 #endif // DELAUANYTRIANGULATIONCORE_H
