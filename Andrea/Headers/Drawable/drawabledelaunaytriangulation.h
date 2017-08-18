@@ -20,6 +20,8 @@ public:
 
     bool needToPrintPoint(const Point2Dd& p) const;
     bool needToPrintLine(const Point2Dd& p1, const Point2Dd& p2) const;
+
+    void clearTriangles();
 private:
     std::vector<Node> triangles;
     bool boundingTriangleActive = false;

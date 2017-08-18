@@ -70,3 +70,7 @@ bool DrawableDelaunayTriangulation::needToPrintLine(const Point2Dd& p1, const Po
     else
         return false;
 }
+
+void DrawableDelaunayTriangulation::clearTriangles(){
+    this->triangles.clear();
+}

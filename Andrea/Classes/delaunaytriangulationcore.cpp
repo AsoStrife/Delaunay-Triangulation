@@ -2,84 +2,82 @@
 
 DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
-void DelaunayTriangulationCore::addPoint(const Point2Dd& p){
+bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
+
+    if( dag.checkIfPointAlreadyExist(dagNodes.back(), p) == true )
+        return false;
+
     points.push_back(new Point2Dd(p));
 
+    Node* father = dag.navigate(dagNodes.back(), p);
 
-    Node* node = dag.navigate(p);
-    /*
-    Node* nA = LegalizeEdge(*this->points.back(), *node->getA(), *node->getB());
-    Node* nB = LegalizeEdge(*this->points.back(), *node->getB(), *node->getC());
-    Node* nC = LegalizeEdge(*this->points.back(), *node->getC(), *node->getA());
+    Node* nA = new Node(this->points.back(), father->getA(), father->getB() );
+    Node* nB = new Node(this->points.back(), father->getB(), father->getC() );
+    Node* nC = new Node(this->points.back(), father->getC(), father->getA() );
 
-    dag.addNodes( nA, nB, nC, node);
+    //if(triangles.size() > 1)
+        //triangles.pop_back();
 
     triangles.push_back(nA);
     triangles.push_back(nB);
-    triangles.push_back(nC);*/
+    triangles.push_back(nC);
 
-    //triangles.push_back( Triangle( this->points.back(), node->getA(), node->getB() ) );
-    //triangles.push_back( Triangle( this->points.back(), node->getB(), node->getC() ) );
-    //triangles.push_back( Triangle( this->points.back(), node->getC(), node->getA() ) );
-    //this->LegalizeEdge(p, node->get(), node->getB(), points);
+    //LegalizeEdge( *this->points.back(), *father->getA(), *father->getB(), 1 );
+    //LegalizeEdge( *this->points.back(), *father->getB(), *father->getC(), 2 );
+    //LegalizeEdge( *this->points.back(), *father->getC(), *father->getA(), 3 );
+
+    //dagNodes.push_back(nA);
+    //dagNodes.push_back(nB);
+    //dagNodes.push_back(nC);
+
+    dag.addNodes(nA, nB,nC, father);
 
     std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << "  - Indirizzo su funzione addpoint(): " << &p << std::endl;
 
-    //std::cout << "V1: "; std::cout << node->getA()->x(); std::cout << " " ; std::cout << node->getA()->y() << std::endl;
-    //std::cout << "V2: "; std::cout << node->getB()->x(); std::cout << " " ; std::cout << node->getB()->y() << std::endl;
-    //std::cout << "V2: "; std::cout << node->getB()->x(); std::cout << " " ; std::cout << node->getC()->y() << std::endl;
-
-    //std::cout << "Indirizzo triangolo inserito: "; std::cout << node << std::endl;
-
+    return true;
 }
 
-Node* DelaunayTriangulationCore::LegalizeEdge(const Point2Dd& p, const Point2Dd& pA, const Point2Dd& pB ){
-    /*
-     * Node* adjacentNode = nullptr;
+void DelaunayTriangulationCore::LegalizeEdge(const Point2Dd& newP, const Point2Dd& p1, const Point2Dd& p2, int e){
+    // Edge1 == newP - p1
+    // Edge2 == newP - p2
+    Node* adjacentNode = nullptr;
 
-    for(unsigned int i = 1; i < triangles.size(); i++ ){
-        if(*triangles.at(i)->getA() == pA && *triangles.at(i)->getB() == pB){
-            adjacentNode = triangles.at(i);
-            break;
+    //std::cout << triangles.size() << std::endl;
+
+    for(unsigned int i = 0; i < triangles.size(); i++ ){
+
+        if(e == 1){
+            if(newP == *triangles[i]->getA() && p1 == *triangles[i]->getB() || newP == *triangles[i]->getB() && p1 == *triangles[i]->getA() ){
+                std::cout << "Adiacenza trovata AB" << std::endl;
+                if(DelaunayTriangulation::Checker::isPointLyingInCircle(p1, p2, *triangles.at(i)->getC(), newP, false) == true){
+                    //LegalizeEdge(newP, p1, *adjacentNode->getC());
+                    std::cout << "Adiacenza AB invalida" << std::endl;
+                    break;
+                } else{
+                    //triangles.push_back( new Node(new Point2Dd(newP), new Point2Dd(p1), adjacentNode->getC() ) );
+                    break;
+                }
+            }
         }
 
-    }
-    if(adjacentNode == false)
-        return new Node(new Point2Dd(p), new Point2Dd(pA), new Point2Dd(pB) );
-    /*
-    if(DelaunayTriangulation::Checker::isPointLyingInCircle(p, pA, pB, *adjacentNode->getC(), true) == true){
-        LegalizeEdge(p, pA, *adjacentNode->getC());
-    }
-    */
-    return new Node(new Point2Dd(p), new Point2Dd(pA), new Point2Dd(pB) );
-}
 
-bool DelaunayTriangulationCore::checkIfPointAlreadyExist(const Point2Dd& p){
-        /*for(int i = 0; i < points.size(); i++){
-            if(points.at(i)->x() == p.x() && points.at(i)->y() == p.y())
-                return true;
-        }*/
-        return false;
+    } // for
+
 }
 
 
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
     points.clear();
     triangles.clear();
-    dag.clear();
+    dagNodes.clear();
 }
 
 void DelaunayTriangulationCore::loadPointFromVector(std::vector<Point2Dd> p){
-    int size = p.size();
 
-    if(size > 0){
-        for (int i = 0; i < size; i++){
-
-            if(!checkIfPointAlreadyExist(p[i])){
-                addPoint(p[i]);
-            }
-        }
+    for (unsigned int i = 0; i < p.size(); i++){
+        addPoint(p[i]);
     }
+
 }
 
 void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
@@ -87,7 +85,8 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, co
     this->points.push_back(new Point2Dd(p2));
     this->points.push_back(new Point2Dd(p3));
 
-    this->dag.addRoot(new Point2Dd(p1), new Point2Dd(p2), new Point2Dd(p3));
+    this->dagNodes.push_back(new Node(new Point2Dd(p1), new Point2Dd(p2), new Point2Dd(p3)));
+
     this->triangles.push_back( new Node(this->points.at(0), this->points.at(1), this->points.at(2)) );
 }
 

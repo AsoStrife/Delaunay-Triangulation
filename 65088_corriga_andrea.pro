@@ -36,7 +36,8 @@ HEADERS += \
     Andrea/Headers/dag.h \
     Andrea/Headers/triangle.h \
     Andrea/Headers/node.h \
-    Andrea/Headers/delaunaytriangulationcore.h
+    Andrea/Headers/delaunaytriangulationcore.h \
+    Andrea/Headers/adjacencies.h
 
 
 SOURCES += \
@@ -48,7 +49,8 @@ SOURCES += \
     Andrea/Classes/dag.cpp \
     Andrea/Classes/triangle.cpp \
     Andrea/Classes/node.cpp \
-    Andrea/Classes/delaunaytriangulationcore.cpp
+    Andrea/Classes/delaunaytriangulationcore.cpp \
+    Andrea/Classes/adjacencies.cpp
 
 FORMS += \
     gui/delaunaymanager.ui   

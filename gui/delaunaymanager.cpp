@@ -124,8 +124,11 @@ void DelaunayManager::on_resetScenePushButton_clicked() {
  * @brief Clean button event handler
  */
 void DelaunayManager::on_clearPointsPushButton_clicked() {
+
     //clear here your triangulation
     dtc.cleanDelaunayTriangulation(); // Elimino tutti i punti
+    ddt.clearTriangles();
+
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3); // Setto nuovamente il Bounding Triangle come triangolo iniziale
     ddt.setTriangles( dtc.getTriangles() );
 
@@ -193,12 +196,9 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        if(!dtc.checkIfPointAlreadyExist(p)){
-            dtc.addPoint(p);
-        }
-        else
+        if(dtc.addPoint(p) == false)
             QMessageBox::warning(this, "Point already exist", "The point in the coordinates [" + QString::number(p.x()) + "," + QString::number(p.y()) + "] already exist.");
-
+        else
             ddt.setTriangles( dtc.getTriangles() );
         /******/
 

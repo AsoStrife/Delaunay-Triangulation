@@ -1,6 +1,7 @@
 #ifndef DELAUANYTRIANGULATIONCORE_H
 #define DELAUANYTRIANGULATIONCORE_H
 #include <Andrea/Headers/dag.h>
+#include <Andrea/Headers/adjacencies.h>
 #include <viewer/objects/objects.h>
 #include <utils/delaunay_checker.h>
 
@@ -11,21 +12,18 @@ public:
 
     //Dag per poter navigare le varie triangolazioni per sapere dove cade il prossimo punto che inserirò
     Dag dag;
+    //Adjacencies adj;
 
-    /*
-     * Imposto un vettore di Punti e Triangoli per gestire
-     * i punti e le linee che verranno disegnati all'interno della canvas
-     */
-    //std::forward_list<Point2Dd> points;
+    // Vettore di puntatori a Point2Dd, per i punti che inserisco nella mia triangolazione
     std::vector<Point2Dd*> points;
+    // Vettore di puntatori Node per i triangoli che inserisco nella mia triangolazione
     std::vector<Node*> triangles;
+    // Vettore di puntatori Node per i triangoli che inserisco nella mia dag
+    std::vector<Node*> dagNodes;
 
-    /*
-     * Aggiungo un punto alla triangolazione
-     * e controllo che il punto non sia già presente prima di inserirlo
-     */
-    void addPoint(const Point2Dd& p);
-    bool checkIfPointAlreadyExist(const Point2Dd& p);
+
+    //Aggiungo un punto alla triangolazione e controllo che il punto non sia già presente prima di inserirlo
+    bool addPoint(const Point2Dd& p);
 
     // Pulisco tutta la mia triangolazione
     void cleanDelaunayTriangulation();
@@ -39,7 +37,7 @@ public:
     // Controllo che un punto non cada su un edge già esistente
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
     // Legalizzazione degli edge
-    Node* LegalizeEdge(const Point2Dd& p, const Point2Dd& pA, const Point2Dd& pB );
+    void LegalizeEdge(const Point2Dd& newP, const Point2Dd& p1, const Point2Dd& p2, int e);
 
     Node* EdgeFlip();
 
