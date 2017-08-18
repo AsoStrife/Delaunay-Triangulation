@@ -12,7 +12,7 @@ Dag::Dag() {}
  * @return float
  * I due seguenti metodi sono stati implementati per poter controllare che un punto si trovi all'interno di un triangolo
  */
-float Dag::sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3) const{
+float Dag::sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
     return (p1.x() - p3.x()) * (p2.y() - p3.y()) - (p2.x() - p3.x()) * (p1.y() - p3.y());
 }
 
@@ -22,15 +22,15 @@ bool Dag::pointInTriangle (const Point2Dd& pt, Node* t){
 
     bool b1, b2, b3;
 
-    b1 = sign(pt, *t->getA(), *t->getB()) < 0.0f;
-    b2 = sign(pt, *t->getB(), *t->getC()) < 0.0f;
-    b3 = sign(pt, *t->getC(), *t->getA()) < 0.0f;
+    b1 = Dag::sign(pt, *t->getA(), *t->getB()) < 0.0f;
+    b2 = Dag::sign(pt, *t->getB(), *t->getC()) < 0.0f;
+    b3 = Dag::sign(pt, *t->getC(), *t->getA()) < 0.0f;
 
     return ((b1 == b2) && (b2 == b3));
 }
 
 bool Dag::checkIfPointAlreadyExist(Node* root, const Point2Dd& p){
-    Node* n = this->navigate(root, p);
+    Node* n = Dag::navigate(root, p);
 
     if(p.x() == n->getA()->x() && p.y() == n->getA()->y())
         return true;
@@ -64,11 +64,11 @@ Node* Dag::navigate(Node* dagNode, const Point2Dd& p){
             }
 
             // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
-            if(pointInTriangle(p, dagNode->getChildA()))
+            if(Dag::pointInTriangle(p, dagNode->getChildA()))
                 dagNode = dagNode->getChildA();
-            else if(pointInTriangle(p, dagNode->getChildB()))
+            else if(Dag::pointInTriangle(p, dagNode->getChildB()))
                 dagNode = dagNode->getChildB();
-            else if(pointInTriangle(p, dagNode->getChildC()))
+            else if(Dag::pointInTriangle(p, dagNode->getChildC()))
                 dagNode = dagNode->getChildC();
             else
             hasChild = false;

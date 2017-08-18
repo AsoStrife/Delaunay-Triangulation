@@ -12,13 +12,13 @@ public:
 
     //Dag per poter navigare le varie triangolazioni per sapere dove cade il prossimo punto che inserirò
     Dag dag;
-    //Adjacencies adj;
+    Adjacencies adj;
 
     // Vettore di puntatori a Point2Dd, per i punti che inserisco nella mia triangolazione
     std::vector<Point2Dd*> points;
-    // Vettore di puntatori Node per i triangoli che inserisco nella mia triangolazione
+    // Vettore di puntatori Node per i triangoli che inserisco nella mia triangolazione, i child qui saranno le adiacenze
     std::vector<Node*> triangles;
-    // Vettore di puntatori Node per i triangoli che inserisco nella mia dag
+    // Vettore di puntatori Node per i triangoli che inserisco nella mia dag, i child qui saranno sotto triangoli
     std::vector<Node*> dagNodes;
 
 

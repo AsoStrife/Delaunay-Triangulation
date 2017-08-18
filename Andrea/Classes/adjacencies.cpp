@@ -5,12 +5,7 @@ Adjacencies::Adjacencies() {}
 void Adjacencies::addNodes(Node* n1, Node* n2, Node* n3){
     Node* current;
 
-    if(isAdjacencies(n1, n2) == true){
-        nodes.push_back(n1);
-        current = nodes.back();
-
-        current->setChildA(n2);
-    }
+    //if(Adjacencies::isAdjacencies(n1, n2) == true){ }
 }
 
 void Adjacencies::setAdjacenciesA(Node* father, Node* adj){

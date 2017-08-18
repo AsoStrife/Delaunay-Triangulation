@@ -4,12 +4,12 @@ DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
 bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
-    if( dag.checkIfPointAlreadyExist(dagNodes.back(), p) == true )
+    if( Dag::checkIfPointAlreadyExist(dagNodes.back(), p) == true )
         return false;
 
     points.push_back(new Point2Dd(p));
 
-    Node* father = dag.navigate(dagNodes.back(), p);
+    Node* father = Dag::navigate(dagNodes.back(), p);
 
     Node* nA = new Node(this->points.back(), father->getA(), father->getB() );
     Node* nB = new Node(this->points.back(), father->getB(), father->getC() );
@@ -26,11 +26,7 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     //LegalizeEdge( *this->points.back(), *father->getB(), *father->getC(), 2 );
     //LegalizeEdge( *this->points.back(), *father->getC(), *father->getA(), 3 );
 
-    //dagNodes.push_back(nA);
-    //dagNodes.push_back(nB);
-    //dagNodes.push_back(nC);
-
-    dag.addNodes(nA, nB,nC, father);
+    Dag::addNodes(nA, nB,nC, father);
 
     std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << "  - Indirizzo su funzione addpoint(): " << &p << std::endl;
 
