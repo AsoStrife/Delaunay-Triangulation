@@ -35,7 +35,6 @@ HEADERS += \
     Andrea/Headers/Drawable/drawabledelaunaytriangulation.h \
     Andrea/Headers/dag.h \
     Andrea/Headers/triangle.h \
-    Andrea/Headers/node.h \
     Andrea/Headers/delaunaytriangulationcore.h \
     Andrea/Headers/adjacencies.h
 
@@ -48,7 +47,6 @@ SOURCES += \
     Andrea/Classes/Drawable/drawabledelaunaytriangulation.cpp \
     Andrea/Classes/dag.cpp \
     Andrea/Classes/triangle.cpp \
-    Andrea/Classes/node.cpp \
     Andrea/Classes/delaunaytriangulationcore.cpp \
     Andrea/Classes/adjacencies.cpp
 

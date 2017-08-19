@@ -44,7 +44,8 @@ void DrawableDelaunayTriangulation::draw() const{
 Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
 double DrawableDelaunayTriangulation::sceneRadius() const {}
 
-void DrawableDelaunayTriangulation::setTriangles(std::vector<Node*> t){
+void DrawableDelaunayTriangulation::setTriangles(std::vector<Triangle*> t){
+
     for(int i = 0; i < t.size(); i++)
         this->triangles.push_back(*t[i]);
 

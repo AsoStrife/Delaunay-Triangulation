@@ -1,21 +1,24 @@
 #ifndef ADJACENCIES_H
 #define ADJACENCIES_H
 
-#include <Andrea/Headers/node.h>
+#include <Andrea/Headers/triangle.h>
+class Triangle;
 
 class Adjacencies{
 
 private:
+    Triangle* t = nullptr;
+    Triangle* adjA = nullptr;
+    Triangle* adjB = nullptr;
+    Triangle* adjC = nullptr;
 
 public:
     Adjacencies();
 
-    static void addNodes(Node* n1, Node* n2, Node* n3);
-    static void setAdjacenciesA(Node* father, Node* adj);
-    static void setAdjacenciesB(Node* father, Node* adj);
-    static void setAdjacenciesC(Node* father, Node* adj);
+    void addNodes(Triangle* t1, Triangle* t2, Triangle* t3);
+    void setAdjacencies(Triangle* adj);
 
-    bool isAdjacencies(Node* n1, Node* n2);
+    bool isAdjacencies(Triangle* t1, Triangle* t2);
 };
 
 #endif // ADJACENCIES_H

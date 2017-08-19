@@ -1,8 +1,21 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 #include <viewer/objects/objects.h>
+#include <Andrea/Headers/adjacencies.h>
+#include <Andrea/Headers/dag.h>
+
+class Dag;
+class Adjacencies;
 
 class Triangle{
+private:
+    Point2Dd* vA = nullptr;
+    Point2Dd* vB = nullptr;
+    Point2Dd* vC = nullptr;
+
+    Dag* dagNode            = nullptr;
+    Adjacencies* adjNode    = nullptr;
+
 public:
     Triangle();
     Triangle(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3);
@@ -20,10 +33,6 @@ public:
 
 
 
-private:
-    Point2Dd* vA = nullptr;
-    Point2Dd* vB = nullptr;
-    Point2Dd* vC = nullptr;
 };
 
 #endif // TRIANGLE_H

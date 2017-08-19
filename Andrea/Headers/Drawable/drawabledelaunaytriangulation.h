@@ -3,7 +3,6 @@
 
 #include <viewer/objects/objects.h>
 #include <Andrea/Headers/dag.h>
-#include <Andrea/Headers/node.h>
 #include <viewer/objects/drawabledebugobjects.h>
 
 class DrawableDelaunayTriangulation : public DrawableObject{
@@ -15,7 +14,7 @@ public:
     Pointd sceneCenter() const;
     double sceneRadius() const;
 
-    void setTriangles(std::vector<Node*> t);
+    void setTriangles(std::vector<Triangle*> t);
     void setBoundingTriangleActive(bool b);
 
     bool needToPrintPoint(const Point2Dd& p) const;
@@ -23,7 +22,7 @@ public:
 
     void clearTriangles();
 private:
-    std::vector<Node> triangles;
+    std::vector<Triangle> triangles;
     bool boundingTriangleActive = false;
 
     QColor pointColor = QColor(255, 0 ,0);

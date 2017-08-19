@@ -2,31 +2,21 @@
 
 Adjacencies::Adjacencies() {}
 
-void Adjacencies::addNodes(Node* n1, Node* n2, Node* n3){
-    Node* current;
-
-    //if(Adjacencies::isAdjacencies(n1, n2) == true){ }
-}
-
-void Adjacencies::setAdjacenciesA(Node* father, Node* adj){
-    father->setChildA(adj);
-}
-
-void Adjacencies::setAdjacenciesB(Node* father, Node* adj){
-    father->setChildA(adj);
+void Adjacencies::addNodes(Triangle* t1, Triangle* t2, Triangle* t3){
 
 }
 
-void Adjacencies::setAdjacenciesC(Node* father, Node* adj){
-    father->setChildA(adj);
+void Adjacencies::setAdjacencies(Triangle* adj){
 
 }
 
-bool Adjacencies::isAdjacencies(Node* n1, Node* n2){
-    if( n1->getA() == n2->getA() || n1->getC() == n2->getB() )
+
+bool Adjacencies::isAdjacencies(Triangle* t1, Triangle* t2){
+    if( t1->getA() == t2->getA() || t1->getC() == t2->getB() )
         return true;
 
-    if( n1->getA() == n2->getA() || n1->getB() == n2->getC() )
+    if( t1->getA() == t2->getA() || t1->getB() == t2->getC() )
         return true;
-}
 
+    return false;
+}

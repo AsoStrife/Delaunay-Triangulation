@@ -3,27 +3,46 @@
 
 #include <common/arrays.h>
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/node.h>
+#include <Andrea/Headers/triangle.h>
 
-class Dag
-{
+class Triangle;
 
-    public:
-        Dag();
+class Dag {
 
-        // Funzioni per controllare che un punto sia in un triangolo
-        static float sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
-        static bool pointInTriangle (const Point2Dd& pt, Node* t);
+private:
+        Triangle* t = nullptr;
+        Dag* childA = nullptr;
+        Dag* childB = nullptr;
+        Dag* childC = nullptr;
 
-        static bool checkIfPointAlreadyExist(Node* root, const Point2Dd& p);
+public:
+    Dag();
+    Dag(Triangle* t);
+    Dag(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3);
 
-        // Cerco in quale triangolo cade il nuovo punto
-        static  Node* navigate(Node* dagNode, const Point2Dd& p);
+    // Funzioni per controllare che un punto sia in un triangolo
+    static float sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
+    static bool pointInTriangle (const Point2Dd& pt, Triangle* t);
 
-        // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
-        static void addNode(Node* node, Node* Father, int nChild);
-        static void addNodes(Node* nodeA, Node* nodeB, Node* nodeC, Node* Father);
+    static bool checkIfPointAlreadyExist(Dag* root, const Point2Dd& p);
 
+    // Cerco in quale triangolo cade il nuovo punto
+    static Dag* navigate(Dag* dagNode, const Point2Dd& p);
+
+    // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
+    static void addNode(Dag* node, Dag* Father);
+    static void addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* Father);
+
+    Dag* getChildA();
+    Dag* getChildB();
+    Dag* getChildC();
+    Triangle* getTriangle();
+
+    void setChildA(Dag* t);
+    void setChildB(Dag* t);
+    void setChildC(Dag* t);
+    void setChildren(Dag* A, Dag* B, Dag* C);
+    void setTriangle(Triangle* t);
 };
 
 #endif // DAG_H

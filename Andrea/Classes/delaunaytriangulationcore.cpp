@@ -4,23 +4,31 @@ DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
 bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
+
+    // Se il punto non esiste posso proseguire
     if( Dag::checkIfPointAlreadyExist(dagNodes.back(), p) == true )
         return false;
 
+    // Pusho il punto appena inserito
     points.push_back(new Point2Dd(p));
 
-    Node* father = Dag::navigate(dagNodes.back(), p);
+    std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << std::endl;
 
-    Node* nA = new Node(this->points.back(), father->getA(), father->getB() );
-    Node* nB = new Node(this->points.back(), father->getB(), father->getC() );
-    Node* nC = new Node(this->points.back(), father->getC(), father->getA() );
+
+    // Ottengo il più piccolo triangolo che contiene il mio punto
+    Dag* father = Dag::navigate(dagNodes.back(), p);
+
+
+    Dag* nA = new Dag(this->points.back(), father->getTriangle()->getA(), father->getTriangle()->getB() );
+    Dag* nB = new Dag(this->points.back(), father->getTriangle()->getB(), father->getTriangle()->getC() );
+    Dag* nC = new Dag(this->points.back(), father->getTriangle()->getC(), father->getTriangle()->getA() );
 
     //if(triangles.size() > 1)
         //triangles.pop_back();
 
-    triangles.push_back(nA);
-    triangles.push_back(nB);
-    triangles.push_back(nC);
+    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getA(), father->getTriangle()->getB() ));
+    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getB(), father->getTriangle()->getC() ));
+    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getC(), father->getTriangle()->getA() ));
 
     //LegalizeEdge( *this->points.back(), *father->getA(), *father->getB(), 1 );
     //LegalizeEdge( *this->points.back(), *father->getB(), *father->getC(), 2 );
@@ -28,36 +36,11 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
     Dag::addNodes(nA, nB,nC, father);
 
-    std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << "  - Indirizzo su funzione addpoint(): " << &p << std::endl;
 
     return true;
 }
 
 void DelaunayTriangulationCore::LegalizeEdge(const Point2Dd& newP, const Point2Dd& p1, const Point2Dd& p2, int e){
-    // Edge1 == newP - p1
-    // Edge2 == newP - p2
-    Node* adjacentNode = nullptr;
-
-    //std::cout << triangles.size() << std::endl;
-
-    for(unsigned int i = 0; i < triangles.size(); i++ ){
-
-        if(e == 1){
-            if(newP == *triangles[i]->getA() && p1 == *triangles[i]->getB() || newP == *triangles[i]->getB() && p1 == *triangles[i]->getA() ){
-                std::cout << "Adiacenza trovata AB" << std::endl;
-                if(DelaunayTriangulation::Checker::isPointLyingInCircle(p1, p2, *triangles.at(i)->getC(), newP, false) == true){
-                    //LegalizeEdge(newP, p1, *adjacentNode->getC());
-                    std::cout << "Adiacenza AB invalida" << std::endl;
-                    break;
-                } else{
-                    //triangles.push_back( new Node(new Point2Dd(newP), new Point2Dd(p1), adjacentNode->getC() ) );
-                    break;
-                }
-            }
-        }
-
-
-    } // for
 
 }
 
@@ -81,9 +64,9 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, co
     this->points.push_back(new Point2Dd(p2));
     this->points.push_back(new Point2Dd(p3));
 
-    this->dagNodes.push_back(new Node(new Point2Dd(p1), new Point2Dd(p2), new Point2Dd(p3)));
+    this->triangles.push_back( new Triangle( this->points.at(0), this->points.at(1), this->points.at(2)) );
+    this->dagNodes.push_back( new Dag(triangles.back()) );
 
-    this->triangles.push_back( new Node(this->points.at(0), this->points.at(1), this->points.at(2)) );
 }
 
 /**
@@ -112,6 +95,6 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
         return true;
 }
 
-std::vector<Node*> DelaunayTriangulationCore::getTriangles(){
+std::vector<Triangle*> DelaunayTriangulationCore::getTriangles(){
     return this->triangles;
 }
