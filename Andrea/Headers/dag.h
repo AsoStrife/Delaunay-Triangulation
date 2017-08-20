@@ -30,8 +30,8 @@ public:
     static Dag* navigate(Dag* dagNode, const Point2Dd& p);
 
     // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
-    static void addNode(Dag* node, Dag* Father);
-    static void addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* Father);
+    static void addNode(Dag* node, Dag* father);
+    static void addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* father);
 
     Dag* getChildA();
     Dag* getChildB();

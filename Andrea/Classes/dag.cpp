@@ -41,9 +41,9 @@ bool Dag::checkIfPointAlreadyExist(Dag* root, const Point2Dd& p){
 
     Dag* n = Dag::navigate(root, p);
 
-    std::cout << n->t->getA()->x(); std::cout <<  " "; std::cout << n->t->getA()->y() << std::endl;
-    std::cout << n->t->getB()->x(); std::cout <<  " "; std::cout << n->t->getB()->y() << std::endl;
-    std::cout << n->t->getC()->x(); std::cout <<  " "; std::cout << n->t->getC()->y() << std::endl;
+    //std::cout << n->t->getA()->x(); std::cout <<  " "; std::cout << n->t->getA()->y() << std::endl;
+    //std::cout << n->t->getB()->x(); std::cout <<  " "; std::cout << n->t->getB()->y() << std::endl;
+    //std::cout << n->t->getC()->x(); std::cout <<  " "; std::cout << n->t->getC()->y() << std::endl;
 
     if(p.x() == n->t->getA()->x() && p.y() == n->t->getA()->y())
         return true;
@@ -99,24 +99,24 @@ Dag* Dag::navigate(Dag* dagNode, const Point2Dd& p){
 }
 
 
-void Dag::addNode(Dag* node, Dag* Father){
+void Dag::addNode(Dag* node, Dag* father){
 
-    if(Father->getChildA() == nullptr)
-        Father->setChildA(node);
+    if(father->getChildA() == nullptr)
+        father->setChildA(node);
 
-    if(Father->getChildB() == nullptr)
-        Father->setChildB(node);
+    else if(father->getChildB() == nullptr)
+        father->setChildB(node);
 
-    if(Father->getChildC() == nullptr)
-        Father->setChildC(node);
+    else if(father->getChildC() == nullptr)
+        father->setChildC(node);
 
 
 }
 
-void Dag::addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* Father){
-    Father->setChildA(nodeA);
-    Father->setChildB(nodeB);
-    Father->setChildC(nodeC);
+void Dag::addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* father){
+    father->setChildA(nodeA);
+    father->setChildB(nodeB);
+    father->setChildC(nodeC);
 }
 
 
@@ -125,31 +125,19 @@ void Dag::addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* Father){
 //
 
 Dag* Dag::getChildA(){
-    if(this->childA != nullptr)
-        return this->childA;
-    else
-        return nullptr;
+    return this->childA;
 }
 
 Dag* Dag::getChildB(){
-    if(this->childB != nullptr)
-        return this->childB;
-    else
-        return nullptr;
+    return this->childB;
 }
 
 Dag* Dag::getChildC(){
-    if(this->childC != nullptr)
-        return this->childC;
-    else
-        return nullptr;
+    return this->childC;
 }
 
 Triangle* Dag::getTriangle(){
-    if(this->t != nullptr)
-        return this->t;
-    else
-        return nullptr;
+    return this->t;
 }
 
 void Dag::setChildA(Dag* t){

@@ -14,11 +14,23 @@ private:
 
 public:
     Adjacencies();
+    Adjacencies(Triangle* t);
 
-    void addNodes(Triangle* t1, Triangle* t2, Triangle* t3);
-    void setAdjacencies(Triangle* adj);
+    //void addNodes(Triangle* t1, Triangle* t2, Triangle* t3);
+    static void setAdjacencies(Triangle* adj1, Triangle* adj2, Adjacencies* father);
+    static void setAdjacency(Triangle* adj, Adjacencies* father);
+    static bool isAdjacencies(Triangle* t1, Triangle* t2);
 
-    bool isAdjacencies(Triangle* t1, Triangle* t2);
+    // Getter & Setter
+    Triangle* getTriangle();
+    Triangle* getAdjA();
+    Triangle* getAdjB();
+    Triangle* getAdjC();
+
+    void setTriangle(Triangle* t);
+    void setAdjA(Triangle* t);
+    void setAdjB(Triangle* t);
+    void setAdjC(Triangle* t);
 };
 
 #endif // ADJACENCIES_H

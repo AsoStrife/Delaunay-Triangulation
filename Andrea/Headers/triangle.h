@@ -16,13 +16,13 @@ private:
     Dag* dagNode            = nullptr;
     Adjacencies* adjNode    = nullptr;
 
+    bool isDeleted = false;
+
 public:
     Triangle();
     Triangle(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3);
 
-    /*
-     * Getter & setter per i 3 punti del triangolo
-     */
+    // Getter & setter per i 3 punti del triangolo
     Point2Dd* getA() const;
     Point2Dd* getB() const;
     Point2Dd* getC() const;
@@ -31,7 +31,14 @@ public:
     void setB(Point2Dd* p);
     void setC(Point2Dd* p);
 
+    // Getter & setter per il nodo della Dag a cui punta il triangolo e per il suo elemento di adiacenze
+    Dag* getDagNode();
+    Adjacencies* getAdjNode();
+    void setDagNode(Dag* n);
+    void setAdjNode(Adjacencies* a);
 
+    void setIsDeleted(bool b);
+    bool getIsDeleted() const;
 
 };
 

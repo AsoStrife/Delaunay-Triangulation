@@ -8,37 +8,39 @@ void DrawableDelaunayTriangulation::draw() const{
     //std::cout << "Dimensione vettore triangoli: " << triangles.size() << std::endl;
     if(this->triangles.size() > 0){
         for(int i = 0; i < this->triangles.size(); i++){
-            if(this->boundingTriangleActive == true){
+            if(triangles[i].getIsDeleted() == false){
+                if(this->boundingTriangleActive == true){
 
-                Viewer::drawPoint2D( Point2Dd(*triangles[i].getA()), this->pointColor, this->pointSize);
-                Viewer::drawPoint2D( Point2Dd(*triangles[i].getB()), this->pointColor, this->pointSize);
-                Viewer::drawPoint2D( Point2Dd(*triangles[i].getC()), this->pointColor, this->pointSize);
-
-                Viewer::drawLine2D( Point2Dd(*triangles[i].getA()), Point2Dd(*triangles[i].getB()), this->lineColor, this->lineSize);
-                Viewer::drawLine2D( Point2Dd(*triangles[i].getB()), Point2Dd(*triangles[i].getC()), this->lineColor, this->lineSize);
-                Viewer::drawLine2D( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()), this->lineColor, this->lineSize);
-            }
-            else{
-                // Stampo i punti validi
-                if(needToPrintPoint( Point2Dd(*triangles[i].getA()) ) == true)
                     Viewer::drawPoint2D( Point2Dd(*triangles[i].getA()), this->pointColor, this->pointSize);
-                if( needToPrintPoint( Point2Dd(*triangles[i].getB()) ) == true)
                     Viewer::drawPoint2D( Point2Dd(*triangles[i].getB()), this->pointColor, this->pointSize);
-                if( needToPrintPoint( Point2Dd(*triangles[i].getC()) ) == true)
                     Viewer::drawPoint2D( Point2Dd(*triangles[i].getC()), this->pointColor, this->pointSize);
 
-                // Stampo le linee valide
-                if( needToPrintLine( Point2Dd(*triangles[i].getA()), Point2Dd(*triangles[i].getB()) ) == true )
                     Viewer::drawLine2D( Point2Dd(*triangles[i].getA()), Point2Dd(*triangles[i].getB()), this->lineColor, this->lineSize);
-
-                if( needToPrintLine( Point2Dd(*triangles[i].getB()), Point2Dd(*triangles[i].getC()) ) == true )
                     Viewer::drawLine2D( Point2Dd(*triangles[i].getB()), Point2Dd(*triangles[i].getC()), this->lineColor, this->lineSize);
-
-                if( needToPrintLine( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()) ) == true )
                     Viewer::drawLine2D( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()), this->lineColor, this->lineSize);
-            }
-        }
-    }
+                }
+                else{
+                    // Stampo i punti validi
+                    if(needToPrintPoint( Point2Dd(*triangles[i].getA()) ) == true)
+                        Viewer::drawPoint2D( Point2Dd(*triangles[i].getA()), this->pointColor, this->pointSize);
+                    if( needToPrintPoint( Point2Dd(*triangles[i].getB()) ) == true)
+                        Viewer::drawPoint2D( Point2Dd(*triangles[i].getB()), this->pointColor, this->pointSize);
+                    if( needToPrintPoint( Point2Dd(*triangles[i].getC()) ) == true)
+                        Viewer::drawPoint2D( Point2Dd(*triangles[i].getC()), this->pointColor, this->pointSize);
+
+                    // Stampo le linee valide
+                    if( needToPrintLine( Point2Dd(*triangles[i].getA()), Point2Dd(*triangles[i].getB()) ) == true )
+                        Viewer::drawLine2D( Point2Dd(*triangles[i].getA()), Point2Dd(*triangles[i].getB()), this->lineColor, this->lineSize);
+
+                    if( needToPrintLine( Point2Dd(*triangles[i].getB()), Point2Dd(*triangles[i].getC()) ) == true )
+                        Viewer::drawLine2D( Point2Dd(*triangles[i].getB()), Point2Dd(*triangles[i].getC()), this->lineColor, this->lineSize);
+
+                    if( needToPrintLine( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()) ) == true )
+                        Viewer::drawLine2D( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()), this->lineColor, this->lineSize);
+                } //  if(this->boundingTriangleActive == true)
+            } // if(*triangles[i]->getIsDeleted == false)
+        } //for
+    } // size() > 0
 }
 
 Pointd DrawableDelaunayTriangulation::sceneCenter() const {}

@@ -12,32 +12,58 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     // Pusho il punto appena inserito
     points.push_back(new Point2Dd(p));
 
-    std::cout << "Punto inserito: "; std::cout << p.x(); std::cout << " " ; std::cout << p.y() << std::endl;
-
-
     // Ottengo il più piccolo triangolo che contiene il mio punto
-    Dag* father = Dag::navigate(dagNodes.back(), p);
+    Dag* father = Dag::navigate(dagNodes.front(), p);
 
+    Triangle* t1 = generateTriangle(points.back(), father->getTriangle()->getA(), father->getTriangle()->getB(), father );
+    Triangle* t2 = generateTriangle(points.back(), father->getTriangle()->getB(), father->getTriangle()->getC(), father );
+    Triangle* t3 = generateTriangle(points.back(), father->getTriangle()->getC(), father->getTriangle()->getA(), father );
 
-    Dag* nA = new Dag(this->points.back(), father->getTriangle()->getA(), father->getTriangle()->getB() );
-    Dag* nB = new Dag(this->points.back(), father->getTriangle()->getB(), father->getTriangle()->getC() );
-    Dag* nC = new Dag(this->points.back(), father->getTriangle()->getC(), father->getTriangle()->getA() );
+    // Faccio risultare il padre come se fosse cancellato
+    father->getTriangle()->setIsDeleted(true);
 
-    //if(triangles.size() > 1)
-        //triangles.pop_back();
-
-    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getA(), father->getTriangle()->getB() ));
-    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getB(), father->getTriangle()->getC() ));
-    triangles.push_back(new Triangle( this->points.back(), father->getTriangle()->getC(), father->getTriangle()->getA() ));
+    Adjacencies::setAdjacencies(t1, t2, father->getTriangle()->getAdjNode() );
+    Adjacencies::setAdjacencies(t2, t3, father->getTriangle()->getAdjNode() );
+    Adjacencies::setAdjacencies(t3, t1, father->getTriangle()->getAdjNode() );
 
     //LegalizeEdge( *this->points.back(), *father->getA(), *father->getB(), 1 );
     //LegalizeEdge( *this->points.back(), *father->getB(), *father->getC(), 2 );
     //LegalizeEdge( *this->points.back(), *father->getC(), *father->getA(), 3 );
 
-    Dag::addNodes(nA, nB,nC, father);
-
-
     return true;
+}
+
+Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father){
+
+
+    this->triangles.push_back( new Triangle( p, p1, p2 ) );
+    this->dagNodes.push_back( new Dag( triangles.back() ) );
+    this->adjacencies.push_back( new Adjacencies( triangles.back() ) );
+
+    triangles.back()->setAdjNode( adjacencies.back() );
+    triangles.back()->setDagNode( dagNodes.back() );
+
+    Dag::addNode(dagNodes.back(), father);
+
+    return triangles.back();
+    /*
+    t1->setAdjNode(a1);
+    t1->setDagNode(d1);
+
+    t2->setAdjNode(a2);
+    t2->setDagNode(d2);
+
+    t3->setAdjNode(a3);
+    t3->setDagNode(d3);
+
+    a1->setAdjacencies(t2, t3, father->getTriangle()->getAdjNode() );
+    a2->setAdjacencies(t3, t1, father->getTriangle()->getAdjNode() );
+    a3->setAdjacencies(t1, t2, father->getTriangle()->getAdjNode() );
+
+    adjacencies.push_back(a1);
+    adjacencies.push_back(a2);
+    adjacencies.push_back(a3);
+    */
 }
 
 void DelaunayTriangulationCore::LegalizeEdge(const Point2Dd& newP, const Point2Dd& p1, const Point2Dd& p2, int e){
@@ -65,7 +91,11 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, co
     this->points.push_back(new Point2Dd(p3));
 
     this->triangles.push_back( new Triangle( this->points.at(0), this->points.at(1), this->points.at(2)) );
-    this->dagNodes.push_back( new Dag(triangles.back()) );
+    this->dagNodes.push_back( new Dag( triangles.back() ) );
+    this->adjacencies.push_back( new Adjacencies( triangles.back() ) );
+
+    triangles.back()->setAdjNode( adjacencies.back() );
+    triangles.back()->setDagNode( dagNodes.back() );
 
 }
 

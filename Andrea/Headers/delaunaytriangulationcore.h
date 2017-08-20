@@ -44,6 +44,8 @@ public:
     bool operator == (const Point2Dd& p1);
 
     std::vector<Triangle*> getTriangles();
+
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
 };
 
 #endif // DELAUANYTRIANGULATIONCORE_H

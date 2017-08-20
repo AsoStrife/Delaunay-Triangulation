@@ -12,24 +12,15 @@ Triangle::Triangle(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3){
  * Getter & setter per i 3 punti del triangolo
  */
 Point2Dd* Triangle::getA() const{
-    if(this->vA != nullptr)
-        return this->vA;
-    else
-        return nullptr;
+    return this->vA;
 }
 
 Point2Dd* Triangle::getB() const{
-    if(this->vB != nullptr)
-        return this->vB;
-    else
-        return nullptr;
+    return this->vB;
 }
 
 Point2Dd* Triangle::getC() const{
-    if(this->vC != nullptr)
-        return this->vC;
-    else
-        return nullptr;
+    return this->vC;
 }
 
 void Triangle::setA(Point2Dd* p){
@@ -42,4 +33,28 @@ void Triangle::setB(Point2Dd* p){
 
 void Triangle::setC(Point2Dd* p){
     this->vC = p;
+}
+
+Dag* Triangle::getDagNode(){
+    return this->dagNode;
+}
+
+Adjacencies* Triangle::getAdjNode(){
+    return this->adjNode;
+}
+
+void Triangle::setDagNode(Dag* n){
+    this->dagNode = n;
+}
+
+void Triangle::setAdjNode(Adjacencies* a){
+    this->adjNode = a;
+}
+
+void Triangle::setIsDeleted(bool b){
+    this->isDeleted = b;
+}
+
+bool Triangle::getIsDeleted() const{
+    return this->isDeleted;
 }
