@@ -17,9 +17,13 @@ public:
     Adjacencies(Triangle* t);
 
     //void addNodes(Triangle* t1, Triangle* t2, Triangle* t3);
-    static void setAdjacencies(Triangle* adj1, Triangle* adj2, Adjacencies* father);
-    static void setAdjacency(Triangle* adj, Adjacencies* father);
+    //static void setAdjacencies(Triangle* adj1, Triangle* adj2, Adjacencies* father);
+    static void setAdjacencies(Triangle* adj1, Triangle* adj2, Triangle* adj3, Adjacencies* father);
+    static void setAdjacency(Triangle* adj, Adjacencies* adjNode);
     static bool isAdjacencies(Triangle* t1, Triangle* t2);
+
+    // Potendoci essere diverse combinazioni possibili restituisco un vettore con due elementi che saranno i punti adiacenti
+    static std::vector<Point2Dd> isAdjacenciesFather(Triangle* t1, Triangle* t2);
 
     // Getter & Setter
     Triangle* getTriangle();

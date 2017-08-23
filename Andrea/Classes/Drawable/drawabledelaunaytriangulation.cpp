@@ -8,6 +8,7 @@ void DrawableDelaunayTriangulation::draw() const{
     //std::cout << "Dimensione vettore triangoli: " << triangles.size() << std::endl;
     if(this->triangles.size() > 0){
         for(int i = 0; i < this->triangles.size(); i++){
+
             if(triangles[i].getIsDeleted() == false){
                 if(this->boundingTriangleActive == true){
 
@@ -39,6 +40,7 @@ void DrawableDelaunayTriangulation::draw() const{
                         Viewer::drawLine2D( Point2Dd(*triangles[i].getC()), Point2Dd(*triangles[i].getA()), this->lineColor, this->lineSize);
                 } //  if(this->boundingTriangleActive == true)
             } // if(*triangles[i]->getIsDeleted == false)
+
         } //for
     } // size() > 0
 }
@@ -47,6 +49,8 @@ Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
 double DrawableDelaunayTriangulation::sceneRadius() const {}
 
 void DrawableDelaunayTriangulation::setTriangles(std::vector<Triangle*> t){
+
+    triangles.clear();
 
     for(int i = 0; i < t.size(); i++)
         this->triangles.push_back(*t[i]);

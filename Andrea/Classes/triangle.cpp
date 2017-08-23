@@ -58,3 +58,10 @@ void Triangle::setIsDeleted(bool b){
 bool Triangle::getIsDeleted() const{
     return this->isDeleted;
 }
+
+bool Triangle::operator == (const Triangle* t1){
+   if( *this->getA() == *t1->getA() && *this->getB() == *t1->getB() && *this->getC() == *t1->getC())
+     return true;
+   else
+     return false;
+}

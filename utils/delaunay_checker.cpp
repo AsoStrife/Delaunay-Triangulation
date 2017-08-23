@@ -22,6 +22,13 @@ namespace Checker {
 bool isPointLyingInCircle(const Point2Dd& a, const Point2Dd& b, const Point2Dd& c, const Point2Dd& p, bool includeEndpoints) {
     Eigen::Matrix4d A;
 
+    /*
+     * std::cout << "Punti alla funzione" << std::endl;
+    std::cout << "p1 " << a.x() << " " << a.y()  << std::endl;
+    std::cout << "p2 " << b.x() << " " << b.y()  << std::endl;
+    std::cout << "p3 " << c.x() << " " << c.y()  << std::endl;
+    std::cout << "p " << p.x() << " " << p.y()  << std::endl;
+    */
     A << a.x(), a.y(), a.x()*a.x() + a.y()*a.y(), 1,
             b.x(), b.y(), b.x()*b.x() + b.y()*b.y(), 1,
             c.x(), c.y(), c.x()*c.x() + c.y()*c.y(), 1,

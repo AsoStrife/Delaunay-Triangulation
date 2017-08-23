@@ -40,6 +40,7 @@ public:
     void setIsDeleted(bool b);
     bool getIsDeleted() const;
 
+    bool operator ==(const Triangle* t1);
 };
 
 #endif // TRIANGLE_H

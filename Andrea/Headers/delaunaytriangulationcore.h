@@ -37,15 +37,16 @@ public:
     // Controllo che un punto non cada su un edge già esistente
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
     // Legalizzazione degli edge
-    void LegalizeEdge(const Point2Dd& newP, const Point2Dd& p1, const Point2Dd& p2, int e);
+    void LegalizeEdge(Point2Dd* p, Triangle* t);
+    //void LegalizeTriangle(Triangle* t);
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
 
-    //Node* EdgeFlip();
+    void EdgeFlip(Triangle* t1, Triangle* t2);
 
     bool operator == (const Point2Dd& p1);
 
     std::vector<Triangle*> getTriangles();
 
-    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
 };
 
 #endif // DELAUANYTRIANGULATIONCORE_H

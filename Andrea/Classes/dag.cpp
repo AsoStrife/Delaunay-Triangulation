@@ -59,7 +59,7 @@ bool Dag::checkIfPointAlreadyExist(Dag* root, const Point2Dd& p){
 
 /**
  * @brief Dag::navigate
- * @param Node*
+ * @param dagNode*
  * @param Point2Dd p
  * @return Triangle*
  *
@@ -98,6 +98,47 @@ Dag* Dag::navigate(Dag* dagNode, const Point2Dd& p){
     return dagNode; // restituisco l'ultimo l'indirizzo del triangolo più piccolo che contiene il punto appena inserito}
 }
 
+/**
+ * @brief Dag::navigate
+ * @param dagNode*
+ * @param Point2Dd& p1
+ * @param Point2Dd& p2
+ * @return Triangle*
+ *
+ * Passo come parametro la radice della dag ed un punto, e restituisco il più piccolo triangolo che lo contiene. Nel caso in cui
+ * sia il primo punto inserito nella triangolazione, restituirà la radice della Dag, ovvero il Bounding Triangle
+ */
+Dag* Dag::navigateTwo(Dag* dagNode, const Point2Dd& p1,  const Point2Dd& p2){
+
+    bool hasChild = true;
+    while(hasChild){
+
+        if(dagNode == nullptr){
+            return nullptr; // Check di controllo, non dovrebbe mai verificarsi di entrare nella navigate con un puntatore nullo
+        }
+
+        // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
+        if(dagNode->getChildA() != nullptr){
+            if(Dag::pointInTriangle(p1, dagNode->getChildA()->getTriangle()) && Dag::pointInTriangle(p2, dagNode->getChildA()->getTriangle()))
+                dagNode = dagNode->getChildA();
+        }
+
+         if(dagNode->getChildB() != nullptr){
+            if(Dag::pointInTriangle(p1, dagNode->getChildB()->getTriangle()) && Dag::pointInTriangle(p2, dagNode->getChildB()->getTriangle()))
+                dagNode = dagNode->getChildB();
+         }
+         if(dagNode->getChildC() != nullptr){
+            if(Dag::pointInTriangle(p1, dagNode->getChildC()->getTriangle()) && Dag::pointInTriangle(p2, dagNode->getChildC()->getTriangle()))
+                dagNode = dagNode->getChildC();
+        }
+
+        if(dagNode->getChildA() == nullptr && dagNode->getChildB() == nullptr && dagNode->getChildC() == nullptr)
+            hasChild = false;
+
+    }
+    // Quando non ho più figli restituisco l'ultimo triangolo (il più piccolo) che contiene il mio punto
+    return dagNode; // restituisco l'ultimo l'indirizzo del triangolo più piccolo che contiene il punto appena inserito}
+}
 
 void Dag::addNode(Dag* node, Dag* father){
 
