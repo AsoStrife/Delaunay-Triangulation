@@ -35,22 +35,23 @@ void Triangle::setC(Point2Dd* p){
     this->vC = p;
 }
 
-Dag* Triangle::getDagNode(){
+Dag* Triangle::getDagNode() const{
     return this->dagNode;
 }
 
-Adjacencies* Triangle::getAdjNode(){
+/*Adjacencies* Triangle::getAdjNode(){
     return this->adjNode;
 }
-
+*/
 void Triangle::setDagNode(Dag* n){
     this->dagNode = n;
 }
 
+/*
 void Triangle::setAdjNode(Adjacencies* a){
     this->adjNode = a;
 }
-
+*/
 void Triangle::setIsDeleted(bool b){
     this->isDeleted = b;
 }
@@ -58,6 +59,32 @@ void Triangle::setIsDeleted(bool b){
 bool Triangle::getIsDeleted() const{
     return this->isDeleted;
 }
+
+
+Triangle* Triangle::getTriangleAdjacentA() const{
+    return triangleAdjacentA;
+}
+
+Triangle* Triangle::getTriangleAdjacentB() const{
+    return triangleAdjacentB;
+}
+
+Triangle* Triangle::getTriangleAdjacentC() const{
+    return triangleAdjacentC;
+}
+
+void Triangle::setTriangleAdjacentA(Triangle* tA){
+    this->triangleAdjacentA = tA;
+}
+
+void Triangle::setTriangleAdjacentB(Triangle* tB){
+    this->triangleAdjacentB = tB;
+}
+
+void Triangle::setTriangleAdjacentC(Triangle* tC){
+    this->triangleAdjacentC = tC;
+}
+
 
 bool Triangle::operator == (const Triangle* t1){
    if( *this->getA() == *t1->getA() && *this->getB() == *t1->getB() && *this->getC() == *t1->getC())

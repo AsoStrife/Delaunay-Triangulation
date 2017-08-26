@@ -4,6 +4,7 @@
 #include <common/arrays.h>
 #include <viewer/objects/objects.h>
 #include <Andrea/Headers/triangle.h>
+#include <Andrea/Headers/adjacencies.h>
 
 class Triangle;
 
@@ -28,7 +29,7 @@ public:
 
     // Cerco in quale triangolo cade il nuovo punto
     static Dag* navigate(Dag* dagNode, const Point2Dd& p);
-    static Dag* navigateTwo(Dag* dagNode, const Point2Dd& p1,  const Point2Dd& p2);
+    static Triangle* navigateAdj(Dag* dagNode, Triangle* tr);
 
     // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
     static void addNode(Dag* node, Dag* father);

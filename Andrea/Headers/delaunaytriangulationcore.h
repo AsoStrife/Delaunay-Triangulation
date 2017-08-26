@@ -20,7 +20,7 @@ public:
     std::vector<Triangle*> triangles;
 
     std::vector<Dag*> dagNodes;
-    std::vector<Adjacencies*> adjacencies;
+    //std::vector<Adjacencies*> adjacencies;
 
     //Aggiungo un punto alla triangolazione e controllo che il punto non sia già presente prima di inserirlo
     bool addPoint(const Point2Dd& p);
@@ -40,8 +40,9 @@ public:
     void LegalizeEdge(Point2Dd* p, Triangle* t);
     //void LegalizeTriangle(Triangle* t);
     Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
-    void EdgeFlip(Triangle* t1, Triangle* t2);
+    void EdgeFlip(Point2Dd *p, Triangle* tr1, Triangle* tr2);
 
     bool operator == (const Point2Dd& p1);
 

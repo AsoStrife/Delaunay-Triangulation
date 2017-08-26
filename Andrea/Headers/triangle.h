@@ -5,7 +5,6 @@
 #include <Andrea/Headers/dag.h>
 
 class Dag;
-class Adjacencies;
 
 class Triangle{
 private:
@@ -14,7 +13,12 @@ private:
     Point2Dd* vC = nullptr;
 
     Dag* dagNode            = nullptr;
-    Adjacencies* adjNode    = nullptr;
+
+    Triangle* triangleAdjacentA = nullptr;
+    Triangle* triangleAdjacentB = nullptr;
+    Triangle* triangleAdjacentC = nullptr;
+
+    //Adjacencies* adjNode    = nullptr;
 
     bool isDeleted = false;
 
@@ -32,10 +36,18 @@ public:
     void setC(Point2Dd* p);
 
     // Getter & setter per il nodo della Dag a cui punta il triangolo e per il suo elemento di adiacenze
-    Dag* getDagNode();
-    Adjacencies* getAdjNode();
+    Dag* getDagNode() const;
     void setDagNode(Dag* n);
-    void setAdjNode(Adjacencies* a);
+
+    Triangle* getTriangleAdjacentA() const;
+    Triangle* getTriangleAdjacentB() const;
+    Triangle* getTriangleAdjacentC() const;
+    void setTriangleAdjacentA(Triangle* tA);
+    void setTriangleAdjacentB(Triangle* tB);
+    void setTriangleAdjacentC(Triangle* tC);
+
+    //Adjacencies* getAdjNode();
+    //void setAdjNode(Adjacencies* a);
 
     void setIsDeleted(bool b);
     bool getIsDeleted() const;
