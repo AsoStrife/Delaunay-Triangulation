@@ -12,13 +12,11 @@ private:
     Point2Dd* vB = nullptr;
     Point2Dd* vC = nullptr;
 
-    Dag* dagNode            = nullptr;
+    Dag* dagNode = nullptr;
 
     Triangle* triangleAdjacentA = nullptr;
     Triangle* triangleAdjacentB = nullptr;
     Triangle* triangleAdjacentC = nullptr;
-
-    //Adjacencies* adjNode    = nullptr;
 
     bool isDeleted = false;
 
@@ -46,9 +44,7 @@ public:
     void setTriangleAdjacentB(Triangle* tB);
     void setTriangleAdjacentC(Triangle* tC);
 
-    //Adjacencies* getAdjNode();
-    //void setAdjNode(Adjacencies* a);
-
+    // Getter & setter per isDeleted
     void setIsDeleted(bool b);
     bool getIsDeleted() const;
 

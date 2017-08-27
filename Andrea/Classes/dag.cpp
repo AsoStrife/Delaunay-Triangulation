@@ -1,13 +1,9 @@
 #include "Andrea/Headers/dag.h"
 
-
 Dag::Dag() {}
+
 Dag::Dag(Triangle* t){
     this->t = t;
-}
-
-Dag::Dag(Point2Dd* p1, Point2Dd* p2, Point2Dd*  p3){
-    this->t = new Triangle(p1, p2, p3);
 }
 
 /**
@@ -40,16 +36,13 @@ bool Dag::pointInTriangle (const Point2Dd& pt, Triangle* t){
 bool Dag::checkIfPointAlreadyExist(Dag* root, const Point2Dd& p){
 
     Dag* n = Dag::navigate(root, p);
+    Triangle* triangle = n->getTriangle();
 
-    //std::cout << n->t->getA()->x(); std::cout <<  " "; std::cout << n->t->getA()->y() << std::endl;
-    //std::cout << n->t->getB()->x(); std::cout <<  " "; std::cout << n->t->getB()->y() << std::endl;
-    //std::cout << n->t->getC()->x(); std::cout <<  " "; std::cout << n->t->getC()->y() << std::endl;
-
-    if(p.x() == n->t->getA()->x() && p.y() == n->t->getA()->y())
+    if(p.x() == triangle->getA()->x() && p.y() == triangle->getA()->y())
         return true;
-    else if(p.x() == n->t->getB()->x() && p.y() == n->t->getB()->y())
+    else if(p.x() == triangle->getB()->x() && p.y() == triangle->getB()->y())
         return true;
-    else if(p.x() == n->t->getC()->x() && p.y() == n->t->getC()->y())
+    else if(p.x() == triangle->getC()->x() && p.y() == triangle->getC()->y())
         return true;
     else
         return false;

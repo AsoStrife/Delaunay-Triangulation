@@ -21,7 +21,7 @@ public:
 
     std::vector<Dag*> dagNodes;
 
-    // Mappa utiizzata per la validazione
+    // Mappa utiizzata per la validazione, non per la triangolazione
     std::map<Point2Dd, int> map;
 
     //Aggiungo un punto alla triangolazione e controllo che il punto non sia già presente prima di inserirlo
@@ -49,7 +49,7 @@ public:
 
     Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
-    // Metodi per la validazione
+    // Metodi per la validazione, non per la triangolazione
     std::vector<Point2Dd> getPointsForValidation();
     Array2D<unsigned int> getTrianglesForValidation();
     int countNumberOfTriangles();

@@ -213,11 +213,9 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
 
 
 void DelaunayManager::on_checkTriangulationPushButton_clicked() {
+    // Ottengo i punti della triangolazione
     std::vector<Point2Dd> points = dtc.getPointsForValidation();
     Array2D<unsigned int> triangles;
-
-    triangles.resize( dtc.countNumberOfTriangles(), 3);
-    triangles = dtc.getTrianglesForValidation();
 
     //get your triangulation here and save it in the vector points and in the matrix triangles
     //"points" will be a vector where every position i is associated to a point of the triangulation
@@ -228,6 +226,8 @@ void DelaunayManager::on_checkTriangulationPushButton_clicked() {
     //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
     //and then fill the matrix using the assignment operator: triangles(i,j) = a;
 
+    triangles.resize( dtc.countNumberOfTriangles(), 3);
+    triangles = dtc.getTrianglesForValidation();
 
     if (DelaunayTriangulation::Checker::isDeulaunayTriangulation(points, triangles)) {
         QMessageBox::information(this, "Triangulation checking", "Success: it is a Delaunay triangulation!");
