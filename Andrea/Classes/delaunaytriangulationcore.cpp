@@ -69,7 +69,7 @@ void DelaunayTriangulationCore::LegalizeEdge(Point2Dd* p, Triangle* t){
     if(adjTriangle != nullptr){
         if(DelaunayTriangulation::Checker::isPointLyingInCircle(*adjTriangle->getA(),  *adjTriangle->getB(),  *adjTriangle->getC(), *p,false) == true){
             std::cout << "TRIANGOLO INVALIDO" << std::endl;
-            EdgeFlip(p, t, t->getTriangleAdjacentC());
+            EdgeFlip(p, t, adjTriangle);
         }
      }
 
@@ -82,22 +82,42 @@ void DelaunayTriangulationCore::EdgeFlip(Point2Dd* p, Triangle* tr1, Triangle* t
     Triangle* newTriangle1;
     Triangle* newTriangle2;
 
-    if( tr1->getB() == tr2->getC() && tr1->getC() == tr2->getB() ){ // triangolo 2 CB
+    if( tr1->getB() == tr2->getC() && tr1->getC() == tr2->getB() ){ // triangolo BC -  CB ==> trovato & testato
         newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getA(), tr2->getB(), tr1->getDagNode(), tr2->getDagNode());
-    }
-    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getC() ){ // triangolo 2 AC
-        newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getA(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode());
+        newTriangle2 = generateTriangle(tr1->getA(), tr2->getA(), tr2->getB(), tr1->getDagNode(), tr2->getDagNode() );
+        std::cout << "Sono dentro BC -  CB" << std::endl;
     }
 
-    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getC() ){ // triangolo 2 BC
+    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getC() ){ // triangolo BC - AC ==> trovato & testato
+        newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getB(), tr1->getDagNode(), tr2->getDagNode() );
+        newTriangle2 = generateTriangle(tr1->getA(), tr2->getB(), tr1->getC(), tr1->getDagNode(), tr2->getDagNode() );
+        std::cout << "Sono dentro BC -  ac" << std::endl;
+    }
+
+    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getC() ){ // triangolo BC - BC
         newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode());
+        newTriangle2 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
+        std::cout << "Sono dentro bc, bc" << std::endl;
     }
 
-    LegalizeEdge(p, newTriangle1);
-    LegalizeEdge(p, newTriangle2);
+    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getB() ){ // triangolo BC - AB ==> testato
+        newTriangle1 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
+        newTriangle2 = generateTriangle(tr1->getA(), tr1->getC(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
+        std::cout << "Sono dentro bc, ab" << std::endl;
+        //\Adjacencies::setAdjacenciesAfterFlip(newTriangle1, newTriangle2, tr1, tr2);
+    }
+
+    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getA() ){ // triangolo BC - BA ==> trovato & testato
+        newTriangle1 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
+        newTriangle2 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
+        std::cout << "Sono dentro bc, ba" << std::endl;
+    }
+
+    Adjacencies::setAdjacenciesAfterFlip(newTriangle1, newTriangle2, tr1, tr2);
+    Adjacencies::setAdjacenciesAfterFlip(newTriangle2, newTriangle1, tr1, tr2);
+
+    //LegalizeEdge(p, newTriangle1);
+    //LegalizeEdge(p, newTriangle2);
 }
 
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
@@ -153,4 +173,45 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
 
 std::vector<Triangle*> DelaunayTriangulationCore::getTriangles(){
     return this->triangles;
+}
+
+std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
+    std::vector<Point2Dd> v;
+
+    for(int i = 0; i < this->points.size(); i++){
+        v.push_back(*this->points.at(i));
+        this->map.insert ( std::pair<Point2Dd,int>(*this->points.at(i), i) );
+    }
+    return v;
+}
+
+Array2D<unsigned int> DelaunayTriangulationCore::getTrianglesForValidation(){
+    //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
+    //and then fill the matrix using the assignment operator: triangles(i,j) = a;
+    Array2D<unsigned int> t;
+    t.resize( countNumberOfTriangles(), 3);
+
+        std::cout << " Triangles size: " << this->triangles.size() << std::endl;
+    int index = 0;
+        for(int i = 0; i < this->triangles.size(); i++){
+            if(this->triangles.at(i)->getIsDeleted() == false){
+                t(index, 0) = this->map.find( *this->triangles.at(i)->getA() )->second;
+                t(index, 1) = this->map.find( *this->triangles.at(i)->getB() )->second;
+                t(index, 2) = this->map.find( *this->triangles.at(i)->getC() )->second;
+                index++;
+            }
+        }
+
+    return t;
+}
+
+int DelaunayTriangulationCore::countNumberOfTriangles(){
+    int b = 0;
+
+    for(int i = 0; i < this->triangles.size(); i++){
+        if(this->triangles.at(i)->getIsDeleted() == false){
+            b++;
+        }
+    }
+     return b;
 }

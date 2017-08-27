@@ -46,6 +46,47 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
 
 }
 
+void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle* trFather1, Triangle* trFather2){
+
+
+    if(isAdjacencies(tr1, tr2) == true){
+        Adjacencies::setAdjacency(tr1, tr2);
+    }
+
+    if(isAdjacencies(tr1, trFather1->getTriangleAdjacentA()) == true){
+        Adjacencies::setAdjacency(tr1, trFather1->getTriangleAdjacentA() );
+        //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+    }
+
+    else if(isAdjacencies(tr1, trFather1->getTriangleAdjacentB()) == true){
+        Adjacencies::setAdjacency(tr1, trFather1->getTriangleAdjacentB() );
+        //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+    }
+
+    else if(trFather1->getTriangleAdjacentC() != nullptr){
+        if(isAdjacencies(tr1, trFather1->getTriangleAdjacentC()) == true){
+            Adjacencies::setAdjacency(tr1, trFather1->getTriangleAdjacentC() );
+            //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+            }
+    }
+
+    if(isAdjacencies(tr1, trFather2->getTriangleAdjacentA()) == true){
+        Adjacencies::setAdjacency(tr2, trFather2->getTriangleAdjacentA() );
+        //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+    }
+
+    else if(isAdjacencies(tr1, trFather2->getTriangleAdjacentB()) == true){
+        Adjacencies::setAdjacency(tr1, trFather2->getTriangleAdjacentB() );
+        //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+    }
+
+    else if(trFather2->getTriangleAdjacentC() != nullptr){
+        if(isAdjacencies(tr1, trFather2->getTriangleAdjacentC()) == true){
+            Adjacencies::setAdjacency(tr1, trFather2->getTriangleAdjacentC() );
+            //Adjacencies::overrideAdjacencyC(trAdj,  tr1);
+            }
+    }
+}
 
 bool Adjacencies::isAdjacencies(Triangle* tr1, Triangle* tr2){
 
@@ -67,30 +108,6 @@ bool Adjacencies::isAdjacencies(Triangle* tr1, Triangle* tr2){
     return false;
 }
 
-// Potendoci essere diverse combinazioni possibili restituisco un vettore con due elementi che saranno i punti adiacenti
-
-/*std::vector<Point2Dd>  Adjacencies::isAdjacenciesFather(Triangle* tr1, Triangle* tr2){
-    // IL triangolo 1 sarà sempre B - C
-    // Il triangolo 2 può essere: A - B oppure A - C oppure B - C
-
-    std::vector<Point2Dd> p;
-
-    if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getB() ){ // triangolo 2 AB
-        p.push_back(*tr2->getA());
-        p.push_back(*tr2->getB());
-    }
-    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getC() ){ // triangolo 2 AC
-        p.push_back(*tr2->getA());
-        p.push_back(*tr2->getC());
-    }
-
-    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getC() ){ // triangolo 2 BC
-        p.push_back(*tr2->getB());
-        p.push_back(*tr2->getC());
-    }
-
-    return p;
-}*/
 
 void Adjacencies::setAdjacency(Triangle *triangle, Triangle *adjTriangle){
 

@@ -20,7 +20,9 @@ public:
     std::vector<Triangle*> triangles;
 
     std::vector<Dag*> dagNodes;
-    //std::vector<Adjacencies*> adjacencies;
+
+    // Mappa utiizzata per la validazione
+    std::map<Point2Dd, int> map;
 
     //Aggiungo un punto alla triangolazione e controllo che il punto non sia già presente prima di inserirlo
     bool addPoint(const Point2Dd& p);
@@ -36,13 +38,21 @@ public:
 
     // Controllo che un punto non cada su un edge già esistente
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
+
     // Legalizzazione degli edge
     void LegalizeEdge(Point2Dd* p, Triangle* t);
-    //void LegalizeTriangle(Triangle* t);
-    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
-    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
     void EdgeFlip(Point2Dd *p, Triangle* tr1, Triangle* tr2);
+
+    //void LegalizeTriangle(Triangle* t);
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
+
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
+
+    // Metodi per la validazione
+    std::vector<Point2Dd> getPointsForValidation();
+    Array2D<unsigned int> getTrianglesForValidation();
+    int countNumberOfTriangles();
 
     bool operator == (const Point2Dd& p1);
 
