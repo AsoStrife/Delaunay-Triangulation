@@ -78,6 +78,8 @@ private slots:
 
     void on_checkTriangulationPushButton_clicked();
     void on_generatePointsFilePushButton_clicked();
+    void on_voronoiDiagramPushButton_clicked();
+    void on_clearVoronoiDiagramPushButton_clicked();
 };
 
 #endif // DELAUNAYMANAGER_H

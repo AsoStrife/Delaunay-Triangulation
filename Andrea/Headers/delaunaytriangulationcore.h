@@ -18,7 +18,6 @@ public:
     std::vector<Point2Dd*> points;
     // Vettore di puntatori Triangle per i triangoli che inserisco nella mia triangolazione
     std::vector<Triangle*> triangles;
-
     std::vector<Dag*> dagNodes;
 
     // Mappa utiizzata per la validazione, non per la triangolazione
@@ -31,7 +30,7 @@ public:
     void cleanDelaunayTriangulation();
 
     // Gestisco i punti che vengono caricati dal file
-    void loadPointFromVector(std::vector<Point2Dd> p);
+    void loadPointFromVector(const std::vector<Point2Dd> &vectorPoints);
 
     // Setto i punto del Bounding Triangle
     void setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
@@ -40,14 +39,14 @@ public:
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
 
     // Legalizzazione degli edge
-    void LegalizeEdge(Point2Dd* p, Triangle* t);
+    void legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr);
 
-    void EdgeFlip(Point2Dd *p, Triangle* tr1, Triangle* tr2);
+    void edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj);
 
     //void LegalizeTriangle(Triangle* t);
-    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father);
+    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather);
 
-    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
+    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
     // Metodi per la validazione, non per la triangolazione
     std::vector<Point2Dd> getPointsForValidation();

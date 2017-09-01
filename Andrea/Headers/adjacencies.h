@@ -18,10 +18,12 @@ public:
 
     static bool isAdjacencies(Triangle* tr1, Triangle* tr2);
 
-    static void overrideAdjacencyC(Triangle* triangle, Triangle *adjTriangle);
+    static bool isAdjacenciesForTwoPoints(Triangle* tr, const Point2Dd& p1, const Point2Dd& p2);
 
-    // Potendoci essere diverse combinazioni possibili restituisco un vettore con due elementi che saranno i punti adiacenti
-    //static std::vector<Point2Dd> isAdjacenciesFather(Triangle* tr1, Triangle* tr2);
+    static Point2Dd* getThirdPoint(Triangle* tr, Point2Dd* p1, Point2Dd* p2);
+
+    static void overrideAdjacency(Triangle* triangle, Triangle *adjTriangle);
+
 
 };
 

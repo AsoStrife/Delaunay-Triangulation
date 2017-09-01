@@ -33,11 +33,70 @@ bool Dag::pointInTriangle (const Point2Dd& pt, Triangle* t){
     return ((b1 == b2) && (b2 == b3));
 }
 
-bool Dag::checkIfPointAlreadyExist(Dag* root, const Point2Dd& p){
+/**
+ * @brief Dag::checkIfPointAlreadyExist
+ * @param root
+ * @param p
+ * @return bool
+ * Controlla che un punto sia già presente nella triangolazione. Lavora in maniera
+ * simile alla navigazione della dag, soltanto che ad ogni nodo controlla
+ * che il punto non sia un vertice del triangolo stesso
+ */
+bool Dag::checkIfPointAlreadyExist(Dag* dagNode, const Point2Dd& p){
 
-    Dag* n = Dag::navigate(root, p);
-    Triangle* triangle = n->getTriangle();
+    bool hasChild = true;
+    while(hasChild){
 
+        if(dagNode == nullptr){
+            return false; // Check di controllo, non dovrebbe mai verificarsi di entrare nella navigate con un puntatore nullo
+        }
+
+        // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
+        if(dagNode->getChildA() != nullptr){
+            if(Dag::pointInTriangle(p, dagNode->getChildA()->getTriangle() )){
+                if(Dag::checkPointInTriangle(p, dagNode->getChildA()->getTriangle()) == true)
+                    return true;
+                else
+                    dagNode = dagNode->getChildA();
+            }
+        }
+
+         if(dagNode->getChildB() != nullptr){
+            if(Dag::pointInTriangle(p, dagNode->getChildB()->getTriangle())){
+                if(Dag::checkPointInTriangle(p, dagNode->getChildB()->getTriangle()) == true)
+                    return true;
+                else
+                    dagNode = dagNode->getChildB();
+            }
+         }
+         if(dagNode->getChildC() != nullptr){
+            if(Dag::pointInTriangle(p, dagNode->getChildC()->getTriangle())){
+                if(Dag::checkPointInTriangle(p, dagNode->getChildC()->getTriangle()) == true)
+                    return true;
+                else
+                    dagNode = dagNode->getChildC();
+            }
+        }
+
+        if(dagNode->getChildA() == nullptr && dagNode->getChildB() == nullptr && dagNode->getChildC() == nullptr)
+            hasChild = false;
+
+    }
+
+    // Quando non ho più figli restituisco l'ultimo triangolo (il più piccolo) che contiene il mio punto
+    return false; // restituisco l'ultimo l'indirizzo del triangolo più piccolo che contiene il punto appena inserito}
+
+
+}
+
+/**
+ * @brief Dag::checkPointInTriangle
+ * @param p
+ * @param triangle
+ * @return bool
+ * Controllo che il punto non sia uno dei vertici del triangolo, se lo è restituisco TRUE, FALSE altrimenti
+ */
+bool Dag::checkPointInTriangle(const Point2Dd& p, Triangle* triangle){
     if(p.x() == triangle->getA()->x() && p.y() == triangle->getA()->y())
         return true;
     else if(p.x() == triangle->getB()->x() && p.y() == triangle->getB()->y())
@@ -47,8 +106,6 @@ bool Dag::checkIfPointAlreadyExist(Dag* root, const Point2Dd& p){
     else
         return false;
 }
-
-
 
 /**
  * @brief Dag::navigate
@@ -101,18 +158,17 @@ Triangle* Dag::navigateAdj(Dag* dagNode, Triangle* tr){
             return nullptr; // Check di controllo, non dovrebbe mai verificarsi di entrare nella navigate con un puntatore nullo
         }
 
-        // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
         if(dagNode->getChildA() != nullptr){
-            if(Adjacencies::isAdjacencies(tr,dagNode->getChildA()->getTriangle() ))
+            if(Adjacencies::isAdjacencies(tr,dagNode->getChildA()->getTriangle() ) == true)
                 dagNode = dagNode->getChildA();
         }
 
          if(dagNode->getChildB() != nullptr){
-            if(Adjacencies::isAdjacencies(tr,dagNode->getChildB()->getTriangle() ))
+            if(Adjacencies::isAdjacencies(tr,dagNode->getChildB()->getTriangle() ) == true)
                 dagNode = dagNode->getChildB();
          }
          if(dagNode->getChildC() != nullptr){
-            if(Adjacencies::isAdjacencies(tr,dagNode->getChildC()->getTriangle() ))
+            if(Adjacencies::isAdjacencies(tr,dagNode->getChildC()->getTriangle() ) == true)
                 dagNode = dagNode->getChildC();
         }
 
@@ -124,26 +180,23 @@ Triangle* Dag::navigateAdj(Dag* dagNode, Triangle* tr){
     return dagNode->getTriangle(); // restituisco l'ultimo l'indirizzo del triangolo più piccolo che contiene il punto appena inserito}
 }
 
-void Dag::addNode(Dag* node, Dag* father){
+void Dag::addNode(Dag* node, Dag* dagNodefather){
 
-    if(father->getChildA() == nullptr)
-        father->setChildA(node);
-
-    else if(father->getChildB() == nullptr)
-        father->setChildB(node);
-
-    else if(father->getChildC() == nullptr)
-        father->setChildC(node);
-
-
+    if(dagNodefather->getChildA() == nullptr){
+        dagNodefather->setChildA(node);
+        return;
+    }
+    else if(dagNodefather->getChildB() == nullptr){
+        dagNodefather->setChildB(node);
+        return;
+    }
+    else if(dagNodefather->getChildC() == nullptr){
+        dagNodefather->setChildC(node);
+        return;
+    }
+    else
+        std::cout << "sto provando a riempire un nodo pieno" << std::endl;
 }
-
-void Dag::addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* father){
-    father->setChildA(nodeA);
-    father->setChildB(nodeB);
-    father->setChildC(nodeC);
-}
-
 
 //
 // Getter & Setter per gli attributi
@@ -175,12 +228,6 @@ void Dag::setChildB(Dag* t){
 
 void Dag::setChildC(Dag* t){
     this->childC = t;
-}
-
-void Dag::setChildren(Dag* A, Dag* B, Dag* C){
-    this->childA = A;
-    this->childB = B;
-    this->childC = C;
 }
 
 void Dag::setTriangle(Triangle* t){

@@ -39,19 +39,10 @@ Dag* Triangle::getDagNode() const{
     return this->dagNode;
 }
 
-/*Adjacencies* Triangle::getAdjNode(){
-    return this->adjNode;
-}
-*/
 void Triangle::setDagNode(Dag* n){
     this->dagNode = n;
 }
 
-/*
-void Triangle::setAdjNode(Adjacencies* a){
-    this->adjNode = a;
-}
-*/
 void Triangle::setIsDeleted(bool b){
     this->isDeleted = b;
 }
@@ -60,17 +51,16 @@ bool Triangle::getIsDeleted() const{
     return this->isDeleted;
 }
 
-
 Triangle* Triangle::getTriangleAdjacentA() const{
-    return triangleAdjacentA;
+   return triangleAdjacentA;
 }
 
 Triangle* Triangle::getTriangleAdjacentB() const{
-    return triangleAdjacentB;
+   return triangleAdjacentB;
 }
 
 Triangle* Triangle::getTriangleAdjacentC() const{
-    return triangleAdjacentC;
+   return triangleAdjacentC;
 }
 
 void Triangle::setTriangleAdjacentA(Triangle* tA){
@@ -87,7 +77,7 @@ void Triangle::setTriangleAdjacentC(Triangle* tC){
 
 
 bool Triangle::operator == (const Triangle* t1){
-   if( *this->getA() == *t1->getA() && *this->getB() == *t1->getB() && *this->getC() == *t1->getC())
+   if( this->getA() == t1->getA() && this->getB() == t1->getB() && this->getC() == t1->getC())
      return true;
    else
      return false;

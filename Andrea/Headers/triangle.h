@@ -8,9 +8,9 @@ class Dag;
 
 class Triangle{
 private:
-    Point2Dd* vA = nullptr;
-    Point2Dd* vB = nullptr;
-    Point2Dd* vC = nullptr;
+    Point2Dd* vA;
+    Point2Dd* vB;
+    Point2Dd* vC;
 
     Dag* dagNode = nullptr;
 

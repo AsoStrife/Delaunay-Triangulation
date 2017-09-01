@@ -166,13 +166,17 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
     if (!filename.isEmpty()) {
 
         std::vector<Point2Dd> points = FileUtils::getPointsFromFile(filename.toStdString());
+
         Timer t("Delaunay Triangulation");
-        /****/
+
         //launch your triangulation algorithm here
-        dtc.loadPointFromVector(points); // Inserisco i punti all'interno del mio oggetto
-        ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
-        /****/
+
+        for(unsigned i = 0; i < points.size(); i++)
+            dtc.addPoint(points.at(i));
+
         t.stopAndPrint();
+
+        ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
 
         mainWindow.updateGlCanvas();
     }
@@ -250,4 +254,14 @@ void DelaunayManager::on_generatePointsFilePushButton_clicked() {
 
         FileUtils::generateRandomPointFile(filename.toStdString(), BOUNDINGBOX, number);
     }
+}
+
+void DelaunayManager::on_voronoiDiagramPushButton_clicked(){
+    ddt.setVoronoiActive(true);
+    mainWindow.updateGlCanvas();
+}
+
+void DelaunayManager::on_clearVoronoiDiagramPushButton_clicked(){
+    ddt.setVoronoiActive(false);
+    mainWindow.updateGlCanvas();
 }

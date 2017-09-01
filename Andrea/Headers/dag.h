@@ -24,15 +24,15 @@ public:
     static float sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
     static bool pointInTriangle (const Point2Dd& pt, Triangle* t);
 
-    static bool checkIfPointAlreadyExist(Dag *root, const Point2Dd& p);
+    static bool checkIfPointAlreadyExist(Dag *dagNode, const Point2Dd& p);
+    static bool checkPointInTriangle(const Point2Dd& p, Triangle* triangle);
 
     // Cerco in quale triangolo cade il nuovo punto
     static Dag* navigate(Dag* dagNode, const Point2Dd& p);
     static Triangle* navigateAdj(Dag* dagNode, Triangle* tr);
 
     // Aggiungo un nodo figlio al padre oppure tutti e 3 i figli di un padre
-    static void addNode(Dag* node, Dag* father);
-    static void addNodes(Dag* nodeA, Dag* nodeB, Dag* nodeC, Dag* father);
+    static void addNode(Dag* node, Dag* dagNodefather);
 
     Dag* getChildA();
     Dag* getChildB();
@@ -42,7 +42,6 @@ public:
     void setChildA(Dag* t);
     void setChildB(Dag* t);
     void setChildC(Dag* t);
-    void setChildren(Dag* A, Dag* B, Dag* C);
     void setTriangle(Triangle* t);
 };
 

@@ -4,49 +4,50 @@ DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
 bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
-
     // Se il punto non esiste posso proseguire
-    if( Dag::checkIfPointAlreadyExist(dagNodes.back(), p) == true ){
-        std::cout << "Punto già esistente" << std::endl;
+    if( Dag::checkIfPointAlreadyExist(dagNodes.front(), p) == true )
         return false;
-    }
+
     // Pusho il punto appena inserito
-    points.push_back(new Point2Dd(p));
+    points.push_back(new Point2Dd(p.x(), p.y()) );
 
-    // Ottengo il più piccolo triangolo che contiene il mio punto
+    // Ottengo il più piccolo triangolo che contiene il mio punto, sia il suo nodo DAG che il suo Triangolo
     Dag* dagFather = Dag::navigate(dagNodes.front(), p);
+    Triangle* triangleFather = dagFather->getTriangle();
 
-    Triangle* tr1 = generateTriangle(points.back(), dagFather->getTriangle()->getA(), dagFather->getTriangle()->getB(), dagFather );
-    Triangle* tr2 = generateTriangle(points.back(), dagFather->getTriangle()->getB(), dagFather->getTriangle()->getC(), dagFather );
-    Triangle* tr3 = generateTriangle(points.back(), dagFather->getTriangle()->getC(), dagFather->getTriangle()->getA(), dagFather );
+    Triangle* tr1 = generateTriangle(points.back(), triangleFather->getA(), triangleFather->getB(), dagFather );
+    Triangle* tr2 = generateTriangle(points.back(), triangleFather->getB(), triangleFather->getC(), dagFather );
+    Triangle* tr3 = generateTriangle(points.back(), triangleFather->getC(), triangleFather->getA(), dagFather );
 
-    Adjacencies::setAdjacencies(tr1, tr2, tr3, dagFather->getTriangle());
-    Adjacencies::setAdjacencies(tr2, tr3, tr1, dagFather->getTriangle());
-    Adjacencies::setAdjacencies(tr3, tr1, tr2, dagFather->getTriangle());
+    triangleFather->setIsDeleted(true);
+
+    Adjacencies::setAdjacencies(tr1, tr2, tr3, triangleFather);
+    Adjacencies::setAdjacencies(tr2, tr3, tr1, triangleFather);
+    Adjacencies::setAdjacencies(tr3, tr1, tr2, triangleFather);
 
     // Faccio risultare il padre come se fosse cancellato
-    dagFather->getTriangle()->setIsDeleted(true);
 
-    LegalizeEdge( this->points.back(), tr1 );
-    LegalizeEdge( this->points.back(), tr2 );
-    LegalizeEdge( this->points.back(), tr3 );
+    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
+    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
 
     return true;
 }
 
-Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* father){
+// Genero un nuovo triangolo, ovvero creo e aggiungo il puntatore al vettore dei triangoli, creo il suo nodo della dag e associo alla Dag e Triangolo i corrispettivi puntatori
+Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new Dag( triangles.back() ) );
 
     triangles.back()->setDagNode( dagNodes.back() );
 
-    Dag::addNode(dagNodes.back(), father);
+    Dag::addNode(dagNodes.back(), dagNodeFather);
 
     return triangles.back();
 }
 
 // Quando devo generare un triangolo partendo da due dag (dopo un edge flip)
-Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2){
+Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new Dag( triangles.back() ) );
     triangles.back()->setDagNode( dagNodes.back() );
@@ -57,80 +58,71 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p, Point2Dd* p1,
     return triangles.back();
 }
 
-void DelaunayTriangulationCore::LegalizeEdge(Point2Dd* p, Triangle* t){
+void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr){
 
-    Triangle* adjTriangle = t->getTriangleAdjacentC();
+    Triangle* adjTriangle = nullptr;
+
+
+
+    if(tr->getTriangleAdjacentB() != nullptr){
+        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), *pi, *pj) == true)
+                adjTriangle = tr->getTriangleAdjacentB();
+    }
+
+    if(tr->getTriangleAdjacentC() != nullptr){
+        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), *pi, *pj) == true)
+                adjTriangle = tr->getTriangleAdjacentC();
+    }
 
     if(adjTriangle != nullptr){
-        if(DelaunayTriangulation::Checker::isPointLyingInCircle(*adjTriangle->getA(),  *adjTriangle->getB(),  *adjTriangle->getC(), *p,false) == true){
-            EdgeFlip(p, t, adjTriangle);
+        if(DelaunayTriangulation::Checker::isPointLyingInCircle(*adjTriangle->getA(),  *adjTriangle->getB(),  *adjTriangle->getC(), *pr,false) == true){
+            edgeFlip(tr, adjTriangle, pr, pi, pj);
         }
      }
 
 }
 
-void DelaunayTriangulationCore::EdgeFlip(Point2Dd* p, Triangle* tr1, Triangle* tr2){
+void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj){
     tr1->setIsDeleted(true);
     tr2->setIsDeleted(true);
 
-    Triangle* newTriangle1;
-    Triangle* newTriangle2;
+    Triangle* newTriangle1 = nullptr;
+    Triangle* newTriangle2 = nullptr;
 
-    if( tr1->getB() == tr2->getC() && tr1->getC() == tr2->getB() ){ // triangolo BC -  CB ==> trovato & testato
-        newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getA(), tr2->getB(), tr1->getDagNode(), tr2->getDagNode() );
-        //std::cout << "Sono dentro BC -  CB" << std::endl;
+    Point2Dd* pk =  Adjacencies::getThirdPoint(tr2, pi, pj);
+
+    if(pk != nullptr){
+        newTriangle1 = generateTriangle(pr, pi, pk, tr1->getDagNode(), tr2->getDagNode() );
+        newTriangle2 = generateTriangle(pr, pk, pj, tr1->getDagNode(), tr2->getDagNode() );
+
+        Adjacencies::setAdjacenciesAfterFlip(newTriangle1, newTriangle2, tr1, tr2);
+        Adjacencies::setAdjacenciesAfterFlip(newTriangle2, newTriangle1, tr1, tr2);
+
+
+        legalizeEdge(pr, pi, pk, newTriangle1);
+        legalizeEdge(pr, pk, pj, newTriangle2);
     }
-
-    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getC() ){ // triangolo BC - AC ==> trovato & testato
-        newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getB(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getB(), tr1->getC(), tr1->getDagNode(), tr2->getDagNode() );
-        //std::cout << "Sono dentro BC -  ac" << std::endl;
-    }
-
-    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getC() ){ // triangolo BC - BC
-        newTriangle1 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        //std::cout << "Sono dentro bc, bc" << std::endl;
-    }
-
-    else if( tr1->getB() == tr2->getA() && tr1->getC() == tr2->getB() ){ // triangolo BC - AB ==> testato
-        newTriangle1 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr1->getC(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
-        //std::cout << "Sono dentro bc, ab" << std::endl;
-    }
-
-    else if( tr1->getB() == tr2->getB() && tr1->getC() == tr2->getA() ){ // triangolo BC - BA ==> trovato & testato
-        newTriangle1 = generateTriangle(tr1->getA(), tr2->getC(), tr2->getA(), tr1->getDagNode(), tr2->getDagNode() );
-        newTriangle2 = generateTriangle(tr1->getA(), tr1->getB(), tr2->getC(), tr1->getDagNode(), tr2->getDagNode() );
-        //std::cout << "Sono dentro bc, ba" << std::endl;
-    }
-
-    Adjacencies::setAdjacenciesAfterFlip(newTriangle1, newTriangle2, tr1, tr2);
-    Adjacencies::setAdjacenciesAfterFlip(newTriangle2, newTriangle1, tr1, tr2);
-
-    //LegalizeEdge(p, newTriangle1);
-    //LegalizeEdge(p, newTriangle2);
 }
 
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
     points.clear();
     triangles.clear();
     dagNodes.clear();
+    map.clear();
 }
 
-void DelaunayTriangulationCore::loadPointFromVector(std::vector<Point2Dd> p){
+void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>& vectorPoints){
 
-    for (unsigned int i = 0; i < p.size(); i++){
-        addPoint(p[i]);
+    for (unsigned int i = 0; i < vectorPoints.size(); i++){
+        addPoint(vectorPoints.at(i));
     }
 
 }
 
-void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
-    this->points.push_back(new Point2Dd(p1));
-    this->points.push_back(new Point2Dd(p2));
-    this->points.push_back(new Point2Dd(p3));
+void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd &p1, const Point2Dd &p2, const Point2Dd &p3){
+    this->points.push_back( new Point2Dd (p1.x(), p1.y() ) );
+    this->points.push_back( new Point2Dd (p2.x(), p2.y() ) );
+    this->points.push_back( new Point2Dd (p3.x(), p3.y() ) );
 
     this->triangles.push_back( new Triangle( this->points.at(0), this->points.at(1), this->points.at(2)) );
     this->dagNodes.push_back( new Dag( triangles.back() ) );
@@ -165,6 +157,15 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
 }
 
 std::vector<Triangle*> DelaunayTriangulationCore::getTriangles(){
+    /*std::vector<Triangle*> newVector;
+
+    for(unsigned i = 0; i < triangles.size(); i++){
+        if(triangles.at(i)->getIsDeleted() == false)
+            newVector.push_back(triangles.at(i));
+    }
+
+    return newVector; */
+
     return this->triangles;
 }
 
