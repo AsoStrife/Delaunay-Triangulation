@@ -12,9 +12,9 @@ public:
 
     static void setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Triangle* trFather);
 
-    static void setAdjacency(Triangle *triangle, Triangle *adjTriangle);
-
     static void setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle* trFather1, Triangle* trFather2);
+
+    static void setAdjacency(Triangle *triangle, Triangle *adjTriangle);
 
     static bool isAdjacencies(Triangle* tr1, Triangle* tr2);
 

@@ -2,17 +2,24 @@
 
 DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
+/**
+ * @brief DelaunayTriangulationCore::addPoint
+ * @param const Point2Dd p
+ * @return bool
+ * Add a point inside triagulation.
+ * Add point p inside vector of points, and check using Dag structure where the point lie.
+ * If point already exist inside the triangulation, return false else generate 3 new triangle
+ * and legalize the edge.
+ */
 bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
-    // Se il punto non esiste posso proseguire
-    if( Dag::checkIfPointAlreadyExist(dagNodes.front(), p) == true )
+    Dag* dagFather = Dag::navigate(dagNodes.front(), p);
+
+    if(dagFather == nullptr) // Point already exist
         return false;
 
-    // Pusho il punto appena inserito
     points.push_back(new Point2Dd(p.x(), p.y()) );
 
-    // Ottengo il più piccolo triangolo che contiene il mio punto, sia il suo nodo DAG che il suo Triangolo
-    Dag* dagFather = Dag::navigate(dagNodes.front(), p);
     Triangle* triangleFather = dagFather->getTriangle();
 
     Triangle* tr1 = generateTriangle(points.back(), triangleFather->getA(), triangleFather->getB(), dagFather );
@@ -25,8 +32,6 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     Adjacencies::setAdjacencies(tr2, tr3, tr1, triangleFather);
     Adjacencies::setAdjacencies(tr3, tr1, tr2, triangleFather);
 
-    // Faccio risultare il padre come se fosse cancellato
-
     legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
     legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
@@ -34,7 +39,16 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     return true;
 }
 
-// Genero un nuovo triangolo, ovvero creo e aggiungo il puntatore al vettore dei triangoli, creo il suo nodo della dag e associo alla Dag e Triangolo i corrispettivi puntatori
+/**
+* @brief DelaunayTriangulationCore::generateTriangle
+* @param Point2Dd* p
+* @param Point2Dd* p1
+* @param Point2Dd* p2
+* @param Dag*dagNodeFather
+* @return Triangle*
+* Generate a triangle using 3 point. After push_back of triangle, create his corresponding dag node,
+* and set as a child of dagNodeFather
+*/
 Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new Dag( triangles.back() ) );
@@ -46,8 +60,17 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
     return triangles.back();
 }
 
-// Quando devo generare un triangolo partendo da due dag (dopo un edge flip)
-Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2){
+/**
+* @brief DelaunayTriangulationCore::generateTriangle
+* @param Point2Dd* p
+* @param Point2Dd* p1
+* @param Point2Dd* p2
+* @param Dag*dagNodeFather1
+* @param Dag*dagNodeFather2
+* @return Triangle*
+* Generate a triangle using 3 point after edge flip. After push_back of triangle, create his corresponding dag node,
+* and set as a child of dagNodeFather1 and dagNodeFather2
+*/Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, Dag* dagNodeFather1, Dag* dagNodeFather2){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new Dag( triangles.back() ) );
     triangles.back()->setDagNode( dagNodes.back() );
@@ -58,11 +81,17 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
     return triangles.back();
 }
 
+/**
+ * @brief DelaunayTriangulationCore::legalizeEdge
+ * @param Point2Dd* pr
+ * @param Point2Dd* pi
+ * @param Point2Dd* pj
+ * @param Triangle* tr
+ * Check if a edge is legal or not, using the adjacencies of a triangle tr
+ */
 void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr){
 
     Triangle* adjTriangle = nullptr;
-
-
 
     if(tr->getTriangleAdjacentB() != nullptr){
         if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), *pi, *pj) == true)
@@ -82,6 +111,16 @@ void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2D
 
 }
 
+/**
+ * @brief DelaunayTriangulationCore::edgeFlip
+ * @param Triangle* tr1
+ * @param Triangle* tr2
+ * @param Point2Dd* pr
+ * @param Point2Dd* pi
+ * @param Point2Dd* pj
+ * If legalizeEdge find an illegal edge, edgeFlip generate two new triangle using third point of the
+ * adjacent triangle. After flip, chek the new edge using legalizeEdge again
+ */
 void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj){
     tr1->setIsDeleted(true);
     tr2->setIsDeleted(true);
@@ -104,6 +143,10 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
     }
 }
 
+/**
+ * @brief DelaunayTriangulationCore::cleanDelaunayTriangulation
+ * Clean vector of points, triangulation, dag and map
+ */
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
     points.clear();
     triangles.clear();
@@ -111,6 +154,11 @@ void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
     map.clear();
 }
 
+/**
+ * @brief DelaunayTriangulationCore::loadPointFromVector
+ * @param std::vector<Point2Dd>& vectorPoints
+ * Add one by one a point inside triangulation
+ */
 void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>& vectorPoints){
 
     for (unsigned int i = 0; i < vectorPoints.size(); i++){
@@ -119,7 +167,14 @@ void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>&
 
 }
 
-void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd &p1, const Point2Dd &p2, const Point2Dd &p3){
+/**
+ * @brief DelaunayTriangulationCore::setBoundingTrianglePoints
+ * @param const Point2Dd& p1
+ * @param const Point2Dd& p2
+ * @param const Point2Dd& p3
+ * Set the first three points inside the triangulation as bounding triangle
+ */
+void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
     this->points.push_back( new Point2Dd (p1.x(), p1.y() ) );
     this->points.push_back( new Point2Dd (p2.x(), p2.y() ) );
     this->points.push_back( new Point2Dd (p3.x(), p3.y() ) );
@@ -132,12 +187,12 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd &p1, co
 
 /**
  * @brief DrawableDelaunayTriangulation::pointLieInALine
- * @param p
- * @param a
- * @param b
+ * @param const Point2Dd& p
+ * @param const Point2Dd& a
+ * @param const Point2Dd& b
  * @return bool
  * @link https://stackoverflow.com/questions/11907947/how-to-check-if-a-point-lies-on-a-line-between-2-other-points
- * Controllo che un punto non cada su un edge già esistente
+ * Check if point lie in a line
  */
 bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b){
     int cross;
@@ -156,41 +211,30 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
         return true;
 }
 
+/**
+ * @brief DelaunayTriangulationCore::getTriangles
+ * @return std::vector<Triangle*>
+ * Return triangulation
+ */
 std::vector<Triangle*> DelaunayTriangulationCore::getTriangles(){
-    /*std::vector<Triangle*> newVector;
-
-    for(unsigned i = 0; i < triangles.size(); i++){
-        if(triangles.at(i)->getIsDeleted() == false)
-            newVector.push_back(triangles.at(i));
-    }
-
-    return newVector; */
-
     return this->triangles;
 }
 
 /***
  * ***************************************** *
- * ***************************************** *
- * ***************************************** *
-    Metodi per la validazione della
-    triangolazione, non propriamente
-    ottimali.
- * ***************************************** *
- * ***************************************** *
+    Validation method, not triangulation
  * ***************************************** *
 ***/
 
 /**
  * @brief DelaunayTriangulationCore::getPointsForValidation
  * @return std::vector<Point2Dd> u
- * Converto il mio vettore di puntatori in un vettore di punti
- * aggiungendo gli indici alla mappa per i triangoli
+ * Convert my vector of points in std::vector<Point2Dd>
  */
 std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
     std::vector<Point2Dd> v;
 
-    for(int i = 0; i < this->points.size(); i++){
+    for(unsigned int i = 0; i < this->points.size(); i++){
         v.push_back(*this->points.at(i));
         this->map.insert ( std::pair<Point2Dd,int>(*this->points.at(i), i) );
     }
@@ -200,8 +244,7 @@ std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
 /**
  * @brief DelaunayTriangulationCore::getTrianglesForValidation
  * @return Array2D<unsigned int>
- * Cerco i triangoli ancora validi e li associo i loro vertici
- * agli indici presenti nella mappa dei triangoli
+ * Create a Array2D of my triangulation
  */
 Array2D<unsigned int> DelaunayTriangulationCore::getTrianglesForValidation(){
     Array2D<unsigned int> validTriangles;
@@ -209,7 +252,7 @@ Array2D<unsigned int> DelaunayTriangulationCore::getTrianglesForValidation(){
 
     int index = 0;
 
-    for(int i = 0; i < this->triangles.size(); i++){
+    for(unsigned int i = 0; i < this->triangles.size(); i++){
         if(this->triangles.at(i)->getIsDeleted() == false){
             validTriangles(index, 0) = this->map.find( *this->triangles.at(i)->getA() )->second;
             validTriangles(index, 1) = this->map.find( *this->triangles.at(i)->getB() )->second;
@@ -224,12 +267,12 @@ Array2D<unsigned int> DelaunayTriangulationCore::getTrianglesForValidation(){
 /**
  * @brief DelaunayTriangulationCore::countNumberOfTriangles
  * @return int
- * BruteForce, controllo quanti triangoli validi sono presenti nel vettore dei triangoli, ovvero che hanno isDeleted = false
+ * BruteForce, check how many triangle with isDeleted = false exist
  */
 int DelaunayTriangulationCore::countNumberOfTriangles(){
     int validTriangle = 0;
 
-    for(int i = 0; i < this->triangles.size(); i++){
+    for(unsigned int i = 0; i < this->triangles.size(); i++){
         if(this->triangles.at(i)->getIsDeleted() == false){
             validTriangle++;
         }

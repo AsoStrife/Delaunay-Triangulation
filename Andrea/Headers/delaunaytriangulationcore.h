@@ -10,45 +10,46 @@ class DelaunayTriangulationCore
 public:
     DelaunayTriangulationCore();
 
-    //Dag per poter navigare le varie triangolazioni per sapere dove cade il prossimo punto che inserirò
-    //Dag dag;
-    //Adjacencies adj;
-
-    // Vettore di puntatori a Point2Dd, per i punti che inserisco nella mia triangolazione
+    // Points of my triangulation
     std::vector<Point2Dd*> points;
-    // Vettore di puntatori Triangle per i triangoli che inserisco nella mia triangolazione
+
+    // Triangles of my triangulation & Dag
     std::vector<Triangle*> triangles;
+
+    // Node of a Dag
     std::vector<Dag*> dagNodes;
 
-    // Mappa utiizzata per la validazione, non per la triangolazione
+    // This map is used for the validation process, not triangulation
     std::map<Point2Dd, int> map;
 
-    //Aggiungo un punto alla triangolazione e controllo che il punto non sia già presente prima di inserirlo
+    // Add a point inside my triangulation
     bool addPoint(const Point2Dd& p);
 
-    // Pulisco tutta la mia triangolazione
+    // Clean triangulation
     void cleanDelaunayTriangulation();
 
-    // Gestisco i punti che vengono caricati dal file
-    void loadPointFromVector(const std::vector<Point2Dd> &vectorPoints);
+    // Load points from a file
+    void loadPointFromVector(const std::vector<Point2Dd>& vectorPoints);
 
-    // Setto i punto del Bounding Triangle
+    // Set bounding triangle points
     void setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3);
 
-    // Controllo che un punto non cada su un edge già esistente
+    // Check if a point lie in a line
     bool pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b);
 
-    // Legalizzazione degli edge
+    // Check if an Edge is legal
     void legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr);
 
+    // Edge Flip of two triangle
     void edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj);
 
-    //void LegalizeTriangle(Triangle* t);
+    // Create a new triangle, set his dag node and his pointer of his dag node father
     Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather);
 
+    // Create a new triangle, set his dag node and his two pointer of two dag node father
     Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
-    // Metodi per la validazione, non per la triangolazione
+    // Validation method, not triangulation
     std::vector<Point2Dd> getPointsForValidation();
     Array2D<unsigned int> getTrianglesForValidation();
     int countNumberOfTriangles();

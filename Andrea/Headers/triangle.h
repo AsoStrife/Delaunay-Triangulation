@@ -33,10 +33,11 @@ public:
     void setB(Point2Dd* p);
     void setC(Point2Dd* p);
 
-    // Getter & setter per il nodo della Dag a cui punta il triangolo e per il suo elemento di adiacenze
+    // Getter & Setter for dagNode
     Dag* getDagNode() const;
     void setDagNode(Dag* n);
 
+    // Getter & Setter for adjacencies
     Triangle* getTriangleAdjacentA() const;
     Triangle* getTriangleAdjacentB() const;
     Triangle* getTriangleAdjacentC() const;
