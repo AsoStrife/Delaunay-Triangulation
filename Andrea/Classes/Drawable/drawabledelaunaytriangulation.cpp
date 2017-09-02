@@ -7,7 +7,7 @@ void DrawableDelaunayTriangulation::draw() const{
 
     //std::cout << "Dimensione vettore triangoli: " << triangles.size() << std::endl;
     if(this->triangles.size() > 0){
-        for(int i = 0; i < this->triangles.size(); i++){
+        for(unsigned int i = 0; i < this->triangles.size(); i++){
 
             if(this->triangles.at(i)->getIsDeleted() == false){
                 if(this->boundingTriangleActive == true){
@@ -41,14 +41,21 @@ void DrawableDelaunayTriangulation::draw() const{
                     if( needToPrintLine( *triangles[i]->getC(), *triangles[i]->getA())  == true )
                         Viewer::drawLine2D( *triangles[i]->getC(), *triangles[i]->getA(), this->delaunayLineColor, this->lineSize);
                 } //  if(this->boundingTriangleActive == true)
+
+
             } // if(*triangles[i]->getIsDeleted == false)
 
         } //for
     } // size() > 0
 }
 
-Pointd DrawableDelaunayTriangulation::sceneCenter() const {}
-double DrawableDelaunayTriangulation::sceneRadius() const {}
+Pointd DrawableDelaunayTriangulation::sceneCenter() const {
+
+}
+
+double DrawableDelaunayTriangulation::sceneRadius() const {
+
+}
 
 void DrawableDelaunayTriangulation::setBoundingTriangleActive(bool b){
     this->boundingTriangleActive = b;
@@ -81,16 +88,13 @@ bool DrawableDelaunayTriangulation::getVoronoiActive() const{
 }
 
 void DrawableDelaunayTriangulation::setTriangles(std::vector<Triangle*> t){
-
     triangles.clear();
 
     this->triangles = t;
-
-    /*for(int i = 0; i < t.size(); i++)
-        this->triangles.push_back(*t[i]);
-    */
 
     this->BT_P1 = triangles.at(0)->getA();
     this->BT_P2 = triangles.at(0)->getB();
     this->BT_P3 = triangles.at(0)->getC();
 }
+
+

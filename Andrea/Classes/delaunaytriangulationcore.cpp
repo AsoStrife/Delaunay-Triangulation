@@ -128,7 +128,7 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
     Triangle* newTriangle1 = nullptr;
     Triangle* newTriangle2 = nullptr;
 
-    Point2Dd* pk =  Adjacencies::getThirdPoint(tr2, pi, pj);
+    Point2Dd* pk =  Adjacencies::getThirdPoint(*tr2, *pi, *pj);
 
     if(pk != nullptr){
         newTriangle1 = generateTriangle(pr, pi, pk, tr1->getDagNode(), tr2->getDagNode() );
@@ -246,29 +246,38 @@ std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
  * @return Array2D<unsigned int>
  * Create a Array2D of my triangulation
  */
-Array2D<unsigned int> DelaunayTriangulationCore::getTrianglesForValidation(){
-    Array2D<unsigned int> validTriangles;
-    validTriangles.resize( countNumberOfTriangles(), 3);
+void DelaunayTriangulationCore::generateTrianglesForValidation(){
 
     int index = 0;
 
     for(unsigned int i = 0; i < this->triangles.size(); i++){
         if(this->triangles.at(i)->getIsDeleted() == false){
-            validTriangles(index, 0) = this->map.find( *this->triangles.at(i)->getA() )->second;
-            validTriangles(index, 1) = this->map.find( *this->triangles.at(i)->getB() )->second;
-            validTriangles(index, 2) = this->map.find( *this->triangles.at(i)->getC() )->second;
+
+            this->countValidTriangles++;
+
+            this->validTriangles.resize( this->countValidTriangles, 3);
+
+            this->validTriangles(index, 0) = this->map.find( *this->triangles.at(i)->getA() )->second;
+            this->validTriangles(index, 1) = this->map.find( *this->triangles.at(i)->getB() )->second;
+            this->validTriangles(index, 2) = this->map.find( *this->triangles.at(i)->getC() )->second;
             index++;
         }
     }
+}
 
-    return validTriangles;
+int DelaunayTriangulationCore::getCountValidTriangle() const{
+    return this->countValidTriangles;
+}
+
+Array2D<unsigned int> DelaunayTriangulationCore::getValidTriangles() const{
+    return this->validTriangles;
 }
 
 /**
  * @brief DelaunayTriangulationCore::countNumberOfTriangles
  * @return int
  * BruteForce, check how many triangle with isDeleted = false exist
- */
+ *
 int DelaunayTriangulationCore::countNumberOfTriangles(){
     int validTriangle = 0;
 
@@ -279,3 +288,4 @@ int DelaunayTriangulationCore::countNumberOfTriangles(){
     }
     return validTriangle;
 }
+*/

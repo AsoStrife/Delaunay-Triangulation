@@ -27,7 +27,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // First
     adjTriangle = trFather->getTriangleAdjacentA();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(tr1, adjTriangle ) == true){
+        if(isAdjacencies(*tr1, *adjTriangle ) == true){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle,  tr1);
         }
@@ -36,7 +36,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // Second
     adjTriangle = trFather->getTriangleAdjacentB();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(tr1, adjTriangle) == true){
+        if(isAdjacencies(*tr1, *adjTriangle ) == true){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle, tr1);
         }
@@ -45,7 +45,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // Third
     adjTriangle = trFather->getTriangleAdjacentC();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(tr1, adjTriangle) == true){
+        if(isAdjacencies(*tr1, *adjTriangle ) == true){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle, tr1);
         }
@@ -69,39 +69,39 @@ void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle
 
     // First father
     adjTriangle = tr1Father->getTriangleAdjacentA();
-    if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
         Adjacencies::setAdjacency(tr1, adjTriangle );
         Adjacencies::overrideAdjacency(adjTriangle,  tr1);
     }
 
     adjTriangle = tr1Father->getTriangleAdjacentB();
-    if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
         Adjacencies::setAdjacency(tr1, adjTriangle );
         Adjacencies::overrideAdjacency(adjTriangle,  tr1);
     }
 
     adjTriangle = tr1Father->getTriangleAdjacentC();
-    if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
         Adjacencies::setAdjacency(tr1, adjTriangle );
         Adjacencies::overrideAdjacency(adjTriangle,  tr1);
     }
 
     // Second father
     adjTriangle = tr2Father->getTriangleAdjacentA();
-    if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
         Adjacencies::setAdjacency(tr1, adjTriangle );
         Adjacencies::overrideAdjacency(adjTriangle,  tr1);
     }
 
     adjTriangle = tr2Father->getTriangleAdjacentB();
-    if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
         Adjacencies::setAdjacency(tr1, adjTriangle );
         Adjacencies::overrideAdjacency(adjTriangle,  tr1);
     }
 
     adjTriangle = tr2Father->getTriangleAdjacentC();
     if( adjTriangle != nullptr ){
-        if( (isAdjacencies(tr1, adjTriangle) == true) && (adjTriangle->getIsDeleted() == false)){
+        if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle,  tr1);
         }
@@ -116,22 +116,22 @@ void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle
  * @return bool
  * Check if two triangles are adjacent trying all possible combinations
  */
-bool Adjacencies::isAdjacencies(Triangle* tr1, Triangle* tr2){
+bool Adjacencies::isAdjacencies(const Triangle& tr1, const Triangle& tr2){
 
     if(
         // AB
-        ( (tr1->getA() == tr2->getA() || tr1->getB() == tr2->getA() || tr1->getC() == tr2->getA()) &&
-          (tr1->getA() == tr2->getB() || tr1->getB() == tr2->getB() || tr1->getC() == tr2->getB()) ) )
+        ( (tr1.getA() == tr2.getA() || tr1.getB() == tr2.getA() || tr1.getC() == tr2.getA()) &&
+          (tr1.getA() == tr2.getB() || tr1.getB() == tr2.getB() || tr1.getC() == tr2.getB()) ) )
         return true;
 
         // BC
-       if ( (tr1->getA() == tr2->getB() || tr1->getB() == tr2->getB() || tr1->getC() == tr2->getB()) &&
-          (tr1->getA() == tr2->getC() || tr1->getB() == tr2->getC() || tr1->getC() == tr2->getC()) )
+       if ( (tr1.getA() == tr2.getB() || tr1.getB() == tr2.getB() || tr1.getC() == tr2.getB()) &&
+          (tr1.getA() == tr2.getC() || tr1.getB() == tr2.getC() || tr1.getC() == tr2.getC()) )
            return true;
 
         // CA
-        if( (tr1->getA() == tr2->getC() || tr1->getB() == tr2->getC() || tr1->getC() == tr2->getC()) &&
-          (tr1->getA() == tr2->getA() || tr1->getB() == tr2->getA() || tr1->getC() == tr2->getA()) )
+        if( (tr1.getA() == tr2.getC() || tr1.getB() == tr2.getC() || tr1.getC() == tr2.getC()) &&
+          (tr1.getA() == tr2.getA() || tr1.getB() == tr2.getA() || tr1.getC() == tr2.getA()) )
 
             return true;
 
@@ -167,15 +167,15 @@ bool Adjacencies::isAdjacenciesForTwoPoints(Triangle* tr, const Point2Dd& p1, co
  * @return Point2Dd*
  * Given a triangle and two points, this method return the third point of that triangle.
  */
-Point2Dd* Adjacencies::getThirdPoint(Triangle* tr, Point2Dd* p1, Point2Dd* p2){
-    if( (*tr->getA() == *p1 && *tr->getB() == *p2) || (*tr->getB() == *p1 && *tr->getA() == *p2) ) // AB
-        return tr->getC();
+Point2Dd* Adjacencies::getThirdPoint(const Triangle& tr, const Point2Dd& p1, const Point2Dd& p2){
+    if( (*tr.getA() == p1 && *tr.getB() == p2) || (*tr.getB() == p1 && *tr.getA() == p2) ) // AB
+        return tr.getC();
 
-    if( (*tr->getA() == *p1 && *tr->getC() == *p2) || (*tr->getC() == *p1 && *tr->getA() == *p2) ) // AC
-        return tr->getB();
+    if( (*tr.getA() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getA() == p2) ) // AC
+        return tr.getB();
 
-    if( (*tr->getB() == *p1 && *tr->getC() == *p2) || (*tr->getC() == *p1 && *tr->getB() == *p2) ) // BC
-        return tr->getA();
+    if( (*tr.getB() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getB() == p2) ) // BC
+        return tr.getA();
 
     return nullptr;
 }
@@ -218,16 +218,16 @@ void Adjacencies::setAdjacency(Triangle* triangle, Triangle* adjTriangle){
  */
 void Adjacencies::overrideAdjacency(Triangle* triangle, Triangle *adjTriangle){
 
-    if( (triangle->getTriangleAdjacentA()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(adjTriangle, triangle->getTriangleAdjacentA() ) == true) )
+    if( (triangle->getTriangleAdjacentA()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(*adjTriangle, *triangle->getTriangleAdjacentA() ) == true) )
         triangle->setTriangleAdjacentA(adjTriangle);
 
     if(triangle->getTriangleAdjacentB() != nullptr){
-        if( (triangle->getTriangleAdjacentB()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(adjTriangle, triangle->getTriangleAdjacentB() ) == true) )
+        if( (triangle->getTriangleAdjacentB()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(*adjTriangle, *triangle->getTriangleAdjacentB() ) == true) )
             triangle->setTriangleAdjacentB(adjTriangle);
     }
 
     if(triangle->getTriangleAdjacentC() != nullptr){
-        if( (triangle->getTriangleAdjacentC()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(adjTriangle, triangle->getTriangleAdjacentC() ) == true) )
+        if( (triangle->getTriangleAdjacentC()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(*adjTriangle, *triangle->getTriangleAdjacentC() ) == true) )
             triangle->setTriangleAdjacentC(adjTriangle);
     }
 

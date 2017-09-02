@@ -16,11 +16,11 @@ public:
 
     static void setAdjacency(Triangle *triangle, Triangle *adjTriangle);
 
-    static bool isAdjacencies(Triangle* tr1, Triangle* tr2);
+    static bool isAdjacencies(const Triangle& tr1, const Triangle& tr2);
 
     static bool isAdjacenciesForTwoPoints(Triangle* tr, const Point2Dd& p1, const Point2Dd& p2);
 
-    static Point2Dd* getThirdPoint(Triangle* tr, Point2Dd* p1, Point2Dd* p2);
+    static Point2Dd* getThirdPoint(const Triangle& tr, const Point2Dd& p1, const Point2Dd& p2);
 
     static void overrideAdjacency(Triangle* triangle, Triangle *adjTriangle);
 

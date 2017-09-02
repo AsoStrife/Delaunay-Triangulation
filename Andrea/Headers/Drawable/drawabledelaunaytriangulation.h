@@ -2,10 +2,9 @@
 #define DELAUNAYTRIANGULATION_H
 
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/dag.h>
+#include <Andrea/Headers/triangle.h>
 #include <viewer/interfaces/drawable_object.h>
-#include <Andrea/Headers/Drawable/drawablevoronoidiagram.h>
-#include <Andrea/Headers/delaunaytriangulationcore.h>
+#include <math.h>
 
 class DrawableDelaunayTriangulation : public DrawableObject {
 
@@ -27,14 +26,15 @@ public:
     bool getVoronoiActive() const;
 
     void clearTriangles();
+
+    // Voronoi
+    static Point2Dd getCircumcircle(const Triangle& t);
+    void drawVoronoi() const;
 private:
     bool boundingTriangleActive = false;
 
     QColor delaunayPointColor = QColor(255, 0 ,0);
     QColor delaunayLineColor = QColor(0, 0 ,0);
-
-    QColor voronoiPointColor = QColor(1, 120 , 255);
-    QColor voronoiLineColor = QColor(255, 153 ,51);
 
     int lineSize = 1;
     int pointSize = 10;

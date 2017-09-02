@@ -15,18 +15,14 @@ Dag::Dag(Triangle* t){
  * @return bool
  * Check if point is inside a triangle
  */
-bool Dag::pointInTriangle (const Point2Dd& pt, Triangle* tr){
-
-    Point2Dd a = *tr->getA();
-    Point2Dd b = *tr->getB();
-    Point2Dd c = *tr->getC();
+bool Dag::pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
 
     double Area = 0.5 *(-b.y()*c.x() + a.y()*(-b.x() + c.x()) + a.x()*(b.y() - c.y()) + b.x()*c.y());
-    double s = 1/(2*Area)*(a.y()*c.x() - a.x()*c.y() + (c.y() - a.y())*pt.x() + (a.x() - c.x())*pt.y());
+    double s = 1/(2*Area)*(a.y()*c.x() - a.x()*c.y() + (c.y() - a.y())*p.x() + (a.x() - c.x())*p.y());
 
-    double t = 1/(2*Area)*(a.x()*b.y() - a.y()*b.x() + (a.y() - b.y())*pt.x() + (b.x() - a.x())*pt.y());
+    double t = 1/(2*Area)*(a.x()*b.y() - a.y()*b.x() + (a.y() - b.y())*p.x() + (b.x() - a.x())*p.y());
 
-    if(s > 0 && t > 0)
+    if(s >= 0 && t >= 0 && (1-s-t) >= 0)
         return true;
     else
         return false;
@@ -40,12 +36,12 @@ bool Dag::pointInTriangle (const Point2Dd& pt, Triangle* tr){
  * @return bool
  * Check if a point is a vertex of a triangle
  */
-bool Dag::checkPointIsVertexOfTriangle(const Point2Dd& p, Triangle* triangle){
-    if(p.x() == triangle->getA()->x() && p.y() == triangle->getA()->y())
+bool Dag::checkPointIsVertexOfTriangle(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
+    if(p.x() == a.x() && p.y() == a.y())
         return true;
-    else if(p.x() == triangle->getB()->x() && p.y() == triangle->getB()->y())
+    else if(p.x() == b.x() && p.y() == b.y())
         return true;
-    else if(p.x() == triangle->getC()->x() && p.y() == triangle->getC()->y())
+    else if(p.x() == c.x() && p.y() == c.y())
         return true;
     else
         return false;
@@ -68,10 +64,13 @@ Dag* Dag::navigate(Dag* dagNode, const Point2Dd& p){
         if(dagNode == nullptr)
             return nullptr;
 
+        Triangle* tr = nullptr;
+
         // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
         if(dagNode->getChildA() != nullptr){
-            if(Dag::pointInTriangle(p, dagNode->getChildA()->getTriangle() )){
-                if(Dag::checkPointIsVertexOfTriangle(p, dagNode->getChildA()->getTriangle()) == true)
+            tr = dagNode->getChildA()->getTriangle();
+            if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
+                if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
                     return nullptr;
                 else
                     dagNode = dagNode->getChildA();
@@ -79,8 +78,9 @@ Dag* Dag::navigate(Dag* dagNode, const Point2Dd& p){
         }
 
          if(dagNode->getChildB() != nullptr){
-            if(Dag::pointInTriangle(p, dagNode->getChildB()->getTriangle())){
-                if(Dag::checkPointIsVertexOfTriangle(p, dagNode->getChildB()->getTriangle()) == true)
+             tr = dagNode->getChildB()->getTriangle();
+             if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
+                 if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
                     return nullptr;
                 else
                     dagNode = dagNode->getChildB();
@@ -88,8 +88,9 @@ Dag* Dag::navigate(Dag* dagNode, const Point2Dd& p){
          }
 
          if(dagNode->getChildC() != nullptr){
-            if(Dag::pointInTriangle(p, dagNode->getChildC()->getTriangle())){
-                if(Dag::checkPointIsVertexOfTriangle(p, dagNode->getChildC()->getTriangle()) == true)
+             tr = dagNode->getChildC()->getTriangle();
+             if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
+                 if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
                     return nullptr;
                 else
                     dagNode = dagNode->getChildC();

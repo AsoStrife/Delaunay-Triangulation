@@ -7,12 +7,9 @@
 
 #include <viewer/drawable_objects/drawableboundingbox2d.h>
 
-/**
-  * @author Andrea Corriga
-  * @date 24-07-2017
-  * */
-#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
 #include <Andrea/Headers/delaunaytriangulationcore.h>
+#include <Andrea/Headers/Drawable/drawabledelaunaytriangulation.h>
+#include <Andrea/Headers/Drawable/drawablevoronoidiagram.h>
 
 namespace Ui {
     class DelaunayManager;
@@ -52,6 +49,7 @@ private:
       * */
     DrawableDelaunayTriangulation ddt;
     DelaunayTriangulationCore dtc;
+    DrawableVoronoiDiagram dvd;
 
     /*****************
     * Private methods *

@@ -20,9 +20,9 @@ public:
     Dag();
     Dag(Triangle* t);
 
-    static bool pointInTriangle (const Point2Dd& pt, Triangle* tr);
+    static bool pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c);
 
-    static bool checkPointIsVertexOfTriangle(const Point2Dd& p, Triangle* triangle);
+    static bool checkPointIsVertexOfTriangle(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c);
 
     static Dag* navigate(Dag* dagNode, const Point2Dd& p);
 

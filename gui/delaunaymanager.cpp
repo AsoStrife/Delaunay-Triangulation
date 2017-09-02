@@ -61,8 +61,8 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
 
     // Credo l'oggetto Delaunay Triangulation
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
-    mainWindow.pushObj(&ddt, "Delaunay triangulation");
-
+    mainWindow.pushObj(&ddt, "Delaunay Triangulation");
+    mainWindow.pushObj(&dvd, "Voronoi Diagram");
     mainWindow.updateGlCanvas();
 
     fitScene();
@@ -229,9 +229,10 @@ void DelaunayManager::on_checkTriangulationPushButton_clicked() {
 
     //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
     //and then fill the matrix using the assignment operator: triangles(i,j) = a;
+    dtc.generateTrianglesForValidation();
 
-    triangles.resize( dtc.countNumberOfTriangles(), 3);
-    triangles = dtc.getTrianglesForValidation();
+    triangles.resize( dtc.getCountValidTriangle(), 3);
+    triangles = dtc.getValidTriangles();
 
     if (DelaunayTriangulation::Checker::isDeulaunayTriangulation(points, triangles)) {
         QMessageBox::information(this, "Triangulation checking", "Success: it is a Delaunay triangulation!");
@@ -257,11 +258,11 @@ void DelaunayManager::on_generatePointsFilePushButton_clicked() {
 }
 
 void DelaunayManager::on_voronoiDiagramPushButton_clicked(){
-    ddt.setVoronoiActive(true);
+    dvd.setTriangles( dtc.getTriangles() );
     mainWindow.updateGlCanvas();
 }
 
 void DelaunayManager::on_clearVoronoiDiagramPushButton_clicked(){
-    ddt.setVoronoiActive(false);
+    dvd.clearVoronoi();
     mainWindow.updateGlCanvas();
 }

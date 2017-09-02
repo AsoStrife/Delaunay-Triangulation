@@ -21,6 +21,8 @@ public:
 
     // This map is used for the validation process, not triangulation
     std::map<Point2Dd, int> map;
+    Array2D<unsigned int> validTriangles;
+    int countValidTriangles = 0;
 
     // Add a point inside my triangulation
     bool addPoint(const Point2Dd& p);
@@ -49,12 +51,15 @@ public:
     // Create a new triangle, set his dag node and his two pointer of two dag node father
     Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
 
+    bool operator == (const Point2Dd& p1);
+
     // Validation method, not triangulation
     std::vector<Point2Dd> getPointsForValidation();
-    Array2D<unsigned int> getTrianglesForValidation();
-    int countNumberOfTriangles();
+    void generateTrianglesForValidation();
+    int countNumberOfTriangles() const;
+    int getCountValidTriangle() const;
+    Array2D<unsigned int> getValidTriangles() const;
 
-    bool operator == (const Point2Dd& p1);
 
     std::vector<Triangle*> getTriangles();
 
