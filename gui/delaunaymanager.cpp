@@ -61,6 +61,7 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
 
     // Credo l'oggetto Delaunay Triangulation
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
+    ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
     mainWindow.pushObj(&ddt, "Delaunay Triangulation");
     mainWindow.pushObj(&dvd, "Voronoi Diagram");
     mainWindow.updateGlCanvas();
@@ -126,8 +127,10 @@ void DelaunayManager::on_resetScenePushButton_clicked() {
 void DelaunayManager::on_clearPointsPushButton_clicked() {
 
     //clear here your triangulation
+
     dtc.cleanDelaunayTriangulation(); // Elimino tutti i punti
     ddt.clearTriangles();
+    dvd.clearVoronoi();
 
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3); // Setto nuovamente il Bounding Triangle come triangolo iniziale
     ddt.setTriangles( dtc.getTriangles() );
@@ -173,7 +176,6 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
 
         for(unsigned i = 0; i < points.size(); i++)
             dtc.addPoint(points.at(i));
-
         t.stopAndPrint();
 
         ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
@@ -201,6 +203,7 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
+        //dvd.clearVoronoi();
         if(dtc.addPoint(p) == false)
             QMessageBox::warning(this, "Point already exist", "The point in the coordinates [" + QString::number(p.x()) + "," + QString::number(p.y()) + "] already exist.");
         else{

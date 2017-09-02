@@ -3,7 +3,7 @@
 
 #include <viewer/objects/objects.h>
 #include <viewer/interfaces/drawable_object.h>
-#include <Andrea/Headers/triangle.h>
+#include <Andrea/Headers/DataStructures/triangle.h>
 
 class DrawableVoronoiDiagram : public DrawableObject{
 

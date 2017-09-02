@@ -1,14 +1,16 @@
 #ifndef DELAUANYTRIANGULATIONCORE_H
 #define DELAUANYTRIANGULATIONCORE_H
-#include <Andrea/Headers/dag.h>
-#include <Andrea/Headers/adjacencies.h>
-#include <viewer/objects/objects.h>
+#include <Andrea/Headers/Static/dag.h>
+#include <Andrea/Headers/Static/adjacencies.h>
+#include <Andrea/Headers/DataStructures/dagnode.h>>
+#include <Andrea/Headers/DataStructures/triangle.h>
 #include <utils/delaunay_checker.h>
 
 class DelaunayTriangulationCore
 {
 public:
     DelaunayTriangulationCore();
+    ~DelaunayTriangulationCore();
 
     // Points of my triangulation
     std::vector<Point2Dd*> points;
@@ -16,10 +18,10 @@ public:
     // Triangles of my triangulation & Dag
     std::vector<Triangle*> triangles;
 
-    // Node of a Dag
-    std::vector<Dag*> dagNodes;
+    // Nodes of my Dag
+    std::vector<DagNode*> dagNodes;
 
-    // This map is used for the validation process, not triangulation
+    // This attributes is for validation process, not triangulation
     std::map<Point2Dd, int> map;
     Array2D<unsigned int> validTriangles;
     int countValidTriangles = 0;
@@ -46,10 +48,15 @@ public:
     void edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj);
 
     // Create a new triangle, set his dag node and his pointer of his dag node father
-    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather);
+    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, DagNode* dagNodeFather);
 
     // Create a new triangle, set his dag node and his two pointer of two dag node father
-    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, Dag* dagNodeFather1, Dag* dagNodeFather2);
+    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2);
+
+    void pointLieAB(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);
+    void pointLieBC(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);
+    void pointLieCA(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);
+    void pointLieInsideTriangle(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);
 
     bool operator == (const Point2Dd& p1);
 

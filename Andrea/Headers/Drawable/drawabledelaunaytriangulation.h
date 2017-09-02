@@ -2,7 +2,7 @@
 #define DELAUNAYTRIANGULATION_H
 
 #include <viewer/objects/objects.h>
-#include <Andrea/Headers/triangle.h>
+#include <Andrea/Headers/DataStructures/triangle.h>
 #include <viewer/interfaces/drawable_object.h>
 #include <math.h>
 

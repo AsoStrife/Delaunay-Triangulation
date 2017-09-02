@@ -1,4 +1,4 @@
-#include "Andrea/Headers/adjacencies.h"
+#include <Andrea/Headers/Static/adjacencies.h>
 
 Adjacencies::Adjacencies() {}
 
@@ -231,4 +231,16 @@ void Adjacencies::overrideAdjacency(Triangle* triangle, Triangle *adjTriangle){
             triangle->setTriangleAdjacentC(adjTriangle);
     }
 
+}
+
+Triangle* Adjacencies::getTriangleAdjacentByTwoPoints(Triangle* tr, const Point2Dd& a, const Point2Dd& b){
+
+    if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentA(), a, b))
+        return tr->getTriangleAdjacentA();
+    else if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), a, b))
+            return tr->getTriangleAdjacentB();
+    else if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), a, b))
+        return tr->getTriangleAdjacentC();
+    else
+        return nullptr;
 }

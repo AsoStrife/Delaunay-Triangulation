@@ -1,7 +1,7 @@
 #ifndef ADJACENCIES_H
 #define ADJACENCIES_H
 
-#include <Andrea/Headers/triangle.h>
+#include <Andrea/Headers/DataStructures/triangle.h>
 
 class Triangle;
 
@@ -24,7 +24,7 @@ public:
 
     static void overrideAdjacency(Triangle* triangle, Triangle *adjTriangle);
 
-
+    static Triangle* getTriangleAdjacentByTwoPoints(Triangle* tr, const Point2Dd& a, const Point2Dd& b);
 };
 
 #endif // ADJACENCIES_H

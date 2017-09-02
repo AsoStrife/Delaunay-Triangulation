@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     ///Test viewer.pri:
     #ifdef VIEWER_DEFINED
 
-    // Aggiunto il ridimensionamento per gli schermi ad alta risoluzione
+    // 4k Support
     qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
     QApplication app(argc, argv);
 

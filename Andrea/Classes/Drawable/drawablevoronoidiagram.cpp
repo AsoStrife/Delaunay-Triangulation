@@ -13,8 +13,10 @@ void DrawableVoronoiDiagram::draw() const{
 
                 Viewer::drawPoint2D( this->getCircumcircle(triangles.at(i)), this->voronoiLineColor, this->pointSize);
 
-                Viewer::drawLine2D( this->getCircumcircle(triangles.at(i)), this->getCircumcircle(triangles.at(i)->getTriangleAdjacentA()), this->voronoiLineColor, this->lineSize);
-                Viewer::drawLine2D( this->getCircumcircle(triangles.at(i)), this->getCircumcircle(triangles.at(i)->getTriangleAdjacentB()), this->voronoiLineColor, this->lineSize);
+                if(triangles.at(i)->getTriangleAdjacentA() != nullptr)
+                    Viewer::drawLine2D( this->getCircumcircle(triangles.at(i)), this->getCircumcircle(triangles.at(i)->getTriangleAdjacentA()), this->voronoiLineColor, this->lineSize);
+                if(triangles.at(i)->getTriangleAdjacentB() != nullptr)
+                    Viewer::drawLine2D( this->getCircumcircle(triangles.at(i)), this->getCircumcircle(triangles.at(i)->getTriangleAdjacentB()), this->voronoiLineColor, this->lineSize);
                 if(triangles.at(i)->getTriangleAdjacentC() != nullptr)
                   Viewer::drawLine2D( this->getCircumcircle(triangles.at(i)), this->getCircumcircle(triangles.at(i)->getTriangleAdjacentC()), this->voronoiLineColor, this->lineSize);
             } // if(*triangles[i]->getIsDeleted == false)

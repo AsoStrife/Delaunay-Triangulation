@@ -33,11 +33,14 @@ HEADERS += \
     utils/fileutils.h \
     utils/delaunay_checker.h \
     Andrea/Headers/Drawable/drawabledelaunaytriangulation.h \
-    Andrea/Headers/dag.h \
-    Andrea/Headers/triangle.h \
-    Andrea/Headers/delaunaytriangulationcore.h \
-    Andrea/Headers/adjacencies.h \
-    Andrea/Headers/Drawable/drawablevoronoidiagram.h
+    Andrea/Headers/Drawable/drawablevoronoidiagram.h \
+    Andrea/Headers/Static/dag.h \
+    Andrea/Headers/Static/adjacencies.h \
+    Andrea/Headers/DataStructures/triangle.h \
+    Andrea/Headers/DataStructures/dagnode.h \
+    Andrea/Headers/delaunaytriangulationcore.h
+
+
 
 
 SOURCES += \
@@ -46,11 +49,12 @@ SOURCES += \
     utils/fileutils.cpp \
     utils/delaunay_checker.cpp \
     Andrea/Classes/Drawable/drawabledelaunaytriangulation.cpp \
-    Andrea/Classes/dag.cpp \
-    Andrea/Classes/triangle.cpp \
-    Andrea/Classes/delaunaytriangulationcore.cpp \
-    Andrea/Classes/adjacencies.cpp \
-    Andrea/Classes/Drawable/drawablevoronoidiagram.cpp
+    Andrea/Classes/Drawable/drawablevoronoidiagram.cpp \
+    Andrea/Classes/Static/dag.cpp \
+    Andrea/Classes/Static/adjacencies.cpp \
+    Andrea/Classes/DataStructures/triangle.cpp \
+    Andrea/Classes/DataStructures/dagnode.cpp \
+    Andrea/Classes/delaunaytriangulationcore.cpp
 
 FORMS += \
     gui/delaunaymanager.ui   
