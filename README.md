@@ -7,7 +7,7 @@ This is my personal project of Computational Geometry at University of Cagliari,
 The goal of this project was to develop a 2D interactive and incremental Delaunay Triangulation Algorithm.
 An optional feature was drawing the Voronoi complementar diagram of a given triangulation.
 
-The Base Project (provided by @Alessandro Muntoni) is organized in modules. There are two main modules: the “common module” and the “viewer module”. Every module is organized inside a .pri file which is included inside the main .pro file of the project. I have not edit or modify the folders and the files inside the folders associated to the modules. All my files and folders are organized as subfolder "Andrea" in the main folder of the project.
+The Base Project (provided by @Alessandro Muntoni) is organized in modules. There are two main modules: the “common module” and the “viewer module”. Every module is organized inside a .pri file which is included inside the main .pro file of the project. I didn't edit or modify the folders and the files inside the folders associated to the modules. All my files and folders are organized in a subfolder "Andrea" in the main folder of the project.
 
 For more detail about the base project you can check in `Extra/base_project_info.pdf`.
 
@@ -20,16 +20,16 @@ By considering circumscribed spheres, the notion of Delaunay triangulation exten
 
 Main Features about Delaunay Triangulation algorithm
 -------
-- Efficient way to find in which triangle a point lie.
+- Efficient way to find in which triangle a point lies.
 - A point can be totaly inside on a triangle or can lie in one of three edges. 
-- A point can be insert only once. Instead of using the vector of points to check if point already exist, I use the Dag in order to save time and CPU clock.
+- A point can be insert only once. Instead of using the vector of points to check if point already exist, I use the Dag, in order to save time and CPU clock.
 - Iterative Dag navigation instead of recursive way to avoid some crash and segmentation faults.
 - Access to the adjacent triangles and the corresponding Dag node in O(1)
 
 Installation
 -------------
 
-This project was developed with Ubuntu 17.04.  In order to install all dependencies and libraries run the following command:
+This project was developed with Ubuntu 17.04.  In order to install all dependencies and libraries run the following commands:
 
 > **From your terminal:**
 
@@ -90,7 +90,7 @@ ___
 Benchmark
 -------------
 At `/Extra/input_files/` there are a lot of files to test the triangulation efficienty.
-Below you will find the results I obtained using my PC (Dell XPS 15 9550, with Intel i7 6700HQ Skylake @ 2.60GHz 
+Below you will find the results I obtained using my PC (Dell XPS 15 9550, with Intel i7 6700HQ Skylake @ 2.60GHz) 
 
 > - 100 Points: 
 > - 500 Points:
@@ -111,12 +111,12 @@ Voronoi Diagram
 -------------
 The Delaunay triangulation of a discrete point set **P** in general position corresponds to the dual graph of the Voronoi diagram for **P**.  
 The bonus point of the project was to draw the dual graph of the delaunay triangulation: Voronoi Diagram, but without any data structure. 
-To perform the Voronoi Diagram, I took all Triangles of triangulation, I've calculate the circumcentre of that triangle and connect with the circumcentre of the three adjacent triangles.
+To perform the Voronoi Diagram, I took all Triangles of triangulation, I've calculated the circumcentre of that triangle and connected it with the circumcentre of the three adjacent triangles.
 
 Check triangulation problem
 -------------
-To be sure my algorithm works fine, there's a function (clicking *"Check triangulation"* button) to check if the triangulation is a valid triangulation.
-The function `bool isDeulaunayTriangulation(const std::vector<Point2Dd>& points, const Array2D<unsigned int>& triangles)` is provide but @Alessandro Muntoni and check if the triangulation is a Delaunay triangulation with a brute force approach in O(n^2).  With a small triangulation there's no problem with that, but using a big triangulation (like 100k, 200k points) it's probably the program freeze or crash. 
+To be sure my algorithm works fine, there's a function (linked to the *"Check triangulation"* button) to check if the triangulation is a valid triangulation.
+The function `bool isDeulaunayTriangulation(const std::vector<Point2Dd>& points, const Array2D<unsigned int>& triangles)` has been provided by @Alessandro Muntoni and it checks if the triangulation is a Delaunay triangulation with a brute force approach in O(n^2).  With a small triangulation there's no problem with that, but using a big triangulation (like 100k, 200k points) it's probably the program freeze or crash. 
 
 HIgh DPI monitor support
 -------------
@@ -126,7 +126,7 @@ In the main.cpp file I've add at 24 & 25 lines:
     qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
     QApplication app(argc, argv);
 
-But it work good with my QT version, using different version of QT it could be necessary to change with: 
+But it works good with my QT version, using different version of QT it could be necessary to change with: 
 
 	qputenv("QT_DEVICE_PIXEL_RATIO", "2");
 
@@ -141,7 +141,7 @@ This is the corresponding Voronoi Graph.
 
 ![enter image description here](http://i.imgur.com/Cr6TyvH.png%20%22Voronoi%20100%20Points)
 
-There is the two graphs together.
+Here are the two graphs together.
 
 ![Delaunay Voronoi 100 Points](http://i.imgur.com/Nbpxpox.png)
 
