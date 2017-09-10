@@ -14,6 +14,8 @@ public:
 
     static void setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle* trFather1, Triangle* trFather2);
 
+    static void setAdjacenciesAfterPointInALine(Triangle* tr1, Triangle* tr2, Triangle* tr3, Triangle* tr1Father, Triangle* tr2Father);
+
     static void setAdjacency(Triangle *triangle, Triangle *adjTriangle);
 
     static bool isAdjacencies(const Triangle& tr1, const Triangle& tr2);

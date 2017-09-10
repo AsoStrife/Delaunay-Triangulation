@@ -23,6 +23,7 @@ private:
 public:
     Triangle();
     Triangle(Point2Dd* vA, Point2Dd* vB, Point2Dd* vC);
+    //~Triangle();
 
     // Getter & setter per i 3 punti del triangolo
     Point2Dd* getA() const;

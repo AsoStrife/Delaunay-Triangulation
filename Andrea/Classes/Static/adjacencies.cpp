@@ -27,7 +27,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // First
     adjTriangle = trFather->getTriangleAdjacentA();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(*tr1, *adjTriangle ) == true){
+        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle,  tr1);
         }
@@ -36,7 +36,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // Second
     adjTriangle = trFather->getTriangleAdjacentB();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(*tr1, *adjTriangle ) == true){
+        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle, tr1);
         }
@@ -45,7 +45,7 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     // Third
     adjTriangle = trFather->getTriangleAdjacentC();
     if(adjTriangle != nullptr){
-        if(isAdjacencies(*tr1, *adjTriangle ) == true){
+        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
             Adjacencies::setAdjacency(tr1, adjTriangle );
             Adjacencies::overrideAdjacency(adjTriangle, tr1);
         }
@@ -108,7 +108,6 @@ void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle
     }
 
 }
-
 /**
  * @brief Adjacencies::isAdjacencies
  * @param Triangle* tr1
@@ -157,6 +156,7 @@ bool Adjacencies::isAdjacenciesForTwoPoints(Triangle* tr, const Point2Dd& p1, co
         return true;
     else
         return false;
+
 }
 
 /**
@@ -205,7 +205,6 @@ void Adjacencies::setAdjacency(Triangle* triangle, Triangle* adjTriangle){
         triangle->setTriangleAdjacentC(adjTriangle);
         return;
     }
-
 }
 
 /**
@@ -238,9 +237,12 @@ Triangle* Adjacencies::getTriangleAdjacentByTwoPoints(Triangle* tr, const Point2
     if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentA(), a, b))
         return tr->getTriangleAdjacentA();
     else if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), a, b))
-            return tr->getTriangleAdjacentB();
-    else if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), a, b))
+        return tr->getTriangleAdjacentB();
+
+    else if(tr->getTriangleAdjacentC() != nullptr){
+    if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), a, b))
         return tr->getTriangleAdjacentC();
+    }
     else
         return nullptr;
 }

@@ -120,6 +120,7 @@ Below you will find the results I obtained using my PC (Dell XPS 15 9550, with I
 > - 50.000 Points: ≈ 0,55 seconds
 > - 100.000 Points: ≈ 1,4 seconds
 > - 200.000 Points: ≈ 2,5 seconds
+> - 300.000 Points ≈ 4,2 seconds
 
 Voronoi Diagram
 -------------

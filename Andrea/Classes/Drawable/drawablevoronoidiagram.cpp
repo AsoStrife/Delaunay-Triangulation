@@ -5,7 +5,6 @@ DrawableVoronoiDiagram::DrawableVoronoiDiagram(){ }
 // DrawableObject interface
 void DrawableVoronoiDiagram::draw() const{
 
-    //std::cout << "Dimensione vettore triangoli: " << triangles.size() << std::endl;
     if(this->triangles.size() > 0){
         for(unsigned int i = 0; i < this->triangles.size(); i++){
 

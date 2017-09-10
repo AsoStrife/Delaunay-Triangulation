@@ -17,17 +17,19 @@ private:
 public:
     DagNode();
     DagNode(Triangle* tr);
-
+    //~DagNode();
     // Getter & Setter
-    DagNode* getChildA();
-    DagNode* getChildB();
-    DagNode* getChildC();
-    Triangle* getTriangle();
+    DagNode* getChildA() const;
+    DagNode* getChildB() const;
+    DagNode* getChildC() const;
+    Triangle* getTriangle() const;
 
     void setChildA(DagNode* dn);
     void setChildB(DagNode* dn);
     void setChildC(DagNode* dn);
     void setTriangle(Triangle* tr);
+
+    bool operator ==(const DagNode& dn);
 };
 
 #endif // DAGNODE_H

@@ -2,9 +2,10 @@
 #define DELAUANYTRIANGULATIONCORE_H
 #include <Andrea/Headers/Static/dag.h>
 #include <Andrea/Headers/Static/adjacencies.h>
-#include <Andrea/Headers/DataStructures/dagnode.h>>
+#include <Andrea/Headers/DataStructures/dagnode.h>
 #include <Andrea/Headers/DataStructures/triangle.h>
 #include <utils/delaunay_checker.h>
+#include <float.h>
 
 class DelaunayTriangulationCore
 {

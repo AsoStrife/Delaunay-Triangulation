@@ -11,19 +11,19 @@ DagNode::DagNode(Triangle* tr){
  * Getter & Setter
  */
 
-DagNode* DagNode::getChildA(){
+DagNode* DagNode::getChildA() const{
     return this->childA;
 }
 
-DagNode* DagNode::getChildB(){
+DagNode* DagNode::getChildB() const{
     return this->childB;
 }
 
-DagNode* DagNode::getChildC(){
+DagNode* DagNode::getChildC() const{
     return this->childC;
 }
 
-Triangle* DagNode::getTriangle(){
+Triangle* DagNode::getTriangle() const{
     return this->tr;
 }
 
@@ -41,4 +41,11 @@ void DagNode::setChildC(DagNode* dn){
 
 void DagNode::setTriangle(Triangle* tr){
     this->tr = tr;
+}
+
+bool DagNode::operator == (const DagNode& dn){
+   if( this->tr == dn.getTriangle() )
+     return true;
+   else
+     return false;
 }

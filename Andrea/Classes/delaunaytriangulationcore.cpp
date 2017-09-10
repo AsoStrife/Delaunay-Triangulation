@@ -23,20 +23,19 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     points.push_back(new Point2Dd(p.x(), p.y()) );
 
     Triangle* triangleFather = dagFather->getTriangle();
-    Triangle* adjacentTriangle = nullptr;
 
 
     if(pointLieInALine(*points.back(), *triangleFather->getA(), *triangleFather->getB())){
-        std::cout << "Il punto cade su linea AB" << std::endl;
+        std::cout << " AB " << std::endl;
         pointLieAB(points.back(), triangleFather, dagFather);
     }
     else if(pointLieInALine(*points.back(), *triangleFather->getB(), *triangleFather->getC())){
-        std::cout << "Il punto cade su linea BC" << std::endl;
+        std::cout << " BC " << std::endl;
         pointLieBC(points.back(), triangleFather, dagFather);
 
     }
     else if(pointLieInALine(*points.back(), *triangleFather->getC(), *triangleFather->getA())){
-        std::cout << "Il punto cade su linea CA" << std::endl;
+        std::cout << " CA " << std::endl;
         pointLieCA(points.back(), triangleFather, dagFather);
     }
     else{
@@ -77,7 +76,8 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
 * @return Triangle*
 * Generate a triangle using 3 point after edge flip. After push_back of triangle, create his corresponding dag node,
 * and set as a child of dagNodeFather1 and dagNodeFather2
-*/Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2){
+*/
+Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new DagNode( triangles.back() ) );
     triangles.back()->setDagNode( dagNodes.back() );
@@ -99,6 +99,11 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
 void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr){
 
     Triangle* adjTriangle = nullptr;
+
+    if(tr->getTriangleAdjacentA() != nullptr){
+        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentA(), *pi, *pj) == true)
+                adjTriangle = tr->getTriangleAdjacentA();
+    }
 
     if(tr->getTriangleAdjacentB() != nullptr){
         if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), *pi, *pj) == true)
@@ -156,19 +161,12 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
  */
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
 
-    for (unsigned int i = 0; i < points.size(); i++ ){
-        delete ( points.at(i) );
-    }
-
-    for (unsigned int i = 0; i < triangles.size(); i++ ){
-        delete ( triangles.at(i) );
-        delete ( dagNodes.at(i) );
-    }
-
     points.clear();
     triangles.clear();
     dagNodes.clear();
     map.clear();
+    validTriangles.resize(0,3);
+    countValidTriangles = 0;
 }
 
 /**
@@ -208,48 +206,22 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, co
  * @param const Point2Dd& a
  * @param const Point2Dd& b
  * @return bool
- * @link https://stackoverflow.com/questions/11907947/how-to-check-if-a-point-lies-on-a-line-between-2-other-points
  * Check if point lie in a line
  */
 bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b){
-    /*int cross;
 
-    float dxc = p.x() - a.x();
-    float dyc = p.y() - a.y();
+    double tollerance = 0.000001;
+    //double tollerance = 0.01;
+    //double tollerance = 0.001;
 
-    float dxl = b.x() - a.x();
-    float dyl = b.y() - a.y();
+    double pab = a.dist(p) + p.dist(b);
 
-    cross = (dxc * dyl) - (dyc * dxl);
+    double ab = a.dist(b);
 
-    std::cout << "First: " << (dxc * dyl) << std::endl;
-    std::cout << "Second: " << (dyc * dxl) << std::endl;
-    std::cout << "Cross: " <<  cross << std::endl;
-    std::cout << " " << std::endl;
-
-    //if (cross != 0)
-    if( -2000000000 > cross && cross < 0){
-        std::cout << "Il punto cade sulla linea" << std::endl;
-        return false;
-    }
-    else*/
-        return false;
-
-    /*
-    double ab = sqrt( pow((a.x()- b.x()), 2) + pow((a.y() - b.y()),2) );
-
-    double ap = sqrt( pow((a.x()- p.x()), 2) + pow((a.y() - p.y()),2) );
-
-    double pb = sqrt( pow((p.x()- b.x()), 2) + pow((p.y() - b.y()),2) );
-    double somma = pb - ap;
-
-    std::cout << "ab: " << ab << std::endl;
-    std::cout << "ap: " << ap << " pb: " << pb << std::endl;
-    std::cout << "Somma:  " << somma << std::endl; std::cout << " " << std::endl;
-    if( ap + pb == ab)
+    if( (pab - ab) < tollerance)
         return true;
     else
-        return false;*/
+        return false;
 
 }
 
@@ -268,77 +240,85 @@ void DelaunayTriangulationCore::pointLieInsideTriangle(Point2Dd* pr, Triangle* t
     legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
 }
-
 void DelaunayTriangulationCore::pointLieAB(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
+
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getA(), *triangleFather->getB());
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getA(), *triangleFather->getB());
-
-    Triangle* tr1 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather );
-    Triangle* tr2 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather );
-    Triangle* tr3 = generateTriangle(pr, triangleFather->getA(), pl, dagFather );
-    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getA(), dagFather );
+    DagNode* adjacentDagNode = adjacentTriangle->getDagNode();
 
     triangleFather->setIsDeleted(true);
     adjacentTriangle->setIsDeleted(true);
+
+
+    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getA(), *triangleFather->getB());
+
+    Triangle* tr1 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather);
+    Triangle* tr2 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather);
+    Triangle* tr3 = generateTriangle(pr, triangleFather->getA(), pl, adjacentDagNode );
+    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getB(), adjacentDagNode );
+
 
     Adjacencies::setAdjacencies(tr1, tr2, tr4, triangleFather);
     Adjacencies::setAdjacencies(tr2, tr3, tr1, triangleFather);
     Adjacencies::setAdjacencies(tr3, tr4, tr2, adjacentTriangle);
     Adjacencies::setAdjacencies(tr4, tr1, tr3, adjacentTriangle);
 
-    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
-    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr4->getA(), tr4->getB(), tr4->getC(), tr4 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
-    legalizeEdge( tr4->getA(), tr4->getB(), tr3->getC(), tr4 );
+    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
 }
 
 void DelaunayTriangulationCore::pointLieBC(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getB(), *triangleFather->getC());
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getB(), *triangleFather->getC());
-
-    Triangle* tr1 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather );
-    Triangle* tr2 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather );
-    Triangle* tr3 = generateTriangle(pr, triangleFather->getB(), pl, dagFather );
-    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getC(), dagFather );
+    DagNode* adjacentDagNode = adjacentTriangle->getDagNode();
 
     triangleFather->setIsDeleted(true);
     adjacentTriangle->setIsDeleted(true);
+
+    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getB(), *triangleFather->getC());
+
+    Triangle* tr1 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather);
+    Triangle* tr2 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather);
+    Triangle* tr3 = generateTriangle(pr, triangleFather->getB(), pl, adjacentDagNode );
+    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getC(), adjacentDagNode );
 
     Adjacencies::setAdjacencies(tr1, tr2, tr4, triangleFather);
     Adjacencies::setAdjacencies(tr2, tr3, tr1, triangleFather);
     Adjacencies::setAdjacencies(tr3, tr4, tr2, adjacentTriangle);
     Adjacencies::setAdjacencies(tr4, tr1, tr3, adjacentTriangle);
 
-    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
-    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr4->getA(), tr4->getB(), tr4->getC(), tr4 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
-    legalizeEdge( tr4->getA(), tr4->getB(), tr3->getC(), tr4 );
+    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
 }
 
 void DelaunayTriangulationCore::pointLieCA(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getC(), *triangleFather->getA());
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getC(), *triangleFather->getA());
-
-    Triangle* tr1 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather );
-    Triangle* tr2 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather );
-    Triangle* tr3 = generateTriangle(pr, triangleFather->getC(), pl, dagFather );
-    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getA(), dagFather );
+    DagNode* adjacentDagNode = adjacentTriangle->getDagNode();
 
     triangleFather->setIsDeleted(true);
     adjacentTriangle->setIsDeleted(true);
+
+    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getC(), *triangleFather->getA());
+
+    Triangle* tr1 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather);
+    Triangle* tr2 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather);
+    Triangle* tr3 = generateTriangle(pr, triangleFather->getC(), pl, adjacentDagNode  );
+    Triangle* tr4 = generateTriangle(pr, pl, triangleFather->getA(), adjacentDagNode );
 
     Adjacencies::setAdjacencies(tr1, tr2, tr4, triangleFather);
     Adjacencies::setAdjacencies(tr2, tr3, tr1, triangleFather);
     Adjacencies::setAdjacencies(tr3, tr4, tr2, adjacentTriangle);
     Adjacencies::setAdjacencies(tr4, tr1, tr3, adjacentTriangle);
 
-    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
-    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr4->getA(), tr4->getB(), tr4->getC(), tr4 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
-    legalizeEdge( tr4->getA(), tr4->getB(), tr3->getC(), tr4 );
+    legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
+    legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
 }
 
 /**
