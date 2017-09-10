@@ -31,20 +31,20 @@ Installation
 
 This project was developed with Ubuntu 17.04.  In order to install all dependencies and libraries run the following commands:
 
-> **From your terminal:**
+**From your terminal:**
 
->     sudo apt-get install qtcreator qt5-default 
->     sudo apt-get install libboost-all-dev libcgal-dev libgmp-dev libqglviewer-dev 
->     sudo apt-get install git doxygen libeigen3-dev 
->
->     sudo apt-get install libeigen3-dev
->     sudo apt-get install git doxygen
->     sudo apt-get install libboost-all-dev
->     sudo apt-get install libqglviewer-dev-qt5
+```
+sudo apt-get install qtcreator qt5-default 
+sudo apt-get install libboost-all-dev libcgal-dev libgmp-dev libqglviewer-dev 
+sudo apt-get install git doxygen libeigen3-dev 
+    
+sudo apt-get install libeigen3-dev
+sudo apt-get install git doxygen
+sudo apt-get install libboost-all-dev
+sudo apt-get install libqglviewer-dev-qt5
+```
 
-
-
-#### Cannot find -libQGLViewer-qt5 problem
+**Cannot find -libQGLViewer-qt5 problem**
 
 If you try to compile the solution you might receive the following message from the compiler:
 
@@ -66,43 +66,29 @@ My personal module, folder called "Andrea",  is structured as follow:
 
 **Andrea**
 ___
- - **Headers**
-  - DataStructures
-
+ **Headers**
+  - **DataStructures**
     - dagNode.h
     - triangle.h
-  - Drawable
-
+  - **Drawable**
       - drawabledelaunaytriangulation.h
-
-
       - drawablevoronoidiagram.h
-  - Static
-
+  - **Static**
        - adjacencies.h
-
-
        - dag.h
+- delaunaytriangulationcore.h
 
- delaunaytriangulationcore.h
-
- - **Classes**
-  - DataStructures
-
+**Classes**
+  - **DataStructures**
     - dagNode.cpp
     - triangle.cpp
-  - Drawable
-
+  - **Drawable**
       - drawabledelaunaytriangulation.cpp
-
-
       - drawablevoronoidiagram.cpp
-  - Static
-
+  - **Static**
        - adjacencies.cpp
        - dag.cpp
-
-delaunaytriangulationcore.cpp
+- delaunaytriangulationcore.cpp
 
 ___
 Inside **DataStructures** folder there are the classes that manage the main definition of the data structures of the all project as Triangles and Dag Nodes. A triangle has a pointer to is corrispective dag node and vice versa.
@@ -144,19 +130,30 @@ To perform the Voronoi Diagram, I took all Triangles of triangulation, I've calc
 Check triangulation problem
 -------------
 To be sure my algorithm works fine, there's a function (linked to the *"Check triangulation"* button) to check if the triangulation is a valid triangulation.
-The function `bool isDeulaunayTriangulation(const std::vector<Point2Dd>& points, const Array2D<unsigned int>& triangles)` has been provided by @Alessandro Muntoni and it checks if the triangulation is a Delaunay triangulation with a brute force approach in O(n^2).  With a small triangulation there's no problem with that, but using a big triangulation (like 100k, 200k points) it's probably the program freeze or crash. 
+The function 
+
+```c++
+bool isDeulaunayTriangulation(const std::vector<Point2Dd>& points, const Array2D<unsigned int>& triangles)
+```
+
+
+has been provided by @Alessandro Muntoni and it checks if the triangulation is a Delaunay triangulation with a brute force approach in O(n^2).  With a small triangulation there's no problem with that, but using a big triangulation (like 100k, 200k points) it's probably the program freeze or crash. 
 
 HIgh DPI monitor support
 -------------
 I'm working on Dell XPS 15 9550 with 4k monitor. To be able to work smoothly I had to make some fixes to the base project that was provided to us.
 In the main.cpp file I've add at 24 & 25 lines:
 
-    qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
-    QApplication app(argc, argv);
+```c++
+qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
+QApplication app(argc, argv);
+```
 
 But it works good with my QT version, using different version of QT it could be necessary to change with: 
 
-	qputenv("QT_DEVICE_PIXEL_RATIO", "2");
+```c++
+qputenv("QT_DEVICE_PIXEL_RATIO", "2");
+```
 
 I didn't test this project with other pc's or other system so for other fix or workaround please check the official forum at: [QT Forum](https://forum.qt.io/).
 
