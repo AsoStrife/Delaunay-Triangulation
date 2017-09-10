@@ -36,47 +36,75 @@ This project was developed with Ubuntu 17.04.  In order to install all dependenc
 >     sudo apt-get install qtcreator qt5-default 
 >     sudo apt-get install libboost-all-dev libcgal-dev libgmp-dev libqglviewer-dev 
 >     sudo apt-get install git doxygen libeigen3-dev 
->     
+>
 >     sudo apt-get install libeigen3-dev
 >     sudo apt-get install git doxygen
 >     sudo apt-get install libboost-all-dev
 >     sudo apt-get install libqglviewer-dev-qt5
 
-It is also possible to compile and run on MacOs and Windows but I will not give instructions to do it.
+
+
+#### Cannot find -libQGLViewer-qt5 problem
+
+If you try to compile the solution you might receive the following message from the compiler:
+
+```c++
+Cannot find -libQGLViewer-qt5
+Collect2:error: Id returned 1 exit status
+```
+
+To solve this problem check inside the directory `/usr/lib/x86_64-linux-gnu` if exist a file named: `libQGLViewer.so`. If doens't exist (very likely, as the project does not compile) check inside the folder all `.so` files of `libqglviewer`. If you find that file, change inside`viewver.pri` file at line 14 `LIBS += -lQGLViewer` with `LIBS += -libQGLViewer-qt5` (if file name is libQGLViewer-qt5.so)
+
+------
+
+It is also possible to compile and run the project on MacOs and Windows but I will not give instructions to do it.
 
 Folder structure
 -------------
 
 My personal module, folder called "Andrea",  is structured as follow: 
 
-> **Andrea**
-> ___
-> - **Headers**
->  - DataStructures
->    -- dagNode.h
->    -- triangle.h
->  - Drawable
->  -- drawabledelaunaytriangulation.h
->  -- drawablevoronoidiagram.h
->  - Static
->   -- adjacencies.h
->   -- dag.h
->
-> delaunaytriangulationcore.h
->
-> - **Classes**
->  - DataStructures
->    -- dagNode.cpp
->    -- triangle.cpp
->  - Drawable
->  -- drawabledelaunaytriangulation.cpp
->  -- drawablevoronoidiagram.cpp
->  - Static
->   -- adjacencies.cpp
->   -- dag.cpp
->
-> delaunaytriangulationcore.cpp
+**Andrea**
+___
+ - **Headers**
+  - DataStructures
 
+    - dagNode.h
+    - triangle.h
+  - Drawable
+
+      - drawabledelaunaytriangulation.h
+
+
+      - drawablevoronoidiagram.h
+  - Static
+
+       - adjacencies.h
+
+
+       - dag.h
+
+ delaunaytriangulationcore.h
+
+ - **Classes**
+  - DataStructures
+
+    - dagNode.cpp
+    - triangle.cpp
+  - Drawable
+
+      - drawabledelaunaytriangulation.cpp
+
+
+      - drawablevoronoidiagram.cpp
+  - Static
+
+       - adjacencies.cpp
+       - dag.cpp
+
+delaunaytriangulationcore.cpp
+
+___
 Inside **DataStructures** folder there are the classes that manage the main definition of the data structures of the all project as Triangles and Dag Nodes. A triangle has a pointer to is corrispective dag node and vice versa.
 
 **Drawable** folder contains two classes that implements Drawable Interface. Their task is to draw points and lines inside the canvas.
@@ -92,20 +120,20 @@ Benchmark
 At `/Extra/input_files/` there are a lot of files to test the triangulation efficienty.
 Below you will find the results I obtained using my PC (Dell XPS 15 9550, with Intel i7 6700HQ Skylake @ 2.60GHz) 
 
-> - 100 Points: 
-> - 500 Points:
-> - 1.000 Points:
-> - 1.500 Points:
-> - 2.000 Points:
-> - 2.500 Points:
-> - 3.000 Points:
-> - 3.500 Points:
-> - 4.000 Points:
-> - 4.500 Points:
-> - 5.000 Points:
-> - 50.000 Points:
-> - 100.000 Points:
-> - 200.000 Points: 
+> - 100 Points:  ≈ 0,00063 seconds
+> - 500 Points: ≈ 0,0032 seconds
+> - 1.000 Points: ≈ 0,0114 seconds
+> - 1.500 Points: ≈ 0,0120 seconds
+> - 2.000 Points: ≈ 0,0200 seconds
+> - 2.500 Points: ≈ 0,0220 seconds
+> - 3.000 Points: ≈ 0.0259 seconds
+> - 3.500 Points: ≈ 0,0336 seconds
+> - 4.000 Points: ≈ 0,037 seconds
+> - 4.500 Points: ≈ 0,043 seconds
+> - 5.000 Points: ≈ 0,050 seconds
+> - 50.000 Points: ≈ 0,55 seconds
+> - 100.000 Points: ≈ 1,4 seconds
+> - 200.000 Points: ≈ 2,5 seconds
 
 Voronoi Diagram
 -------------
@@ -139,7 +167,7 @@ This is the result with 100 points files.
 
 This is the corresponding Voronoi Graph.
 
-![enter image description here](http://i.imgur.com/Cr6TyvH.png%20%22Voronoi%20100%20Points)
+![Voronoi Graph](http://i.imgur.com/Cr6TyvH.png%20%22Voronoi%20100%20Points)
 
 Here are the two graphs together.
 
