@@ -17,7 +17,7 @@ private:
 public:
     DagNode();
     DagNode(Triangle* tr);
-    //~DagNode();
+
     // Getter & Setter
     DagNode* getChildA() const;
     DagNode* getChildB() const;

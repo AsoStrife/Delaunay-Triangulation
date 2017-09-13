@@ -18,13 +18,15 @@ For a set of points on the same line there is no Delaunay triangulation (the not
 By considering circumscribed spheres, the notion of Delaunay triangulation extends to three and higher dimensions. Generalizations are possible to metrics other than Euclidean distance. However, in these cases a Delaunay triangulation is not guaranteed to exist or be unique.
 [Wikipedia: Delaunay Triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation)
 
-Main Features about Delaunay Triangulation algorithm
+Main Features about My Delaunay Triangulation Algorithm
 -------
 - Efficient way to find in which triangle a point lies.
 - A point can be totaly inside on a triangle or can lie in one of three edges. 
 - A point can be insert only once. Instead of using the vector of points to check if point already exist, I use the Dag, in order to save time and CPU clock.
 - Iterative Dag navigation instead of recursive way to avoid some crash and segmentation faults.
 - Access to the adjacent triangles and the corresponding Dag node in O(1)
+
+For more detail about the  implementation check the code! It's all documented with the **Doxygen Standard**.
 
 Installation
 -------------
@@ -122,8 +124,11 @@ Below you will find the results I obtained using my PC (Dell XPS 15 9550, with I
 > - 200.000 Points: ≈ 2,5 seconds
 > - 300.000 Points ≈ 4,2 seconds
 
+My algorithm does not allow the insertion of two equal points (with the same coordinates), so if we try to insert the same input file twice, the triangulation will be more faster. For example if we add twice the 200k points file, the second time the triangulation will take only ≈ 1.35 seconds.
+
 Voronoi Diagram
 -------------
+
 The Delaunay triangulation of a discrete point set **P** in general position corresponds to the dual graph of the Voronoi diagram for **P**.  
 The bonus point of the project was to draw the dual graph of the delaunay triangulation: Voronoi Diagram, but without any data structure. 
 To perform the Voronoi Diagram, I took all Triangles of triangulation, I've calculated the circumcentre of that triangle and connected it with the circumcentre of the three adjacent triangles.

@@ -11,16 +11,15 @@ class DelaunayTriangulationCore
 {
 public:
     DelaunayTriangulationCore();
-    ~DelaunayTriangulationCore();
 
     // Points of my triangulation
-    std::vector<Point2Dd*> points;
+    std::vector<Point2Dd*> points; /**< enum value 2 */
 
     // Triangles of my triangulation & Dag
-    std::vector<Triangle*> triangles;
+    std::vector<Triangle*> triangles; /**< enum value 2 */
 
     // Nodes of my Dag
-    std::vector<DagNode*> dagNodes;
+    std::vector<DagNode*> dagNodes; /**< enum value 2 */
 
     // This attributes is for validation process, not triangulation
     std::map<Point2Dd, int> map;
@@ -49,10 +48,10 @@ public:
     void edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj);
 
     // Create a new triangle, set his dag node and his pointer of his dag node father
-    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, DagNode* dagNodeFather);
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather);
 
     // Create a new triangle, set his dag node and his two pointer of two dag node father
-    Triangle* generateTriangle(Point2Dd *p, Point2Dd *p1, Point2Dd *p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2);
+    Triangle* generateTriangle(Point2Dd* p, Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2);
 
     void pointLieAB(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);
     void pointLieBC(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather);

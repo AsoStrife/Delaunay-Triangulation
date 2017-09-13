@@ -2,8 +2,6 @@
 
 DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
-DelaunayTriangulationCore::~DelaunayTriangulationCore(){ }
-
 /**
  * @brief DelaunayTriangulationCore::addPoint
  * @param const Point2Dd p
@@ -25,22 +23,17 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
     Triangle* triangleFather = dagFather->getTriangle();
 
 
-    if(pointLieInALine(*points.back(), *triangleFather->getA(), *triangleFather->getB())){
-        std::cout << " AB " << std::endl;
+    if(pointLieInALine(*points.back(), *triangleFather->getA(), *triangleFather->getB()))
         pointLieAB(points.back(), triangleFather, dagFather);
-    }
-    else if(pointLieInALine(*points.back(), *triangleFather->getB(), *triangleFather->getC())){
-        std::cout << " BC " << std::endl;
+
+    else if(pointLieInALine(*points.back(), *triangleFather->getB(), *triangleFather->getC()))
         pointLieBC(points.back(), triangleFather, dagFather);
 
-    }
-    else if(pointLieInALine(*points.back(), *triangleFather->getC(), *triangleFather->getA())){
-        std::cout << " CA " << std::endl;
+    else if(pointLieInALine(*points.back(), *triangleFather->getC(), *triangleFather->getA()))
         pointLieCA(points.back(), triangleFather, dagFather);
-    }
-    else{
+
+    else
         pointLieInsideTriangle(points.back(), triangleFather, dagFather);
-    }
 
     return true;
 }
@@ -101,17 +94,17 @@ void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2D
     Triangle* adjTriangle = nullptr;
 
     if(tr->getTriangleAdjacentA() != nullptr){
-        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentA(), *pi, *pj) == true)
+        if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentA(), *pi, *pj) == true)
                 adjTriangle = tr->getTriangleAdjacentA();
     }
 
     if(tr->getTriangleAdjacentB() != nullptr){
-        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), *pi, *pj) == true)
+        if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentB(), *pi, *pj) == true)
                 adjTriangle = tr->getTriangleAdjacentB();
     }
 
     if(tr->getTriangleAdjacentC() != nullptr){
-        if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), *pi, *pj) == true)
+        if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentC(), *pi, *pj) == true)
                 adjTriangle = tr->getTriangleAdjacentC();
     }
 

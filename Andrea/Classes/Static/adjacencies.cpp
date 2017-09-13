@@ -4,13 +4,12 @@ Adjacencies::Adjacencies() {}
 
 /**
  * @brief Adjacencies::setAdjacencies
- * @param Triangle* tr1
- * @param Triangle* tr2
- * @param Triangle* tr3
- * @param Triangle* trFather
+ * @param A pointer to the triangle to which we will set the adjacences
+ * @param A Pointer to the first adjacent triangle of tr1
+ * @param A Pointer to the second adjacent triangle of tr1
+ * @param A pointer to the triangle father of tr1, the triangle that contain tr1
  * Calculate the adjacencies for triangle tr1. tr2 and tr3 will be adiacients a priori,
- * while for the third adjacent check the triangle parent
- *
+ * while for the third adjacent check the triangle parent.
  */
 void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Triangle* trFather){
 
@@ -55,12 +54,12 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
 
 /**
  * @brief Adjacencies::setAdjacenciesAfterFlip
- * @param Triangle* tr1
- * @param Triangle* tr2
- * @param Triangle* tr1Father
- * @param Triangle* tr2Father
+ * @param A pointer to the triangle to which we will set the adjacences
+ * @param A Pointer to the first adjacent triangle of tr1
+ * @param A pointer to the first triangle father of tr1, the triangle that contain tr1
+ * @param A pointer to the second triangle father of tr1, the triangle that contain tr1
  * Calculate the adjacencies for triangle tr1, after it was done a Edge Flip.
- * So the function check two parents: tr1Father and tr2Father
+ * So the function check two parents: tr1Father and tr2Father and set the second and third adjacencies
  */
 void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle* tr1Father, Triangle* tr2Father){
 
@@ -108,12 +107,14 @@ void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle
     }
 
 }
+
 /**
  * @brief Adjacencies::isAdjacencies
- * @param Triangle* tr1
- * @param Triangle* tr2
- * @return bool
- * Check if two triangles are adjacent trying all possible combinations
+ * @param tr1 the first triangle to check
+ * @param tr2 the second triangle to check
+ * @return true is tr1 and tr1 are adjacent, false otherwise
+ * Check if two triangles are adjacent trying all possible combinations, and return true if
+ * the triangles are adjacent.
  */
 bool Adjacencies::isAdjacencies(const Triangle& tr1, const Triangle& tr2){
 
@@ -121,7 +122,7 @@ bool Adjacencies::isAdjacencies(const Triangle& tr1, const Triangle& tr2){
         // AB
         ( (tr1.getA() == tr2.getA() || tr1.getB() == tr2.getA() || tr1.getC() == tr2.getA()) &&
           (tr1.getA() == tr2.getB() || tr1.getB() == tr2.getB() || tr1.getC() == tr2.getB()) ) )
-        return true;
+            return true;
 
         // BC
        if ( (tr1.getA() == tr2.getB() || tr1.getB() == tr2.getB() || tr1.getC() == tr2.getB()) &&
@@ -131,7 +132,6 @@ bool Adjacencies::isAdjacencies(const Triangle& tr1, const Triangle& tr2){
         // CA
         if( (tr1.getA() == tr2.getC() || tr1.getB() == tr2.getC() || tr1.getC() == tr2.getC()) &&
           (tr1.getA() == tr2.getA() || tr1.getB() == tr2.getA() || tr1.getC() == tr2.getA()) )
-
             return true;
 
     return false;
@@ -139,20 +139,20 @@ bool Adjacencies::isAdjacencies(const Triangle& tr1, const Triangle& tr2){
 
 /**
  * @brief Adjacencies::isAdjacenciesForTwoPoints
- * @param Triangle* tr
- * @param const Point2Dd& p1
- * @param const Point2Dd& p2
- * @return bool
- * Similar to isAdjacencies, but this function check if a triangle have two particular verticies
+ * @param The triangle to which we will check the adjacences
+ * @param First vertex to check
+ * @param Second vertex to check
+ * @return True if tr have p1 and p2 as verticies, else otherwise
+ * Similar to isAdjacencies, but this function check if a triangle have two specific verticies
  */
-bool Adjacencies::isAdjacenciesForTwoPoints(Triangle* tr, const Point2Dd& p1, const Point2Dd& p2){
-    if( (*tr->getA() == p1 && *tr->getB() == p2) || (*tr->getB() == p1 && *tr->getA() == p2) ) // AB
+bool Adjacencies::isAdjacenciesForTwoPoints(const Triangle& tr, const Point2Dd& p1, const Point2Dd& p2){
+    if( (*tr.getA() == p1 && *tr.getB() == p2) || (*tr.getB() == p1 && *tr.getA() == p2) ) // AB
         return true;
 
-    else if( (*tr->getA() == p1 && *tr->getC() == p2) || (*tr->getC() == p1 && *tr->getA() == p2) ) // AC
+    else if( (*tr.getA() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getA() == p2) ) // AC
         return true;
 
-    else if( (*tr->getB() == p1 && *tr->getC() == p2) || (*tr->getC() == p1 && *tr->getB() == p2) ) // BC
+    else if( (*tr.getB() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getB() == p2) ) // BC
         return true;
     else
         return false;
@@ -182,9 +182,10 @@ Point2Dd* Adjacencies::getThirdPoint(const Triangle& tr, const Point2Dd& p1, con
 
 /**
  * @brief Adjacencies::setAdjacency
- * @param Triangle* triangle
- * @param Triangle* adjTriangle
- * Set adjTriangle ad a triangle adiacent of triangle. It set on the first free slot
+ * @param A pointer to the triangle to which we will set the adjacent
+ * @param A pointer to the adjacent triangle
+ * Set adjTriangle as a adjacent of triangle (settings his attribute) in the
+ * first free slot.
  */
 void Adjacencies::setAdjacency(Triangle* triangle, Triangle* adjTriangle){
 
@@ -209,13 +210,14 @@ void Adjacencies::setAdjacency(Triangle* triangle, Triangle* adjTriangle){
 
 /**
  * @brief Adjacencies::overrideAdjacency
- * @param Triangle* triangle
- * @param Triangle* adjTriangle
+ * @param A pointer to the triangle to which we will set the adjacent
+ * @param A pointer to the adjacent triangle
  * Overrride the adjacency when a new triangle is added. It will be called inside
  * setAdjacencies & setAdjacenciesAfterFlip;
-
+ * If adjTriangle has the same vertex of one of the three adjacencies of *triangle, that attribute
+ * will be override with the new adjacentTriangle pointer.
  */
-void Adjacencies::overrideAdjacency(Triangle* triangle, Triangle *adjTriangle){
+void Adjacencies::overrideAdjacency(Triangle* triangle, Triangle* adjTriangle){
 
     if( (triangle->getTriangleAdjacentA()->getIsDeleted() == true) && (Adjacencies::isAdjacencies(*adjTriangle, *triangle->getTriangleAdjacentA() ) == true) )
         triangle->setTriangleAdjacentA(adjTriangle);
@@ -234,15 +236,15 @@ void Adjacencies::overrideAdjacency(Triangle* triangle, Triangle *adjTriangle){
 
 Triangle* Adjacencies::getTriangleAdjacentByTwoPoints(Triangle* tr, const Point2Dd& a, const Point2Dd& b){
 
-    if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentA(), a, b))
+    if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentA(), a, b))
         return tr->getTriangleAdjacentA();
-    else if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentB(), a, b))
+    else if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentB(), a, b))
         return tr->getTriangleAdjacentB();
 
     else if(tr->getTriangleAdjacentC() != nullptr){
-    if(Adjacencies::isAdjacenciesForTwoPoints(tr->getTriangleAdjacentC(), a, b))
+    if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentC(), a, b))
         return tr->getTriangleAdjacentC();
     }
-    else
-        return nullptr;
+
+    return nullptr;
 }

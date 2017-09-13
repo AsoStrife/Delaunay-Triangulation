@@ -77,8 +77,8 @@ void Triangle::setTriangleAdjacentC(Triangle* trAdjC){
 }
 
 
-bool Triangle::operator == (const Triangle* tr){
-   if( *this->getA() == *tr->getA() && *this->getB() == *tr->getB() && *this->getC() == *tr->getC())
+bool Triangle::operator == (const Triangle& tr){
+   if( *this->getA() == *tr.getA() && *this->getB() == *tr.getB() && *this->getC() == *tr.getC())
      return true;
    else
      return false;
