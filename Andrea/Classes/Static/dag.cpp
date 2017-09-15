@@ -1,29 +1,15 @@
 #include <Andrea/Headers/Static/dag.h>
 
 Dag::Dag() {}
+
 /**
-float Dag::sign (const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
-    return (p1.x() - p3.x()) * (p2.y() - p3.y()) - (p2.x() - p3.x()) * (p1.y() - p3.y());
-}
-
-bool Dag::pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
-
-    //bool b1, b2, b3;
-
-    float b1 = sign(p, a, b) < 0.0f;
-    float b2 = sign(p, b, c) < 0.0f;
-    float b3 = sign(p, c, a) < 0.0f;
-
-    return ((b1 == b2) && (b2 == b3));
-}
-*/
-/**
-  *@link https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
- * @brief pointInTriangle
- * @param const Point2Dd& pt
- * @param Triangle* t
- * @return bool
- * Check if point is inside a triangle
+ * @brief Dag::pointInTriangle
+ * @param p is the point that will be insede or outside the triangle
+ * @param a is the first vertex of the triangle
+ * @param b is the second vertex of the triangle
+ * @param c is the third vertex of the triangle
+ * @return true if a point is insede a triangle, else otherwise
+ * @link https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
  */
 bool Dag::pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
 
@@ -42,10 +28,12 @@ bool Dag::pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd&
 
 /**
  * @brief Dag::checkPointIsVertexOfTriangle
- * @param const Point2Dd& p
- * @param Triangle* triangle
- * @return bool
- * Check if a point is a vertex of a triangle
+ * @param p is the point that will be a vertex of the triangle
+ * @param a is the first vertex of the triangle
+ * @param b is the second vertex of the triangle
+ * @param c is the third vertex of the triangle
+ * @return true is p is equal to a, b or c, else otherwise
+ * Check if a point is a vertex of the triangle
  */
 bool Dag::checkPointIsVertexOfTriangle(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
     if(p.x() == a.x() && p.y() == a.y())
@@ -60,12 +48,11 @@ bool Dag::checkPointIsVertexOfTriangle(const Point2Dd& p, const Point2Dd& a, con
 
 /**
  * @brief Dag::navigate
- * @param Dag* dagNode
- * @param const Point2Dd& p
- * @return Dag*
- *
+ * @param dagNode is a pointer to the DagNode from which the search will start (often is the root of the Dag)
+ * @param p is the point that lie insede one of the triangle of the Dag
+ * @return the smallest Triangle (his DagNode ponter) that contain the point p
  * Navigate the Dag, starting by dagNode (often is the root). If a point is inside the triangle
- * check the children, update dagNode e repeat the process until exist a child
+ * check is three children, update dagNode e repeat the process until exist a child
  */
 DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
 
@@ -82,7 +69,7 @@ DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
 
         Triangle* tr = nullptr;
 
-        // Se il punto è contenuto in questo triangolo, controllo i suoi figli. Se è contenuto nei suoi figli aggiorno il puntatore e iterativamente continuo il ciclo
+        // If the point is inside this triangle, check is children. If it is contain by one of his children, update the pointer e repeat the loop
         if(dagNode->getChildA() != nullptr){
             tr = dagNode->getChildA()->getTriangle();
 
@@ -116,6 +103,7 @@ DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
             }
          }
 
+         // There's not more children. Stop the loop
         if(dagNode->getChildA() == nullptr && dagNode->getChildB() == nullptr && dagNode->getChildC() == nullptr)
             hasChild = false;
     }
@@ -125,22 +113,22 @@ DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
 
 /**
  * @brief Dag::addNode
- * @param Dag* node
- * @param Dag* dagNodefather
+ * @param node is a pointer to the node that will be setted as a child of dagNodeFather
+ * @param dagNodeFather is a pointer to the dag node father to which we will set the child.
  * Add a node as a child of dagNodeFather, setting the node in the first nullptr
  */
-void Dag::addNode(DagNode* node, DagNode* dagNodefather){
+void Dag::addNode(DagNode* node, DagNode* dagNodeFather){
 
-    if(dagNodefather->getChildA() == nullptr){
-        dagNodefather->setChildA(node);
+    if(dagNodeFather->getChildA() == nullptr){
+        dagNodeFather->setChildA(node);
         return;
     }
-    else if(dagNodefather->getChildB() == nullptr){
-        dagNodefather->setChildB(node);
+    else if(dagNodeFather->getChildB() == nullptr){
+        dagNodeFather->setChildB(node);
         return;
     }
-    else if(dagNodefather->getChildC() == nullptr){
-        dagNodefather->setChildC(node);
+    else if(dagNodeFather->getChildC() == nullptr){
+        dagNodeFather->setChildC(node);
         return;
     }
 

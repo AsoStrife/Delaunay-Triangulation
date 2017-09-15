@@ -2,13 +2,15 @@
 
 DagNode::DagNode(){}
 
+DagNode::~DagNode(){ }
+
 DagNode::DagNode(Triangle* tr){
     this->tr = tr;
 }
 
 
-/*
- * Getter & Setter
+/**
+ * Getter & Setter for his attributes
  */
 
 DagNode* DagNode::getChildA() const{
@@ -43,6 +45,11 @@ void DagNode::setTriangle(Triangle* tr){
     this->tr = tr;
 }
 
+/**
+ * @brief DagNode::operator ==
+ * @param dn
+ * @return true if two DagNode are equals, else otherwise
+ */
 bool DagNode::operator == (const DagNode& dn){
    if( this->tr == dn.getTriangle() )
      return true;

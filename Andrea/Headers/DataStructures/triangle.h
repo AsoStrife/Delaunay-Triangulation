@@ -6,24 +6,31 @@
 
 class DagNode;
 
+/**
+ * @brief The Triangle class
+ * This class rappresent a Triangle.
+ * A triangle is composed by 3 vertex, his Dagnode
+ * and three adjacent triangle.
+ */
 class Triangle{
+
 private:
-    Point2Dd* vA;
-    Point2Dd* vB;
-    Point2Dd* vC;
+    Point2Dd* vA; /**< A pointer to his first vertex */
+    Point2Dd* vB; /**< A pointer to his second vertex */
+    Point2Dd* vC; /**< A pointer to his third vertex */
 
-    DagNode* dagNode = nullptr;
+    DagNode* dagNode = nullptr; /**< A pointer to his DagNode */
 
-    Triangle* triangleAdjacentA = nullptr;
-    Triangle* triangleAdjacentB = nullptr;
-    Triangle* triangleAdjacentC = nullptr;
+    Triangle* triangleAdjacentA = nullptr; /**< A pointer to his first adjacent triangle */
+    Triangle* triangleAdjacentB = nullptr; /**< A pointer to his second adjacent triangle */
+    Triangle* triangleAdjacentC = nullptr; /**< A pointer to his third adjacent triangle */
 
-    bool isDeleted = false;
+    bool isDeleted = false;  /**< isDeleted will be true if a triangle is deleted from triangulation, but still remain valid for is dagNode reference */
 
 public:
     Triangle();
     Triangle(Point2Dd* vA, Point2Dd* vB, Point2Dd* vC);
-    //~Triangle();
+    ~Triangle();
 
     // Getter & setter per i 3 punti del triangolo
     Point2Dd* getA() const;

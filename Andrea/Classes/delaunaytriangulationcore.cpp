@@ -4,12 +4,12 @@ DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
 /**
  * @brief DelaunayTriangulationCore::addPoint
- * @param const Point2Dd p
- * @return bool
+ * @param p is a point received from delaunaymanager.cpp
+ * @return true if the point is added correctly inside the triangulation, else otherwise
  * Add a point inside triagulation.
- * Add point p inside vector of points, and check using Dag structure where the point lie.
+ * Add point p inside vector of points, and check using Dag data structure where the point lie.
  * If point already exist inside the triangulation, return false else generate 3 new triangle
- * and legalize the edge.
+ * and legalize the edge. The point can lie inside a tringle or in one of his three edge
  */
 bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
@@ -22,16 +22,16 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 
     Triangle* triangleFather = dagFather->getTriangle();
 
-
+    // p lie on AB
     if(pointLieInALine(*points.back(), *triangleFather->getA(), *triangleFather->getB()))
         pointLieAB(points.back(), triangleFather, dagFather);
-
+    // p lie on BC
     else if(pointLieInALine(*points.back(), *triangleFather->getB(), *triangleFather->getC()))
         pointLieBC(points.back(), triangleFather, dagFather);
-
+    // p lie on CA
     else if(pointLieInALine(*points.back(), *triangleFather->getC(), *triangleFather->getA()))
         pointLieCA(points.back(), triangleFather, dagFather);
-
+    // p lie inside the triangle
     else
         pointLieInsideTriangle(points.back(), triangleFather, dagFather);
 
@@ -39,15 +39,15 @@ bool DelaunayTriangulationCore::addPoint(const Point2Dd& p){
 }
 
 /**
-* @brief DelaunayTriangulationCore::generateTriangle
-* @param Point2Dd* p
-* @param Point2Dd* p1
-* @param Point2Dd* p2
-* @param DagNode*dagNodeFather
-* @return Triangle*
-* Generate a triangle using 3 point. After push_back of triangle, create his corresponding dag node,
-* and set as a child of dagNodeFather
-*/
+ * @brief DelaunayTriangulationCore::generateTriangle
+ * @param p is the new vertex just insered
+ * @param p1 is the second vertex of the new triangle
+ * @param p2 is the third vertex of the new triangle
+ * @param dagNodeFather is the dagNode of the triangle father (p1 and p2 is the vertex of that triangle)
+ * @return a pointer of the new generated triangle
+ * Generate a triangle using 3 point. After push_back of triangle, create his corresponding dag node,
+ * and set as a child of dagNodeFather
+ */
 Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new DagNode( triangles.back() ) );
@@ -60,16 +60,17 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
 }
 
 /**
-* @brief DelaunayTriangulationCore::generateTriangle
-* @param Point2Dd* p
-* @param Point2Dd* p1
-* @param Point2Dd* p2
-* @param DagNode*dagNodeFather1
-* @param DagNode*dagNodeFather2
-* @return Triangle*
-* Generate a triangle using 3 point after edge flip. After push_back of triangle, create his corresponding dag node,
-* and set as a child of dagNodeFather1 and dagNodeFather2
-*/
+ * @brief DelaunayTriangulationCore::generateTriangle
+ * @param p is the new vertex just insered
+ * @param p1 is the second vertex of the new triangle
+ * @param p2 is the third vertex of the new triangle
+ * @param dagNodeFather1 is the dagNode of the triangle father
+ * @param dagNodeFather2 is the dagNode of the triangle father
+ * @return a pointer of the new generated triangle
+ * @return a pointer of the new generated triangle
+ * Generate a triangle using 3 point after edge flip. After push_back of triangle, create his corresponding dag node,
+ * and set as a child of dagNodeFather1 and dagNodeFather2
+ */
 Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, Point2Dd* p2, DagNode* dagNodeFather1, DagNode* dagNodeFather2){
     this->triangles.push_back( new Triangle( p, p1, p2 ) );
     this->dagNodes.push_back( new DagNode( triangles.back() ) );
@@ -83,11 +84,11 @@ Triangle* DelaunayTriangulationCore::generateTriangle(Point2Dd* p,Point2Dd* p1, 
 
 /**
  * @brief DelaunayTriangulationCore::legalizeEdge
- * @param Point2Dd* pr
- * @param Point2Dd* pi
- * @param Point2Dd* pj
- * @param Triangle* tr
- * Check if a edge is legal or not, using the adjacencies of a triangle tr
+ * @param pr is the new vertex just insered. It can be used for and edge flip
+ * @param pi is the first vertex which will be used to check the adjacency
+ * @param pj is the second vertex which will be used to check the adjacency
+ * @param tr is the triangle used for check the adjacencies
+ * Check if a edge is legal or not, using the adjacencies of the triangle tr
  */
 void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2Dd* pj, Triangle* tr){
 
@@ -118,14 +119,14 @@ void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2D
 
 /**
  * @brief DelaunayTriangulationCore::edgeFlip
- * @param Triangle* tr1
- * @param Triangle* tr2
- * @param Point2Dd* pr
- * @param Point2Dd* pi
- * @param Point2Dd* pj
+ * @param tr1 is the first triangle that will be used for edge flip
+ * @param tr2 is the second triangle that will be used for edge flip
+ * @param pr is the point used to do an edge flip
+ * @param pi is the first point that composed the old triangle that will be deleted after flip
+ * @param pj is the second point that composed the old triangle that will be deleted after flip
  * If legalizeEdge find an illegal edge, edgeFlip generate two new triangle using third point of the
  * adjacent triangle. After flip, chek the new edge using legalizeEdge again
- */
+*/
 void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd* pr, Point2Dd* pi, Point2Dd* pj){
     tr1->setIsDeleted(true);
     tr2->setIsDeleted(true);
@@ -150,7 +151,7 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
 
 /**
  * @brief DelaunayTriangulationCore::cleanDelaunayTriangulation
- * Clean vector of points, triangulation, dag and map
+ * Clean vector of points, triangulation, dag and map and other attributes
  */
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
 
@@ -164,7 +165,7 @@ void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
 
 /**
  * @brief DelaunayTriangulationCore::loadPointFromVector
- * @param std::vector<Point2Dd>& vectorPoints
+ * @param std::vector<Point2Dd>& vectorPoints is the vector of points received from delaunaymanager.cpp
  * Add one by one a point inside triangulation
  */
 void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>& vectorPoints){
@@ -177,10 +178,12 @@ void DelaunayTriangulationCore::loadPointFromVector(const std::vector<Point2Dd>&
 
 /**
  * @brief DelaunayTriangulationCore::setBoundingTrianglePoints
- * @param const Point2Dd& p1
- * @param const Point2Dd& p2
- * @param const Point2Dd& p3
- * Set the first three points inside the triangulation as bounding triangle
+ * @param p1 is the first vertex of the bounding triangle
+ * @param p2 is the second vertex of the bounding triangle
+ * @param p3 is the third vertex of the bounding triangle
+ * Set the first three points inside the triangulation as bounding triangle.
+ * Add the tree points inside the vector of points (as a pointer), and generate the triangle ad is
+ * corresponding dag node.
  */
 void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, const Point2Dd& p2, const Point2Dd& p3){
     this->points.push_back( new Point2Dd (p1.x(), p1.y() ) );
@@ -194,18 +197,21 @@ void DelaunayTriangulationCore::setBoundingTrianglePoints(const Point2Dd& p1, co
 }
 
 /**
- * @brief DrawableDelaunayTriangulation::pointLieInALine
- * @param const Point2Dd& p
- * @param const Point2Dd& a
- * @param const Point2Dd& b
- * @return bool
- * Check if point lie in a line
+ * @brief DelaunayTriangulationCore::pointLieInALine
+ * @param p the point which will be checked
+ * @param a the first point of the segment
+ * @param b the second point of the segmen
+ * @return true if point lie on an edge, else otherwise
+ * To check if of point lie on a segment, is important to set the correct tollerance.
+ * After a lot of tests I've set as a tollerance 0.000001. With a bigger tollerance
+ * value, the delaunay algorith doesn't work good and probably go in infinite loop.
+ * With smaller tollerance is more difficoult to find if a point lie on an edge.
  */
 bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b){
 
-    double tollerance = 0.000001;
-    //double tollerance = 0.01;
-    //double tollerance = 0.001;
+    double tollerance = 0.000001; /**< current tollerance value. Is the best value to find if a point lie on an edge. */
+    //double tollerance = 0.01; /**< old tollerance value, try to use it to see the differences. */
+    //double tollerance = 0.001; /**< old tollerance value, try to use it to see the differences. */
 
     double pab = a.dist(p) + p.dist(b);
 
@@ -218,6 +224,21 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
 
 }
 
+/***********************************************
+ * The following four method define how the algorith must work
+ * after a point is insered inside the triangulation.
+ * pointLieInsideTriangle(..) is used if a point is totaly inside the triangle find using the Dag datastructure
+ * pointLieAB(..), pointLieBC(..), pointLieCA(..) are called when the point lie on one of
+ * three edge of the triangle. The main difference between this function is the 4 triangles that will
+ * be generate, composed by different verticies.
+ ***********************************************/
+
+/**
+ * @brief DelaunayTriangulationCore::pointLieInsideTriangle
+ * @param pr is the new point just added
+ * @param triangleFather is the triangle where pr lie
+ * @param dagFather corresponding dag node of triangleFather
+ */
 void DelaunayTriangulationCore::pointLieInsideTriangle(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
     Triangle* tr1 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather );
     Triangle* tr2 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather );
@@ -233,6 +254,13 @@ void DelaunayTriangulationCore::pointLieInsideTriangle(Point2Dd* pr, Triangle* t
     legalizeEdge( tr2->getA(), tr2->getB(), tr2->getC(), tr2 );
     legalizeEdge( tr3->getA(), tr3->getB(), tr3->getC(), tr3 );
 }
+
+/**
+ * @brief DelaunayTriangulationCore::pointLieAB
+ * @param pr is the new point just added
+ * @param triangleFather is the triangle where pr lie
+ * @param dagFather corresponding dag node of triangleFather
+ */
 void DelaunayTriangulationCore::pointLieAB(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
 
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getA(), *triangleFather->getB());
@@ -262,6 +290,12 @@ void DelaunayTriangulationCore::pointLieAB(Point2Dd* pr, Triangle* triangleFathe
     legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
 }
 
+/**
+ * @brief DelaunayTriangulationCore::pointLieBC
+ * @param pr is the new point just added
+ * @param triangleFather is the triangle where pr lie
+ * @param dagFather corresponding dag node of triangleFather
+ */
 void DelaunayTriangulationCore::pointLieBC(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getB(), *triangleFather->getC());
 
@@ -288,6 +322,12 @@ void DelaunayTriangulationCore::pointLieBC(Point2Dd* pr, Triangle* triangleFathe
     legalizeEdge( tr1->getA(), tr1->getB(), tr1->getC(), tr1 );
 }
 
+/**
+ * @brief DelaunayTriangulationCore::pointLieCA
+ * @param pr is the new point just added
+ * @param triangleFather is the triangle where pr lie
+ * @param dagFather corresponding dag node of triangleFather
+ */
 void DelaunayTriangulationCore::pointLieCA(Point2Dd* pr, Triangle* triangleFather, DagNode* dagFather){
     Triangle* adjacentTriangle = Adjacencies::getTriangleAdjacentByTwoPoints(triangleFather, *triangleFather->getC(), *triangleFather->getA());
 
@@ -316,23 +356,27 @@ void DelaunayTriangulationCore::pointLieCA(Point2Dd* pr, Triangle* triangleFathe
 
 /**
  * @brief DelaunayTriangulationCore::getTriangles
- * @return std::vector<Triangle*>
- * Return triangulation
+ * @return std::vector<Triangle*>, my triangulation vector
+ * Simply return the triangulation vector
  */
 std::vector<Triangle*> DelaunayTriangulationCore::getTriangles(){
     return this->triangles;
 }
 
-/***
- * ***************************************** *
-    Validation method, not triangulation
- * ***************************************** *
-***/
+/***********************************************
+ * These methods are used for the validation process
+ * to perform a better an efficent export of the triangulation
+ * the points are stored inside a std::map<Point2Dd, int>
+ * that associates the Point2Dd with his index on the main
+ * vector of points.
+ ***********************************************/
 
 /**
  * @brief DelaunayTriangulationCore::getPointsForValidation
- * @return std::vector<Point2Dd> u
- * Convert my vector of points in std::vector<Point2Dd>
+ * @return a vector of Point2Dd
+ * Convert std::vector<Point2Dd*> into std::vector<Point2Dd> and
+ * stored inside a std::map<Point2Dd, int> the Point2Dd with his index on the main
+ * vector of points.
  */
 std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
     std::vector<Point2Dd> v;
@@ -346,8 +390,7 @@ std::vector<Point2Dd> DelaunayTriangulationCore::getPointsForValidation(){
 
 /**
  * @brief DelaunayTriangulationCore::getTrianglesForValidation
- * @return Array2D<unsigned int>
- * Create a Array2D of my triangulation
+ * Create a Array2D of the triangulation, increasing the counter of valid triangles
  */
 void DelaunayTriangulationCore::generateTrianglesForValidation(){
 
@@ -368,10 +411,20 @@ void DelaunayTriangulationCore::generateTrianglesForValidation(){
     }
 }
 
+/**
+ * @brief DelaunayTriangulationCore::getCountValidTriangle
+ * @return the counter of valid triangles.
+ * This value will be use on delaunaymanager.cpp to resize the array2D
+ */
 int DelaunayTriangulationCore::getCountValidTriangle() const{
     return this->countValidTriangles;
 }
 
+/**
+ * @brief DelaunayTriangulationCore::getValidTriangles
+ * @return an array2D that will be use on delaunaychecker to
+ * valide the triangulation
+ */
 Array2D<unsigned int> DelaunayTriangulationCore::getValidTriangles() const{
     return this->validTriangles;
 }

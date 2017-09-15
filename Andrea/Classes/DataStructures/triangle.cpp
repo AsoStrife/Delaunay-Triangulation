@@ -8,7 +8,9 @@ Triangle::Triangle(Point2Dd* vA, Point2Dd* vB, Point2Dd*  vC){
     this->vC = vC;
 }
 
-/*
+Triangle::~Triangle(){ }
+
+/**
  * Getter & Setter
  */
 
@@ -76,7 +78,11 @@ void Triangle::setTriangleAdjacentC(Triangle* trAdjC){
     this->triangleAdjacentC = trAdjC;
 }
 
-
+/**
+ * @brief Triangle::operator ==
+ * @param tr
+ * @return true if two triangles are equals, else otherwise
+ */
 bool Triangle::operator == (const Triangle& tr){
    if( *this->getA() == *tr.getA() && *this->getB() == *tr.getB() && *this->getC() == *tr.getC())
      return true;

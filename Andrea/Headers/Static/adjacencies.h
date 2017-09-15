@@ -5,6 +5,11 @@
 
 class Triangle;
 
+/**
+ * @brief The Adjacencies class
+ * Adjacencies class is composed by only static method. It is use to set, override and check the adjacencies
+ * for the triangles of the triangulation
+ */
 class Adjacencies{
 
 public:

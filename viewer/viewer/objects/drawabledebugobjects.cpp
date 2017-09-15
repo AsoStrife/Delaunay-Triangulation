@@ -19,13 +19,13 @@ void DrawableDebugObjects::draw() const {
     }
 }
 
-Pointd DrawableDebugObjects::sceneCenter() const {
-    return 0;
-}
+    Pointd DrawableDebugObjects::sceneCenter() const {
+        return 0;
+    }
 
-double DrawableDebugObjects::sceneRadius() const {
-    return -1;
-}
+    double DrawableDebugObjects::sceneRadius() const {
+        return -1;
+    }
 
 bool DrawableDebugObjects::isVisible() const {
     return visible;

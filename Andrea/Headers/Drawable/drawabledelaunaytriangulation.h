@@ -6,6 +6,9 @@
 #include <viewer/interfaces/drawable_object.h>
 #include <math.h>
 
+/**
+ * @brief The DrawableDelaunayTriangulation class
+ */
 class DrawableDelaunayTriangulation : public DrawableObject {
 
 public:
@@ -16,36 +19,28 @@ public:
     Pointd sceneCenter() const;
     double sceneRadius() const;
 
-    void setTriangles(std::vector<Triangle*> t);
+    void setTriangles(const std::vector<Triangle*>& t);
+
     void setBoundingTriangleActive(bool b);
 
     bool needToPrintPoint(const Point2Dd& p) const;
-    bool needToPrintLine(const Point2Dd& p1, const Point2Dd& p2) const;
 
-    void setVoronoiActive(bool b);
-    bool getVoronoiActive() const;
+    bool needToPrintLine(const Point2Dd& p1, const Point2Dd& p2) const;
 
     void clearTriangles();
 
-    // Voronoi
-    static Point2Dd getCircumcircle(const Triangle& t);
-    void drawVoronoi() const;
 private:
     bool boundingTriangleActive = false;
 
-    QColor delaunayPointColor = QColor(255, 0 ,0);
-    QColor delaunayLineColor = QColor(0, 0 ,0);
+    QColor const delaunayPointColor = QColor(255, 0 ,0);
+    QColor const delaunayLineColor = QColor(0, 0 ,0);
 
-    int lineSize = 1;
-    int pointSize = 10;
+    int const lineSize = 1;
+    int const pointSize = 10;
 
-    // Booleano per disegnare il diagramma di voronoi
-    bool voronoiActive = false;
-
-    // setto nuovamente 3 attributi per il bounding triangle
-    Point2Dd* BT_P1; //(1e+10, 0);
-    Point2Dd* BT_P2; //(0, 1e+10);
-    Point2Dd* BT_P3; //(-1e+10, -1e+10)
+    Point2Dd BT_P1; //(1e+10, 0)
+    Point2Dd BT_P2; //(0, 1e+10)
+    Point2Dd BT_P3; //(-1e+10, -1e+10)
 
     std::vector<Triangle*> triangles;
 
