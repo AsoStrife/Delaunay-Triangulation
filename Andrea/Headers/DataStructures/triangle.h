@@ -53,6 +53,10 @@ public:
     void setTriangleAdjacentB(Triangle* trAdjB);
     void setTriangleAdjacentC(Triangle* trAdjC);
 
+    bool checkPointIsVertexOfTriangle(const Point2Dd& p);
+
+    Point2Dd* getThirdPoint(const Point2Dd& p1, const Point2Dd& p2);
+
     // Getter & setter per isDeleted
     void setIsDeleted(bool b);
     bool getIsDeleted() const;

@@ -8,7 +8,6 @@ DagNode::DagNode(Triangle* tr){
     this->tr = tr;
 }
 
-
 /**
  * Getter & Setter for his attributes
  */

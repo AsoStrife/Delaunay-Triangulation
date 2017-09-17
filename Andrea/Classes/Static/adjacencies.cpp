@@ -160,27 +160,6 @@ bool Adjacencies::isAdjacenciesForTwoPoints(const Triangle& tr, const Point2Dd& 
 }
 
 /**
- * @brief Adjacencies::getThirdPoint
- * @param tr is the triangle to whick we will check the verticies
- * @param p1 is the first point to check
- * @param p2 is the second point to check
- * @return a pointer to the third point of the triangle tr
- * Given a triangle and two points, this method return the third point of that triangle.
- */
-Point2Dd* Adjacencies::getThirdPoint(const Triangle& tr, const Point2Dd& p1, const Point2Dd& p2){
-    if( (*tr.getA() == p1 && *tr.getB() == p2) || (*tr.getB() == p1 && *tr.getA() == p2) ) // AB
-        return tr.getC();
-
-    if( (*tr.getA() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getA() == p2) ) // AC
-        return tr.getB();
-
-    if( (*tr.getB() == p1 && *tr.getC() == p2) || (*tr.getC() == p1 && *tr.getB() == p2) ) // BC
-        return tr.getA();
-
-    return nullptr;
-}
-
-/**
  * @brief Adjacencies::setAdjacency
  * @param triangle is a pointer to the triangle to which we will set the adjacent
  * @param adjTriangle is a pointer to the adjacent triangle

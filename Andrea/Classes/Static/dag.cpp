@@ -27,26 +27,6 @@ bool Dag::pointInTriangle (const Point2Dd& p, const Point2Dd& a, const Point2Dd&
 }
 
 /**
- * @brief Dag::checkPointIsVertexOfTriangle
- * @param p is the point that will be a vertex of the triangle
- * @param a is the first vertex of the triangle
- * @param b is the second vertex of the triangle
- * @param c is the third vertex of the triangle
- * @return true is p is equal to a, b or c, else otherwise
- * Check if a point is a vertex of the triangle
- */
-bool Dag::checkPointIsVertexOfTriangle(const Point2Dd& p, const Point2Dd& a, const Point2Dd& b, const Point2Dd& c){
-    if(p.x() == a.x() && p.y() == a.y())
-        return true;
-    else if(p.x() == b.x() && p.y() == b.y())
-        return true;
-    else if(p.x() == c.x() && p.y() == c.y())
-        return true;
-    else
-        return false;
-}
-
-/**
  * @brief Dag::navigate
  * @param dagNode is a pointer to the DagNode from which the search will start (often is the root of the Dag)
  * @param p is the point that lie insede one of the triangle of the Dag
@@ -58,14 +38,11 @@ DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
 
     bool hasChild = true;
 
-    DagNode copy;
-
     while(hasChild){
 
         if(dagNode == nullptr)
             return nullptr;
 
-        copy = *dagNode;
 
         Triangle* tr = nullptr;
 
@@ -73,33 +50,36 @@ DagNode* Dag::navigate(DagNode* dagNode, const Point2Dd& p){
         if(dagNode->getChildA() != nullptr){
             tr = dagNode->getChildA()->getTriangle();
 
-            if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
+            if(tr->checkPointIsVertexOfTriangle(p) == true)
                 return nullptr;
 
             if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
                 dagNode = dagNode->getChildA();
+                continue;
             }
         }
 
          if(dagNode->getChildB() != nullptr){
              tr = dagNode->getChildB()->getTriangle();
 
-             if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
+             if(tr->checkPointIsVertexOfTriangle(p) == true)
                  return nullptr;
 
              if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
                  dagNode = dagNode->getChildB();
+                 continue;
             }
          }
 
          if(dagNode->getChildC() != nullptr){
              tr = dagNode->getChildC()->getTriangle();
 
-             if(Dag::checkPointIsVertexOfTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() ) == true)
+             if(tr->checkPointIsVertexOfTriangle(p) == true)
                  return nullptr;
 
              if(Dag::pointInTriangle(p, *tr->getA(), *tr->getB(), *tr->getC() )){
                  dagNode = dagNode->getChildC();
+                 continue;
             }
          }
 

@@ -79,12 +79,49 @@ void Triangle::setTriangleAdjacentC(Triangle* trAdjC){
 }
 
 /**
+ * @brief Triangle::checkPointIsVertexOfTriangle
+ * @param p is the point that will be a vertex of the triangle
+ * @return true is p is equal to vA, vB or vC, else otherwise
+ * Check if a point is a vertex of the triangle
+ */
+bool Triangle::checkPointIsVertexOfTriangle(const Point2Dd& p){
+    if(p.x() == this->vA->x() && p.y() == this->vA->y())
+        return true;
+    else if(p.x() == this->vB->x() && p.y() == this->vB->y())
+        return true;
+    else if(p.x() == this->vC->x() && p.y() == this->vC->y())
+        return true;
+    else
+        return false;
+}
+
+/**
+ * @brief Triangle::getThirdPoint
+ * @param p1 is the first point to check
+ * @param p2 is the second point to check
+ * @return a pointer to the third point of the triangle tr
+ * This method return the third point of a triangle.
+ */
+Point2Dd* Triangle::getThirdPoint(const Point2Dd& p1, const Point2Dd& p2){
+    if( (*this->vA == p1 && *this->vB == p2) || (*this->vB == p1 && *this->vA == p2) ) // AB
+        return this->vC;
+
+    if( (*this->vA == p1 && *this->vC == p2) || (*this->vC == p1 && *this->vA == p2) ) // AC
+        return this->vB;
+
+    if( (*this->vB == p1 && *this->vC == p2) || (*this->vC == p1 && *this->vB == p2) ) // BC
+        return this->vA;
+
+    return nullptr;
+}
+
+/**
  * @brief Triangle::operator ==
  * @param tr
  * @return true if two triangles are equals, else otherwise
  */
 bool Triangle::operator == (const Triangle& tr){
-   if( *this->getA() == *tr.getA() && *this->getB() == *tr.getB() && *this->getC() == *tr.getC())
+   if( *this->vA == *tr.getA() && *this->vB == *tr.getB() && *this->vC == *tr.getC())
      return true;
    else
      return false;

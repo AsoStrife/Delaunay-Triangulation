@@ -120,11 +120,11 @@ Below you will find the results I obtained using my PC (Dell XPS 15 9550, with I
 > - 4.500 Points: ≈ 0,043 seconds
 > - 5.000 Points: ≈ 0,050 seconds
 > - 50.000 Points: ≈ 0,55 seconds
-> - 100.000 Points: ≈ 1,4 seconds
-> - 200.000 Points: ≈ 2,5 seconds
-> - 300.000 Points ≈ 4,2 seconds
+> - 100.000 Points: ≈ 1,2 seconds
+> - 200.000 Points: ≈ 2,4 seconds
+> - 300.000 Points ≈ 3,90 seconds
 
-My algorithm does not allow the insertion of two equal points (with the same coordinates), so if we try to insert the same input file twice, the triangulation will be more faster. For example if we add twice the 200k points file, the second time the triangulation will take only ≈ 1.35 seconds.
+My algorithm does not allow the insertion of two equal points (with the same coordinates), so if we try to insert the same input file twice, the triangulation will be more faster. For example if we add twice the 200k points file, the second time the triangulation will take only ≈ 1.20 seconds.
 
 Voronoi Diagram
 -------------

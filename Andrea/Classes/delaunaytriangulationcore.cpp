@@ -96,17 +96,17 @@ void DelaunayTriangulationCore::legalizeEdge(Point2Dd* pr, Point2Dd* pi, Point2D
 
     if(tr->getTriangleAdjacentA() != nullptr){
         if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentA(), *pi, *pj) == true)
-                adjTriangle = tr->getTriangleAdjacentA();
+            adjTriangle = tr->getTriangleAdjacentA();
     }
 
     if(tr->getTriangleAdjacentB() != nullptr){
         if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentB(), *pi, *pj) == true)
-                adjTriangle = tr->getTriangleAdjacentB();
+            adjTriangle = tr->getTriangleAdjacentB();
     }
 
     if(tr->getTriangleAdjacentC() != nullptr){
         if(Adjacencies::isAdjacenciesForTwoPoints(*tr->getTriangleAdjacentC(), *pi, *pj) == true)
-                adjTriangle = tr->getTriangleAdjacentC();
+            adjTriangle = tr->getTriangleAdjacentC();
     }
 
     if(adjTriangle != nullptr){
@@ -134,7 +134,7 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
     Triangle* newTriangle1 = nullptr;
     Triangle* newTriangle2 = nullptr;
 
-    Point2Dd* pk =  Adjacencies::getThirdPoint(*tr2, *pi, *pj);
+    Point2Dd* pk =  tr2->getThirdPoint(*pi, *pj);
 
     if(pk != nullptr){
         newTriangle1 = generateTriangle(pr, pi, pk, tr1->getDagNode(), tr2->getDagNode() );
@@ -151,9 +151,18 @@ void DelaunayTriangulationCore::edgeFlip(Triangle* tr1, Triangle* tr2, Point2Dd*
 
 /**
  * @brief DelaunayTriangulationCore::cleanDelaunayTriangulation
- * Clean vector of points, triangulation, dag and map and other attributes
+ * Clean vector of points, triangulation, dag and map and other attributes and delete all pointers
  */
 void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
+
+    for(unsigned int i = 0; i < points.size(); i++)
+        delete points[i];
+
+    for(unsigned int i = 0; i < triangles.size(); i++)
+        delete triangles[i];
+
+    for(unsigned int i = 0; i < dagNodes.size(); i++)
+        delete dagNodes[i];
 
     points.clear();
     triangles.clear();
@@ -161,6 +170,7 @@ void DelaunayTriangulationCore::cleanDelaunayTriangulation(){
     map.clear();
     validTriangles.resize(0,3);
     countValidTriangles = 0;
+
 }
 
 /**
@@ -225,10 +235,10 @@ bool DelaunayTriangulationCore::pointLieInALine(const Point2Dd& p, const Point2D
 }
 
 /***********************************************
- * The following four method define how the algorith must work
+ * The following four methods define how the algorith must work
  * after a point is insered inside the triangulation.
- * pointLieInsideTriangle(..) is used if a point is totaly inside the triangle find using the Dag datastructure
- * pointLieAB(..), pointLieBC(..), pointLieCA(..) are called when the point lie on one of
+ * pointLieInsideTriangle(..) is used when a point is totaly inside the triangle found using the Dag datastructure
+ * pointLieAB(..), pointLieBC(..), pointLieCA(..) are called when the point lies on one of
  * three edge of the triangle. The main difference between this function is the 4 triangles that will
  * be generate, composed by different verticies.
  ***********************************************/
@@ -271,7 +281,7 @@ void DelaunayTriangulationCore::pointLieAB(Point2Dd* pr, Triangle* triangleFathe
     adjacentTriangle->setIsDeleted(true);
 
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getA(), *triangleFather->getB());
+    Point2Dd* pl = adjacentTriangle->getThirdPoint(*triangleFather->getA(), *triangleFather->getB());
 
     Triangle* tr1 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather);
     Triangle* tr2 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather);
@@ -304,7 +314,7 @@ void DelaunayTriangulationCore::pointLieBC(Point2Dd* pr, Triangle* triangleFathe
     triangleFather->setIsDeleted(true);
     adjacentTriangle->setIsDeleted(true);
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getB(), *triangleFather->getC());
+    Point2Dd* pl = adjacentTriangle->getThirdPoint(*triangleFather->getB(), *triangleFather->getC());
 
     Triangle* tr1 = generateTriangle(pr, triangleFather->getC(), triangleFather->getA(), dagFather);
     Triangle* tr2 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather);
@@ -336,7 +346,7 @@ void DelaunayTriangulationCore::pointLieCA(Point2Dd* pr, Triangle* triangleFathe
     triangleFather->setIsDeleted(true);
     adjacentTriangle->setIsDeleted(true);
 
-    Point2Dd* pl = Adjacencies::getThirdPoint(*adjacentTriangle, *triangleFather->getC(), *triangleFather->getA());
+    Point2Dd* pl = adjacentTriangle->getThirdPoint(*triangleFather->getC(), *triangleFather->getA());
 
     Triangle* tr1 = generateTriangle(pr, triangleFather->getA(), triangleFather->getB(), dagFather);
     Triangle* tr2 = generateTriangle(pr, triangleFather->getB(), triangleFather->getC(), dagFather);
