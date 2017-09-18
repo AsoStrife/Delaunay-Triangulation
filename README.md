@@ -35,7 +35,7 @@ This project was developed with Ubuntu 17.04.  In order to install all dependenc
 
 **From your terminal:**
 
-```
+```shell
 sudo apt-get install qtcreator qt5-default 
 sudo apt-get install libboost-all-dev libcgal-dev libgmp-dev libqglviewer-dev 
 sudo apt-get install git doxygen libeigen3-dev 
@@ -124,7 +124,7 @@ Below you will find the results I obtained using my PC (Dell XPS 15 9550, with I
 > - 200.000 Points: ≈ 2,4 seconds
 > - 300.000 Points ≈ 3,90 seconds
 
-My algorithm does not allow the insertion of two equal points (with the same coordinates), so if we try to insert the same input file twice, the triangulation will be more faster. For example if we add twice the 200k points file, the second time the triangulation will take only ≈ 1.20 seconds.
+My algorithm does not allow the insertion of two equal points (with the same coordinates), so if we try to insert the same input file twice, the triangulation will be faster. For example if we add twice the 200k points file, the second time the triangulation will take only ≈ 1.20 seconds.
 
 Voronoi Diagram
 -------------

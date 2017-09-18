@@ -42,14 +42,9 @@ private:
 
     const DrawableBoundingBox2D boundingBox; //it is const because, once defined and initialized, it will never change!
 
-    /**
-      * @author Andrea Corriga
-      * @date 24-07-2017
-      *
-      * */
-    DrawableDelaunayTriangulation ddt;
-    DelaunayTriangulationCore dtc;
-    DrawableVoronoiDiagram dvd;
+    DelaunayTriangulationCore dtc; /**< Main class of the triangulation */
+    DrawableDelaunayTriangulation ddt; /**< Drawable class to print the delaunay triangulation */
+    DrawableVoronoiDiagram dvd; /**< Drawable class to print the voronoi diagram */
 
     /*****************
     * Private methods *

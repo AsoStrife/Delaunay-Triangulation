@@ -59,9 +59,9 @@ DelaunayManager::DelaunayManager(QWidget *parent) :
     // the mainWindow will take care of the rendering of the bounding box
     mainWindow.pushObj(&boundingBox, "Bounding box");
 
-    // Credo l'oggetto Delaunay Triangulation
+    // Add my object into the canvas
     dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3);
-    ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
+    ddt.setTriangles( dtc.getTriangles() );
     mainWindow.pushObj(&ddt, "Delaunay Triangulation");
     mainWindow.pushObj(&dvd, "Voronoi Diagram");
     mainWindow.updateGlCanvas();
@@ -128,11 +128,11 @@ void DelaunayManager::on_clearPointsPushButton_clicked() {
 
     //clear here your triangulation
 
-    dtc.cleanDelaunayTriangulation(); // Elimino tutti i punti
-    ddt.clearTriangles();
-    dvd.clearVoronoi();
+    dtc.cleanDelaunayTriangulation(); // Delete all data of my triangulation, from my delaunay triangulation core class
+    ddt.clearTriangles(); // Delete the triangulation printed into the canvas
+    dvd.clearVoronoi(); // Delete voronoi because it doesn't exist anymore
 
-    dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3); // Setto nuovamente il Bounding Triangle come triangolo iniziale
+    dtc.setBoundingTrianglePoints(BT_P1, BT_P2, BT_P3); // Set again the bounding triangle
     ddt.setTriangles( dtc.getTriangles() );
 
 
@@ -178,7 +178,8 @@ void DelaunayManager::on_loadPointsPushButton_clicked() {
             dtc.addPoint(points.at(i));
         t.stopAndPrint();
 
-        ddt.setTriangles( dtc.getTriangles() ); // Aggiorno la drawable
+        // Print the triangulation in the canvas, it is out the timer becaus it is used only for print point and line.
+        ddt.setTriangles( dtc.getTriangles() );
 
         mainWindow.updateGlCanvas();
     }
@@ -203,13 +204,14 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
         //manage here the insertion of the point inside the triangulation
 
         /******/
-        //dvd.clearVoronoi();
+
+        // If the voronoi diagram is printed, I clean the voronoi diagram. Because if I add a point, the voronoi diagram must be recalculate again
+        dvd.clearVoronoi();
+
         if(dtc.addPoint(p) == false)
             QMessageBox::warning(this, "Point already exist", "The point in the coordinates [" + QString::number(p.x()) + "," + QString::number(p.y()) + "] already exist.");
         else{
-            std::vector<Triangle*> triangles = dtc.getTriangles();
-            ddt.setTriangles( triangles );
-
+            ddt.setTriangles( dtc.getTriangles() );
         }/******/
 
     }
@@ -221,7 +223,7 @@ void DelaunayManager::point2DClicked(const Point2Dd& p) {
 
 void DelaunayManager::on_checkTriangulationPushButton_clicked() {
     // Ottengo i punti della triangolazione
-    std::vector<Point2Dd> points = dtc.getPointsForValidation();
+    std::vector<Point2Dd> points = dtc.getPointsForValidation(); // get the points of the triangulation
     Array2D<unsigned int> triangles;
 
     //get your triangulation here and save it in the vector points and in the matrix triangles
@@ -232,10 +234,11 @@ void DelaunayManager::on_checkTriangulationPushButton_clicked() {
 
     //you can initially resize the matrix "triangles" by calling triangles.resize(n, 3),
     //and then fill the matrix using the assignment operator: triangles(i,j) = a;
-    dtc.generateTrianglesForValidation();
 
-    triangles.resize( dtc.getCountValidTriangle(), 3);
-    triangles = dtc.getValidTriangles();
+    dtc.generateTrianglesForValidation(); // calculate the triangle of the triangulation
+
+    triangles.resize( dtc.getCountValidTriangle(), 3); // resize the array2D
+    triangles = dtc.getValidTriangles(); // update the triangles variable
 
     if (DelaunayTriangulation::Checker::isDeulaunayTriangulation(points, triangles)) {
         QMessageBox::information(this, "Triangulation checking", "Success: it is a Delaunay triangulation!");
@@ -260,11 +263,19 @@ void DelaunayManager::on_generatePointsFilePushButton_clicked() {
     }
 }
 
+/**
+ * @brief DelaunayManager::on_voronoiDiagramPushButton_clicked
+ * Print the dual graph of the delaunay triangulation
+ */
 void DelaunayManager::on_voronoiDiagramPushButton_clicked(){
     dvd.setTriangles( dtc.getTriangles() );
     mainWindow.updateGlCanvas();
 }
 
+/**
+ * @brief DelaunayManager::on_clearVoronoiDiagramPushButton_clicked
+ * Clear the voronoi diagram
+ */
 void DelaunayManager::on_clearVoronoiDiagramPushButton_clicked(){
     dvd.clearVoronoi();
     mainWindow.updateGlCanvas();

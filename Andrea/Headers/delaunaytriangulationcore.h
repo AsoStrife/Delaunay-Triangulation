@@ -18,6 +18,7 @@ class DelaunayTriangulationCore{
 
 public:
     DelaunayTriangulationCore();
+    ~DelaunayTriangulationCore();
 
     // Points of my triangulation
     std::vector<Point2Dd*> points; /**< vector of pointer of Point2Dd of the triangulation */

@@ -21,32 +21,27 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
     if(trFather == nullptr)
         return;
 
-    Triangle* adjTriangle = nullptr;
-
     // First
-    adjTriangle = trFather->getTriangleAdjacentA();
-    if(adjTriangle != nullptr){
-        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
-            Adjacencies::setAdjacency(tr1, adjTriangle );
-            Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if(trFather->getTriangleAdjacentA() != nullptr){
+        if((isAdjacencies(*tr1, *trFather->getTriangleAdjacentA() ) == true) && (trFather->getTriangleAdjacentA()->getIsDeleted() == false)){
+            Adjacencies::setAdjacency(tr1, trFather->getTriangleAdjacentA() );
+            Adjacencies::overrideAdjacency(trFather->getTriangleAdjacentA(),  tr1);
         }
     }
 
     // Second
-    adjTriangle = trFather->getTriangleAdjacentB();
-    if(adjTriangle != nullptr){
-        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
-            Adjacencies::setAdjacency(tr1, adjTriangle );
-            Adjacencies::overrideAdjacency(adjTriangle, tr1);
+    if(trFather->getTriangleAdjacentB() != nullptr){
+        if((isAdjacencies(*tr1, *trFather->getTriangleAdjacentB() ) == true) && (trFather->getTriangleAdjacentB()->getIsDeleted() == false)){
+            Adjacencies::setAdjacency(tr1, trFather->getTriangleAdjacentB() );
+            Adjacencies::overrideAdjacency(trFather->getTriangleAdjacentB(), tr1);
         }
     }
 
     // Third
-    adjTriangle = trFather->getTriangleAdjacentC();
-    if(adjTriangle != nullptr){
-        if((isAdjacencies(*tr1, *adjTriangle ) == true) && (adjTriangle->getIsDeleted() == false)){
-            Adjacencies::setAdjacency(tr1, adjTriangle );
-            Adjacencies::overrideAdjacency(adjTriangle, tr1);
+    if(trFather->getTriangleAdjacentC() != nullptr){
+        if((isAdjacencies(*tr1, *trFather->getTriangleAdjacentC() ) == true) && (trFather->getTriangleAdjacentC()->getIsDeleted() == false)){
+            Adjacencies::setAdjacency(tr1, trFather->getTriangleAdjacentC() );
+            Adjacencies::overrideAdjacency(trFather->getTriangleAdjacentC(), tr1);
         }
     }
 
@@ -64,45 +59,38 @@ void Adjacencies::setAdjacencies(Triangle* tr1, Triangle* tr2, Triangle* tr3, Tr
 void Adjacencies::setAdjacenciesAfterFlip(Triangle* tr1, Triangle* tr2, Triangle* tr1Father, Triangle* tr2Father){
 
     Adjacencies::setAdjacency(tr1, tr2);
-    Triangle* adjTriangle = nullptr;
 
     // First father
-    adjTriangle = tr1Father->getTriangleAdjacentA();
-    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-        Adjacencies::setAdjacency(tr1, adjTriangle );
-        Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( (isAdjacencies(*tr1, *tr1Father->getTriangleAdjacentA() ) ) && (tr1Father->getTriangleAdjacentA()->getIsDeleted() == false)){
+        Adjacencies::setAdjacency(tr1, tr1Father->getTriangleAdjacentA() );
+        Adjacencies::overrideAdjacency(tr1Father->getTriangleAdjacentA(),  tr1);
     }
 
-    adjTriangle = tr1Father->getTriangleAdjacentB();
-    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-        Adjacencies::setAdjacency(tr1, adjTriangle );
-        Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( (isAdjacencies(*tr1, *tr1Father->getTriangleAdjacentB() ) ) && (tr1Father->getTriangleAdjacentB()->getIsDeleted() == false)){
+        Adjacencies::setAdjacency(tr1, tr1Father->getTriangleAdjacentB() );
+        Adjacencies::overrideAdjacency(tr1Father->getTriangleAdjacentB(),  tr1);
     }
 
-    adjTriangle = tr1Father->getTriangleAdjacentC();
-    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-        Adjacencies::setAdjacency(tr1, adjTriangle );
-        Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( (isAdjacencies(*tr1, * tr1Father->getTriangleAdjacentC() ) ) && ( tr1Father->getTriangleAdjacentC()->getIsDeleted() == false)){
+        Adjacencies::setAdjacency(tr1,  tr1Father->getTriangleAdjacentC() );
+        Adjacencies::overrideAdjacency( tr1Father->getTriangleAdjacentC(),  tr1);
     }
 
     // Second father
-    adjTriangle = tr2Father->getTriangleAdjacentA();
-    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-        Adjacencies::setAdjacency(tr1, adjTriangle );
-        Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( (isAdjacencies(*tr1, *tr2Father->getTriangleAdjacentA() ) ) && (tr2Father->getTriangleAdjacentA()->getIsDeleted() == false)){
+        Adjacencies::setAdjacency(tr1, tr2Father->getTriangleAdjacentA() );
+        Adjacencies::overrideAdjacency(tr2Father->getTriangleAdjacentA(),  tr1);
     }
 
-    adjTriangle = tr2Father->getTriangleAdjacentB();
-    if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-        Adjacencies::setAdjacency(tr1, adjTriangle );
-        Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( (isAdjacencies(*tr1, *tr2Father->getTriangleAdjacentB() ) ) && (tr2Father->getTriangleAdjacentB()->getIsDeleted() == false)){
+        Adjacencies::setAdjacency(tr1, tr2Father->getTriangleAdjacentB() );
+        Adjacencies::overrideAdjacency(tr2Father->getTriangleAdjacentB(),  tr1);
     }
 
-    adjTriangle = tr2Father->getTriangleAdjacentC();
-    if( adjTriangle != nullptr ){
-        if( (isAdjacencies(*tr1, *adjTriangle ) ) && (adjTriangle->getIsDeleted() == false)){
-            Adjacencies::setAdjacency(tr1, adjTriangle );
-            Adjacencies::overrideAdjacency(adjTriangle,  tr1);
+    if( tr2Father->getTriangleAdjacentC() != nullptr ){
+        if( (isAdjacencies(*tr1, *tr2Father->getTriangleAdjacentC() ) ) && (tr2Father->getTriangleAdjacentC()->getIsDeleted() == false)){
+            Adjacencies::setAdjacency(tr1, tr2Father->getTriangleAdjacentC() );
+            Adjacencies::overrideAdjacency(tr2Father->getTriangleAdjacentC(),  tr1);
         }
     }
 

@@ -2,6 +2,8 @@
 
 DelaunayTriangulationCore::DelaunayTriangulationCore(){}
 
+DelaunayTriangulationCore::~DelaunayTriangulationCore(){}
+
 /**
  * @brief DelaunayTriangulationCore::addPoint
  * @param p is a point received from delaunaymanager.cpp

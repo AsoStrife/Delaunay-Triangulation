@@ -8,7 +8,7 @@ Triangle::Triangle(Point2Dd* vA, Point2Dd* vB, Point2Dd*  vC){
     this->vC = vC;
 }
 
-Triangle::~Triangle(){ }
+Triangle::~Triangle(){}
 
 /**
  * Getter & Setter

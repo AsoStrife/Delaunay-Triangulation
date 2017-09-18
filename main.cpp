@@ -20,7 +20,10 @@ int main(int argc, char *argv[]) {
     ///Test viewer.pri:
     #ifdef VIEWER_DEFINED
 
-    // 4k Support
+    /**
+     * @brief qputenv
+     * Manage the high dpi monitor
+     */
     qputenv("QT_SCREEN_SCALE_FACTORS",QByteArray("1"));
     QApplication app(argc, argv);
 
