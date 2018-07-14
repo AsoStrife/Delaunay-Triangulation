@@ -97,9 +97,9 @@ Inside **DataStructures** folder there are the classes that manage the main defi
 
 **Drawable** folder contains two classes that implements Drawable Interface. Their task is to draw points and lines inside the canvas.
 
-**Static** folder contain two complete static class that manage the dag navigation and the triangles adjacencies (find adjacencies, set pointers, override pointers etc.).
+**Static** folder contains two complete static class that manage the dag navigation and the triangles adjacencies (find adjacencies, set pointers, override pointers etc.).
 
-At last *delaunaytriangulationcore* class manage all previus class and data structures. It take from the canvas one by one the clicked point, or a entire vector from a file, and perform a delaunaytriangulation legalizing edge and performing an edge flip when necessary.
+At last *delaunaytriangulationcore* class manage all previous classes and data structures. It take from the canvas one by one the clicked point, or a entire vector from a file, and perform a delaunaytriangulation legalizing edge and performing an edge flip when necessary.
 
 ___
 
