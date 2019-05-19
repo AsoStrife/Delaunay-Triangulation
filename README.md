@@ -5,7 +5,7 @@ Introduction
 -------------
 This is my personal project of Computational Geometry at University of Cagliari, Computer Science.
 The goal of this project was to develop a 2D interactive and incremental Delaunay Triangulation Algorithm.
-An optional feature was drawing the Voronoi complementar diagram of a given triangulation.
+An optional feature was drawing the Voronoi complementary diagram of a given triangulation.
 
 The Base Project (provided by @Alessandro Muntoni) is organized in modules. There are two main modules: the “common module” and the “viewer module”. Every module is organized inside a .pri file which is included inside the main .pro file of the project. I didn't edit or modify the folders and the files inside the folders associated to the modules. All my files and folders are organized in a subfolder "Andrea" in the main folder of the project.
 
